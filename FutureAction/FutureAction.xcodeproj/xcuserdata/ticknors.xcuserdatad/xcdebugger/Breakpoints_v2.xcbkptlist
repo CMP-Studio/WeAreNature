@@ -9,46 +9,135 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/Action.h"
-            timestampString = "517350014.254784"
+            filePath = "src/ofApp.h"
+            timestampString = "517422535.352334"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11"
-            endingLineNumber = "11"
-            landmarkName = "Action"
-            landmarkType = "14">
+            startingLineNumber = "5"
+            endingLineNumber = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ofApp::ofApp()"
+                  moduleName = "FutureActionDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ticknors/Desktop/of_v0.9.8_osx_release/apps/WeAreNature/FutureAction/src/ofApp.h"
+                  timestampString = "517426653.94705"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "9"
+                  endingLineNumber = "9"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ofApp::ofApp()"
+                  moduleName = "FutureActionDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ticknors/Desktop/of_v0.9.8_osx_release/apps/WeAreNature/FutureAction/src/ofApp.h"
+                  timestampString = "517426653.952135"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "9"
+                  endingLineNumber = "9"
+                  offsetFromSymbolStart = "35">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ofApp::~ofApp()"
+                  moduleName = "FutureActionDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ticknors/Desktop/of_v0.9.8_osx_release/apps/WeAreNature/FutureAction/src/ofApp.h"
+                  timestampString = "517426653.955706"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "9"
+                  endingLineNumber = "9"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ofApp::~ofApp()"
+                  moduleName = "FutureActionDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ticknors/Desktop/of_v0.9.8_osx_release/apps/WeAreNature/FutureAction/src/ofApp.h"
+                  timestampString = "517426653.960669"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "9"
+                  endingLineNumber = "9"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "non-virtual thunk to ofApp::~ofApp()"
+                  moduleName = "FutureActionDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ticknors/Desktop/of_v0.9.8_osx_release/apps/WeAreNature/FutureAction/src/ofApp.h"
+                  timestampString = "517426653.962973"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "9"
+                  endingLineNumber = "9"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "non-virtual thunk to ofApp::~ofApp()"
+                  moduleName = "FutureActionDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ticknors/Desktop/of_v0.9.8_osx_release/apps/WeAreNature/FutureAction/src/ofApp.h"
+                  timestampString = "517426653.975119"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "9"
+                  endingLineNumber = "9"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ofApp::~ofApp()"
+                  moduleName = "FutureActionDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ticknors/Desktop/of_v0.9.8_osx_release/apps/WeAreNature/FutureAction/src/ofApp.h"
+                  timestampString = "517426653.977722"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "9"
+                  endingLineNumber = "9"
+                  offsetFromSymbolStart = "37">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../../examples/events/multiWindowExample/src/PollApp.cpp"
-            timestampString = "517368076.282002"
+            filePath = "src/PollScreen.h"
+            timestampString = "517426047.041541"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
-            landmarkName = "PollApp::update()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/ofApp.cpp"
-            timestampString = "517368641.828868"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "ofApp::update()"
-            landmarkType = "7">
+            startingLineNumber = "10"
+            endingLineNumber = "10"
+            landmarkName = "class PollScreen"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

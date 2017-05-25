@@ -1,6 +1,6 @@
 #include "ofMain.h"
 #include "ofApp.h"
-#include "PollApp.h"
+#include "PollScreen.h"
 #include "ofAppGLFWWindow.h"
 
 //========================================================================
@@ -20,11 +20,10 @@ int main( ){
   shared_ptr<ofAppBaseWindow> pollWindow = ofCreateWindow(settings);
   
   shared_ptr<ofApp> mainApp(new ofApp);
-  shared_ptr<PollApp> pollApp(new PollApp);
-  mainApp->poll = pollApp;
+  shared_ptr<PollScreen> pollScreen(new PollScreen);
+  mainApp->poll = pollScreen;
   
-  ofRunApp(pollWindow, pollApp);
+  ofRunApp(pollWindow, pollScreen);
   ofRunApp(mainWindow, mainApp);
   ofRunMainLoop();
-  
 }

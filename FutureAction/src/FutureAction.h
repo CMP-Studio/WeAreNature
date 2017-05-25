@@ -1,7 +1,7 @@
 #pragma once
 
 struct FutureAction {
-  enum Scope { me, we };
+  enum Scope { ME, WE };
   
   FutureAction(string name, string description, Scope scope):
     name(name),
