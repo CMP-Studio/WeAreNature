@@ -16,19 +16,35 @@
       var main = remote.require("./main.js");
 
       // FUNCTIONS
-      function renderActions() {
-        $("#actionsList").empty();
+      function renderCategories() {
+        $("#categoriesList").empty();
         for (category in main.sessionCategories) {
           // var count = $("<span>");
           // count.html(main.votes[category]);
-          $("#actionsList").append('<span>'+main.sessionCategories[category]+'  <span>');
+          $("#categoriesList").append('<span>'+main.sessionCategories[category]+'  <span>');
           // $("#actionsList").append(count);
-          $("#actionsList").append('<br>');
+          $("#categoriesList").append('<br>');
+        }
+      }
+
+      function renderActions() {
+        for (var i = 0; i < main.sessionCategories.length; i++) {
+          let categoryName = main.sessionCategories[i];
+          let category = main.categories[categoryName];
+
+          for (var j = 0; j < category.actions.length; j++) {
+            let actionName = category.actions[j];
+            let action = main.actions[actionName];
+            console.log(action);
+            $("#actionsList").append('<span>'+action.title+'<span>');
+            $("#actionsList").append('<br>');
+          }
         }
       }
 
       // ON READY
       $(document).ready(function() {
+        renderCategories();
         renderActions();
 
         $("#okButton").click(function() {
@@ -50,8 +66,17 @@
   <div id="emailButton">
     EMAIL ME THIS LIST
   </div>
+  <div>
+    You said you want to protect these things:
+  </div>
+  <div id="categoriesList">
+  </div>
+  <div>
+    Here's what you can do:
+  </div>
   <div id="actionsList">
   </div>
+
 </div>
 </body>
 </html>
