@@ -9,22 +9,21 @@ exports.votes = {
   trees: 0,
   birds: 0,
   mountains: 0,
-  bike: 0,
 };
 
 exports.actions = {
   '001': {
-    title: "trees",
+    title: "Clean Up Litter",
     description: "nchaow",
     scope: 'ME',
   },
   '002': {
-    title: "air",
+    title: "Use Less Water",
     description: "nchaow",
     scope: 'WE',
   },
   '003': {
-    title: "air",
+    title: "Recycle",
     description: "nchaow",
     scope: 'ME',
   },
@@ -46,12 +45,10 @@ exports.categories = {
     description: "nchaow",
     actions: ['003', '001'],
   },
-  bike: {
-    title: "green",
-    description: "nchaow",
-    actions: ['003', '001'],
-  },
 };
+
+exports.sessionCategories = null;
+exports.sessionActions = null;
 
 // WINDOWS
 var sceneWindow = null;
@@ -67,13 +64,36 @@ app.on('ready', () => {
 });
 
 // EVENTS
-ipcMain.on('vote', (event, arg) => {
-    console.log('vote received');
+ipcMain.on('vote', (event, ballot) => {
     try {
-      this.votes[arg]++;
-      sceneWindow.send('voteSuccessful');
+      for (var i = 0; i < ballot.length; i++) {
+          this.votes[ballot[i]]++;
+      }
+
+      this.sessionCategories = ballot;
+      console.log(this.sessionCategories);
+
       pollWindow.send('voteSuccessful');
-      // sceneWindow.loadURL(`file://${__dirname}/poll.html`);
+      sceneWindow.loadURL(`file://${__dirname}/actions.html`);
+    } catch (e) {
+      console.log(e);
+    }
+});
+
+ipcMain.on('resetInteraction', (event, arg) => {
+    try {
+      this.sessionCategories = null;
+      this.sessionActions = null;
+
+      sceneWindow.loadURL(`file://${__dirname}/scene.html`);
+    } catch (e) {
+      console.log(e);
+    }
+});
+
+ipcMain.on('inputEmail', (event, arg) => {
+    try {
+      sceneWindow.loadURL(`file://${__dirname}/email.html`);
     } catch (e) {
       console.log(e);
     }
