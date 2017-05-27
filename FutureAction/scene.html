@@ -10,21 +10,41 @@
       var {ipcRenderer, remote} = require('electron');
       var main = remote.require("./main.js");
 
+
       // EVENT LISTENERS //
-      ipcRenderer.on('toggleCategorySuccessful', (event) => {
-        renderScene();
-        renderBar();
-      });
+      ipcRenderer.on('render', (event) => { render(); });
+
 
       // EVENT EMITTERS //
       function toggleCategory(category) {
         ipcRenderer.send('toggleCategory', category);
       }
 
+      function categoriesSelected() {
+        ipcRenderer.send('categoriesSelected');
+      }
+
+      function resetInteraction() {
+        ipcRenderer.send('resetInteraction');
+      }
+
+
       // FUNCTIONS //
-      // RENDER BAR
-      function renderBar() {
-        $("#selectedCategories").empty();
+      // RENDER ALL
+      function render() {
+        if (main.screen === 'CATEGORYSELECTION') {
+          renderScene(clickable = true);
+          renderCategorySelectionBar();
+        } else if (main.screen === 'ACTIONLIST') {
+          renderScene(clickable = false);
+          renderActionsSelectionBar();
+        }
+      }
+
+
+      // RENDER BAR WITH CATEGORIES
+      function renderCategorySelectionBar() {
+        $("#bar").empty();
         for (var i = 0; i < main.sessionCategories.length; i++) {
           var category = main.sessionCategories[i];
 
@@ -40,14 +60,83 @@
 
           selectedCategory.append(selectedCategoryIcon);
           selectedCategory.append(selectedCategoryTitle);
-          $("#selectedCategories").append(selectedCategory);
+          $("#bar").append(selectedCategory);
         }
-        if (main.sessionCategories.length > 0) $('#nextButton').removeClass('hide');
-        else $('#nextButton').addClass('hide');
+
+        if (main.sessionCategories.length > 0) {
+          var nextButton = $('<div>');
+          nextButton.attr('id', 'nextButton');
+          nextButton.html('NEXT');
+          nextButton.click(function() { categoriesSelected(); });
+          $("#bar").append(nextButton);
+        }
+        else { $('#nextButton').remove(); }
       }
 
+
+      // RENDER BAR WITH ACTIONS
+      function renderActionsSelectionBar() {
+        $("#bar").empty();
+        var actions = {};
+
+        // Get all the unique actions and store which category they were selected by (multiple categories possible)
+        for (var i = 0; i < main.sessionCategories.length; i++) {
+          let categoryName = main.sessionCategories[i];
+          let category = main.categories[categoryName];
+
+          for (var j = 0; j < category.actions.length; j++) {
+            let actionName = category.actions[j];  // 001
+            if (!actions.hasOwnProperty(actionName)) {
+              actions[actionName] = [categoryName];
+            } else {
+              actions[actionName].push(categoryName);
+            }
+          }
+        }
+
+        // Now display all unique actions
+        for (actionName in actions) {
+          var actionObject = main.actions[actionName];
+
+          var action = $('<div>');
+          (function(act) { action.click(function() { toggleAction(act) }); })(actionName);
+
+          var actionIcons = $('<div>');
+          actionIcons.addClass('actionIcons');
+          for (var i = 0; i < actions[actionName].length; i++) {
+            var categoryIcon = $('<img>');
+            categoryIcon.addClass('selectedCategoryIcon');
+            categoryIcon.attr('src', main.categories[actions[actionName][i]].icon);
+            actionIcons.append(categoryIcon);
+          }
+
+          var actionTitle = $('<div>');
+          actionTitle.html(main.actions[actionName].title);
+
+          action.append(actionIcons);
+          action.append(actionTitle);
+          $("#bar").append(action);
+        }
+
+        var resetButton = $('<div>');
+        resetButton.attr('id', 'resetButton');
+        resetButton.html('BACK');
+        resetButton.click(function() { resetInteraction(); });
+        $("#bar").append(resetButton);
+
+        if (main.sessionActions.length > 0) {
+          var nextButton = $('<div>');
+          nextButton.attr('id', 'nextButton');
+          nextButton.html('NEXT');
+          nextButton.click(function() { actionsSelected(); });
+          $("#bar").append(nextButton);
+        }
+        else { $('#nextButton').remove(); }
+      }
+
+
       // RENDER SCENE
-      function renderScene() {
+      function renderScene(clickable) {
         $('.svgGroup').each(function() {
           if (main.categories[$(this).attr('id')].selected) {
             $(this).addClass('selected');
@@ -55,24 +144,19 @@
             $(this).removeClass('selected');
           }
         });
+
+        $(".svgGroup").unbind('click');
+        if (clickable) {
+          $(".svgGroup").click(function() {
+              console.log($(this).attr('id'))
+            toggleCategory($(this).attr('id'));
+          });
+        }
       }
 
+
       // ON READY //
-      $(document).ready(function() {
-        $(".svgGroup").click(function() { toggleCategory($(this).attr('id')); });
-
-        $("#nextButton").click(function() {
-          let ballot = [];
-          $(".selected").each(function() {
-            var id = $(this).attr('id');
-            ballot.push(id);
-          });
-          ipcRenderer.send('vote', ballot);
-        });
-
-        renderScene();
-        renderBar();
-      });
+      $(document).ready(function() { render(); });
 
     </script>
     <script>if (window.module) module = window.module;</script>
@@ -96,6 +180,11 @@
       #nextButton {
         position: absolute;
         bottom: 50px;
+      }
+
+      #resetButton {
+        position: absolute;
+        bottom: 20px;
       }
 
       #bar {
@@ -128,14 +217,6 @@
 <body>
 <div class="container">
   <div id="bar">
-    <div>
-      What do you want to protect?
-    </div>
-    <div id="selectedCategories">
-    </div>
-    <div id="nextButton" class="hide">
-      NEXT
-    </div>
   </div>
   <div id="scene">
     <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"

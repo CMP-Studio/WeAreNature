@@ -5,6 +5,8 @@ var electron = require('electron');
 var {app, BrowserWindow, ipcMain} = electron;
 
 // EXPORTS
+exports.screen = 'CATEGORYSELECTION'; // 'ACTIONLIST', 'EMAIL'
+
 exports.votes = {
   trees: 0,
   birds: 0,
@@ -103,12 +105,23 @@ ipcMain.on('toggleCategory', (event, category) => {
         // set selected to true
         this.categories[category].selected = true;
       }
-      sceneWindow.send('toggleCategorySuccessful');
+      sceneWindow.send('render');
     } catch (e) {
       console.log(e);
     }
 });
 
+// CATEGORIES SELECTED
+ipcMain.on('categoriesSelected', (event) => {
+    try {
+      this.screen = 'ACTIONLIST';
+      sceneWindow.send('render');
+    } catch (e) {
+      console.log(e);
+    }
+});
+
+// RESET INTERACTION
 ipcMain.on('resetInteraction', (event, arg) => {
     try {
       this.sessionCategories = [];
@@ -118,7 +131,8 @@ ipcMain.on('resetInteraction', (event, arg) => {
         this.categories[category].selected = false;
       }
 
-      sceneWindow.loadURL(`file://${__dirname}/scene.html`);
+      this.screen = 'CATEGORYSELECTION';
+      sceneWindow.send('render');
     } catch (e) {
       console.log(e);
     }
