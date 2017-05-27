@@ -29,7 +29,7 @@
           var category = main.sessionCategories[i];
 
           var selectedCategory = $('<div>');
-          selectedCategory.click(function() { toggleCategory(category) });
+          (function(cat) { selectedCategory.click(function() { toggleCategory(cat) }); })(category);
 
           var selectedCategoryIcon = $('<img>');
           selectedCategoryIcon.addClass('selectedCategoryIcon');
