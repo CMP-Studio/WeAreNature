@@ -16,39 +16,48 @@ exports.actions = {
     title: "Clean Up Litter",
     description: "nchaow",
     scope: 'ME',
+    selected: false,
   },
   '002': {
     title: "Use Less Water",
     description: "nchaow",
     scope: 'WE',
+    selected: false,
   },
   '003': {
     title: "Recycle",
     description: "nchaow",
     scope: 'ME',
+    selected: false,
   },
 };
 
 exports.categories = {
   trees: {
-    title: "red",
+    title: "trees",
+    icon: "images/TreeIcon.png",
     description: "nchaow",
     actions: ['001', '002'],
+    selected: false,
   },
   birds: {
-    title: "blue",
+    title: "birds",
+    icon: "images/WaterIcon.png",
     description: "nchaow",
     actions: ['003', '002'],
+    selected: false,
   },
   mountains: {
-    title: "green",
+    title: "mountains",
+    icon: "images/MountainIcon.png",
     description: "nchaow",
     actions: ['003', '001'],
+    selected: false,
   },
 };
 
-exports.sessionCategories = null;
-exports.sessionActions = null;
+exports.sessionCategories = [];
+exports.sessionActions = [];
 
 // WINDOWS
 var sceneWindow = null;
@@ -70,9 +79,6 @@ ipcMain.on('vote', (event, ballot) => {
           this.votes[ballot[i]]++;
       }
 
-      this.sessionCategories = ballot;
-      console.log(this.sessionCategories);
-
       pollWindow.send('voteSuccessful');
       sceneWindow.loadURL(`file://${__dirname}/actions.html`);
     } catch (e) {
@@ -80,10 +86,37 @@ ipcMain.on('vote', (event, ballot) => {
     }
 });
 
+// TOGGLE CATEGORY
+ipcMain.on('toggleCategory', (event, category) => {
+    try {
+      if (this.categories[category].selected) {
+        // remove from session categories
+        this.sessionCategories = this.sessionCategories.filter(function (sessionCategory) {
+          if (sessionCategory === category) return false;
+          else return true;
+        });
+        // set selected to false
+        this.categories[category].selected = false;
+      } else {
+        // add to session categories
+        this.sessionCategories.push(category);
+        // set selected to true
+        this.categories[category].selected = true;
+      }
+      sceneWindow.send('toggleCategorySuccessful');
+    } catch (e) {
+      console.log(e);
+    }
+});
+
 ipcMain.on('resetInteraction', (event, arg) => {
     try {
-      this.sessionCategories = null;
-      this.sessionActions = null;
+      this.sessionCategories = [];
+      this.sessionActions = [];
+
+      for (var category in this.categories) {
+        this.categories[category].selected = false;
+      }
 
       sceneWindow.loadURL(`file://${__dirname}/scene.html`);
     } catch (e) {

@@ -3,6 +3,79 @@
 <head>
     <meta charset="utf-8">
     <title>Scene</title>
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="js/jquery-3.2.1.min.js" charset="utf-8"></script>
+    <script>
+      // IMPORTS //
+      var {ipcRenderer, remote} = require('electron');
+      var main = remote.require("./main.js");
+
+      // EVENT LISTENERS //
+      ipcRenderer.on('toggleCategorySuccessful', (event) => {
+        renderScene();
+        renderBar();
+      });
+
+      // EVENT EMITTERS //
+      function toggleCategory(category) {
+        ipcRenderer.send('toggleCategory', category);
+      }
+
+      // FUNCTIONS //
+      // RENDER BAR
+      function renderBar() {
+        $("#selectedCategories").empty();
+        for (var i = 0; i < main.sessionCategories.length; i++) {
+          var category = main.sessionCategories[i];
+
+          var selectedCategory = $('<div>');
+          selectedCategory.click(function() { toggleCategory(category) });
+
+          var selectedCategoryIcon = $('<img>');
+          selectedCategoryIcon.addClass('selectedCategoryIcon');
+          selectedCategoryIcon.attr('src', main.categories[category].icon);
+
+          var selectedCategoryTitle = $('<span>');
+          selectedCategoryTitle.html(main.categories[category].title);
+
+          selectedCategory.append(selectedCategoryIcon);
+          selectedCategory.append(selectedCategoryTitle);
+          $("#selectedCategories").append(selectedCategory);
+        }
+        if (main.sessionCategories.length > 0) $('#nextButton').removeClass('hide');
+        else $('#nextButton').addClass('hide');
+      }
+
+      // RENDER SCENE
+      function renderScene() {
+        $('.svgGroup').each(function() {
+          if (main.categories[$(this).attr('id')].selected) {
+            $(this).addClass('selected');
+          } else {
+            $(this).removeClass('selected');
+          }
+        });
+      }
+
+      // ON READY //
+      $(document).ready(function() {
+        $(".svgGroup").click(function() { toggleCategory($(this).attr('id')); });
+
+        $("#nextButton").click(function() {
+          let ballot = [];
+          $(".selected").each(function() {
+            var id = $(this).attr('id');
+            ballot.push(id);
+          });
+          ipcRenderer.send('vote', ballot);
+        });
+
+        renderScene();
+        renderBar();
+      });
+
+    </script>
+    <script>if (window.module) module = window.module;</script>
     <style type="text/css">
       .selected {
         fill: red;
@@ -25,7 +98,7 @@
         bottom: 50px;
       }
 
-      #guiContainer {
+      #bar {
         display: inline-block;
         position: absolute;
         padding: 15px;
@@ -36,7 +109,12 @@
         background-color: #eee;
       }
 
-      #sceneContainer {
+      .selectedCategoryIcon {
+        width: 20px;
+        height: 20px;
+      }
+
+      #scene {
         display: inline-block;
         position: absolute;
         top: 0px;
@@ -46,54 +124,10 @@
       }
 
     </style>
-    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
-    <script src="js/jquery-3.2.1.min.js" charset="utf-8"></script>
-    <script>
-      // IMPORTS
-      var {ipcRenderer, remote} = require('electron');
-      var main = remote.require("./main.js");
-
-      // FUNCTIONS
-      function toggleSelection(element) {
-        if (element.hasClass('selected')) {
-          element.removeClass('selected');
-          $('#selectedCategoryContainer_'+element.attr('id')).remove();
-        } else {
-          element.addClass('selected');
-          var selectedCategoryContainer = $('<div>');
-          selectedCategoryContainer.html(element.attr('id'));
-          selectedCategoryContainer.attr('id', 'selectedCategoryContainer_'+element.attr('id'));
-          selectedCategoryContainer.addClass('selectedCategory');
-          $('#selectedCategories').append(selectedCategoryContainer);
-        }
-
-        if ($('.selectedCategory').length === 0) {
-          $('#nextButton').addClass('hide');
-        } else {
-          $('#nextButton').removeClass('hide');
-        }
-      }
-
-      // ON READY
-      $(document).ready(function() {
-
-        $(".svgGroup").click(function() { toggleSelection($(this)); });
-
-        $("#nextButton").click(function() {
-          let ballot = [];
-          $(".selected").each(function() {
-            var id = $(this).attr('id');
-            ballot.push(id);
-          });
-          ipcRenderer.send('vote', ballot);
-        });
-      });
-    </script>
-    <script>if (window.module) module = window.module;</script>
 </head>
 <body>
 <div class="container">
-  <div id="guiContainer">
+  <div id="bar">
     <div>
       What do you want to protect?
     </div>
@@ -103,7 +137,7 @@
       NEXT
     </div>
   </div>
-  <div id="sceneContainer">
+  <div id="scene">
     <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
        viewBox="0 0 888 666.2" style="enable-background:new 0 0 888 666.2;" xml:space="preserve">
     <style type="text/css">
