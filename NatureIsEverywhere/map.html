@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Scene</title>
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="js/jquery-3.2.1.min.js" charset="utf-8"></script>
+    <script>
+      //////////////////////// IMPORTS ////////////////////////
+
+      var {ipcRenderer, remote} = require('electron');
+      var main = remote.require("./main.js");
+
+      //////////////////////// EVENT LISTENERS ////////////////////////
+
+      ipcRenderer.on('render', (event) => { render(); });
+
+      //////////////////////// EVENT EMITTERS ////////////////////////
+
+      function selectCategory(category) {
+        ipcRenderer.send('selectCategory', category);
+      }
+
+      function resetInteraction() {
+        ipcRenderer.send('resetInteraction');
+      }
+
+      //////////////////////// DATA ////////////////////////
+
+      this.categories = {
+        rivers: {
+          displayString: "Rivers",
+        },
+        forests: {
+          displayString: "Forests",
+        },
+      }
+
+      this.facts = {
+        0: {
+          factString: "Bugs are all around you",
+        },
+        1: {
+          factString: "There are birds above you, look up!",
+        }
+      }
+
+      this.currentTimeout;
+
+
+      //////////////////////// FUNCTIONS ////////////////////////
+
+      // RENDER ALL
+      function render() {
+        renderMap();
+        renderOverlay();
+        renderButton();
+      }
+
+      // RENDER SCENE
+      function renderMap() {}
+
+      // RENDER OVERLAY
+      function renderOverlay() {
+        $(".category").each((index, overlay) => {
+          $(overlay).click((event) => {
+            const target = $(event.target);
+            clearTimeout(this.currentTimeout);
+            target.toggleClass('unselected');
+            target.toggleClass('selected');
+            if (target.hasClass('selected')) {
+              $('#caption').html(this.categories[target.attr('id')].displayString);
+              this.currentTimeout = window.setTimeout(() => {
+                $('#caption').html("");
+              }, 1000);
+            }
+          });
+        });
+      }
+
+      function renderButton() {
+        
+      }
+
+      //////////////////////// ON READY ////////////////////////
+
+      $(document).ready(function() {
+        render();
+      });
+
+    </script>
+    <script>if (window.module) module = window.module;</script>
+    <style type="text/css">
+
+      @font-face {
+        font-family: 'BrandonTitle';
+        src: url('fonts/Brandon_med.otf') format('opentype');
+      }
+
+      @font-face {
+        font-family: 'BrandonBody';
+        src: url('fonts/Brandon_reg.otf') format('opentype');
+      }
+
+      #map {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+        max-width:100%;
+      }
+
+      #overlay {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+      }
+
+      #question {
+        position: absolute;
+        top: 10px;
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        font-family: 'BrandonTitle';
+      }
+
+      #caption {
+        position: absolute;
+        bottom: 50px;
+        width: 100%;
+        text-align: center;
+        color: #000;
+        font-family: 'BrandonBody';
+      }
+
+      @keyframes sparkle {
+        0%   { opacity: 0.68; }
+        100%   { opacity: 0.4; }
+      }
+
+      #rivers {
+        animation-delay: 2s;
+      }
+
+      #forests {
+        animation-delay: 0s;
+      }
+
+      .unselected {
+        animation-name: sparkle;
+        animation-duration: 2s;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+      }
+
+      .selected {
+        opacity: 0 !important;
+      }
+
+    </style>
+</head>
+<body>
+<div id="container">
+  <img id="map" src="images/HDMap.jpg" />
+  <div id="overlay">
+    <?xml version="1.0" encoding="utf-8"?>
+    <!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+    <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+    	 viewBox="0 0 1920 1080" style="enable-background:new 0 0 1920 1080;" xml:space="preserve">
+    <style type="text/css">
+    	.category{opacity:0.68;fill:#4D4F2C;}
+    </style>
+    <rect id="rivers" x="-1" y="-3" class="category unselected" width="1106.8" height="1084.9"/>
+    <rect id="forests" x="1106" y="0.9" class="category unselected" width="814.6" height="1079.1"/>
+    </svg>
+  </div>
+  <div id="question">
+    Where is Nature?
+  </div>
+  <div id="caption">
+  </div>
+  <div id="checkButton">
+  </div>
+</div>
+</body>
+</html>

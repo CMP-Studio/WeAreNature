@@ -11,7 +11,7 @@
       var main = remote.require("./main.js");
 
       // EVENT LISTENERS
-      ipcRenderer.on('voteSuccessful', (event, arg) => {
+      ipcRenderer.on('render', (event, arg) => {
         renderPoll();
       });
 

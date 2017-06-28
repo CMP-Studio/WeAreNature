@@ -6,139 +6,108 @@
     <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script src="js/jquery-3.2.1.min.js" charset="utf-8"></script>
     <script>
-      // IMPORTS //
+      //////////////////////// IMPORTS ////////////////////////
+
       var {ipcRenderer, remote} = require('electron');
       var main = remote.require("./main.js");
 
+      //////////////////////// EVENT LISTENERS ////////////////////////
 
-      // EVENT LISTENERS //
       ipcRenderer.on('render', (event) => { render(); });
 
+      //////////////////////// EVENT EMITTERS ////////////////////////
 
-      // EVENT EMITTERS //
-      function toggleCategory(category) {
-        ipcRenderer.send('toggleCategory', category);
+      function selectCategory(category) {
+        ipcRenderer.send('selectCategory', category);
       }
 
-      function categoriesSelected() {
-        ipcRenderer.send('categoriesSelected');
+      function makePledge() {
+        ipcRenderer.send('makePledge');
+      }
+
+      function showEmailForm() {
+        ipcRenderer.send('showEmailForm');
       }
 
       function resetInteraction() {
         ipcRenderer.send('resetInteraction');
       }
 
+      //////////////////////// FUNCTIONS ////////////////////////
 
-      // FUNCTIONS //
       // RENDER ALL
       function render() {
-        if (main.screen === 'CATEGORYSELECTION') {
-          renderScene(clickable = true);
-          renderCategorySelectionBar();
-        } else if (main.screen === 'ACTIONLIST') {
-          renderScene(clickable = false);
-          renderActionsSelectionBar();
+        if (main.screen === 'SCENE') {
+          $('#pledgeConfirmation').remove();
+          $('#keyboard').addClass('hide');
+          renderScene();
+          renderBar();
+        } else if (main.screen === 'PLEDGE RECORDED') {
+          renderPledgeConfirmation();
+        } else if (main.screen === 'INPUT EMAIL') {
+          renderPledgeConfirmation();
+          renderKeyboard();
+          // renderForm();
         }
       }
 
 
-      // RENDER BAR WITH CATEGORIES
-      function renderCategorySelectionBar() {
-        $("#bar").empty();
-        for (var i = 0; i < main.sessionCategories.length; i++) {
-          var category = main.sessionCategories[i];
+      // RENDER BAR
+      function renderBar() {
+        $("#selectedCategory").empty();
+        if (main.selectedCategory !== null) {
+          var cateogryObject = main.categories[main.selectedCategory];
 
-          var selectedCategory = $('<div>');
-          (function(cat) { selectedCategory.click(function() { toggleCategory(cat) }); })(category);
+          // SHOW CATEGORY INFO
+          var category = $('<div>');
 
           var selectedCategoryIcon = $('<img>');
           selectedCategoryIcon.addClass('selectedCategoryIcon');
-          selectedCategoryIcon.attr('src', main.categories[category].icon);
+          selectedCategoryIcon.attr('src', cateogryObject.icon);
 
           var selectedCategoryTitle = $('<span>');
-          selectedCategoryTitle.html(main.categories[category].title);
+          selectedCategoryTitle.html(cateogryObject.title);
 
-          selectedCategory.append(selectedCategoryIcon);
-          selectedCategory.append(selectedCategoryTitle);
-          $("#bar").append(selectedCategory);
-        }
+          $("#selectedCategory").append(selectedCategoryIcon);
+          $("#selectedCategory").append(selectedCategoryTitle);
 
-        if (main.sessionCategories.length > 0) {
-          var nextButton = $('<div>');
-          nextButton.attr('id', 'nextButton');
-          nextButton.html('NEXT');
-          nextButton.click(function() { categoriesSelected(); });
-          $("#bar").append(nextButton);
-        }
-        else { $('#nextButton').remove(); }
-      }
+          // SHOW ACTIONS INFO
+          var meActions = $('<div>');
+          var weActions = $('<div>');
 
+          for (actionKey in cateogryObject.actions) {
+            var action = $('<div>');
+            var actionObject = cateogryObject.actions[actionKey];
 
-      // RENDER BAR WITH ACTIONS
-      function renderActionsSelectionBar() {
-        $("#bar").empty();
-        var actions = {};
+            action.append(actionObject.title);
 
-        // Get all the unique actions and store which category they were selected by (multiple categories possible)
-        for (var i = 0; i < main.sessionCategories.length; i++) {
-          let categoryName = main.sessionCategories[i];
-          let category = main.categories[categoryName];
-
-          for (var j = 0; j < category.actions.length; j++) {
-            let actionName = category.actions[j];  // 001
-            if (!actions.hasOwnProperty(actionName)) {
-              actions[actionName] = [categoryName];
-            } else {
-              actions[actionName].push(categoryName);
+            if (actionObject.scope === 'ME') {
+              meActions.append(action);
+            } else if (actionObject.scope === 'WE') {
+              weActions.append(action);
             }
           }
-        }
 
-        // Now display all unique actions
-        for (actionName in actions) {
-          var actionObject = main.actions[actionName];
+          $("#selectedCategory").append('<div>What can I do?</div>');
+          $("#selectedCategory").append(meActions);
+          $("#selectedCategory").append('<div>What can WE do?</div>');
+          $("#selectedCategory").append(weActions);
 
-          var action = $('<div>');
-          (function(act) { action.click(function() { toggleAction(act) }); })(actionName);
-
-          var actionIcons = $('<div>');
-          actionIcons.addClass('actionIcons');
-          for (var i = 0; i < actions[actionName].length; i++) {
-            var categoryIcon = $('<img>');
-            categoryIcon.addClass('selectedCategoryIcon');
-            categoryIcon.attr('src', main.categories[actions[actionName][i]].icon);
-            actionIcons.append(categoryIcon);
-          }
-
-          var actionTitle = $('<div>');
-          actionTitle.html(main.actions[actionName].title);
-
-          action.append(actionIcons);
-          action.append(actionTitle);
-          $("#bar").append(action);
-        }
-
-        var resetButton = $('<div>');
-        resetButton.attr('id', 'resetButton');
-        resetButton.html('BACK');
-        resetButton.click(function() { resetInteraction(); });
-        $("#bar").append(resetButton);
-
-        if (main.sessionActions.length > 0) {
+          //  RESET/ADD NEXT BUTTON
+          $('#nextButton').remove();
           var nextButton = $('<div>');
           nextButton.attr('id', 'nextButton');
           nextButton.html('NEXT');
-          nextButton.click(function() { actionsSelected(); });
+          nextButton.click(function() { makePledge(); });
           $("#bar").append(nextButton);
         }
-        else { $('#nextButton').remove(); }
+        else $('#nextButton').remove();
       }
 
-
       // RENDER SCENE
-      function renderScene(clickable) {
+      function renderScene() {
         $('.svgGroup').each(function() {
-          if (main.categories[$(this).attr('id')].selected) {
+          if (main.selectedCategory === $(this).attr('id')) {
             $(this).addClass('selected');
           } else {
             $(this).removeClass('selected');
@@ -146,16 +115,129 @@
         });
 
         $(".svgGroup").unbind('click');
-        if (clickable) {
-          $(".svgGroup").click(function() {
-              console.log($(this).attr('id'))
-            toggleCategory($(this).attr('id'));
-          });
-        }
+        $(".svgGroup").click(function() { selectCategory($(this).attr('id')); });
       }
 
+      // RENDER EMAIL PROMPT
+      function renderPledgeConfirmation() {
+        var pledgeConfirmation = $('<div>');
+        pledgeConfirmation.attr('id', 'pledgeConfirmation');
 
-      // ON READY //
+        // CONFIRMATION MESSAGE
+        var votesToDate = $('<div>');
+        votesToDate.append('<div>Your pledge was successfully recorded</div>');
+        if (main.votes[main.selectedCategory] === 1) {
+          votesToDate.append('<div>You\'re the first to pledge to protect '+main.selectedCategory+'. Awesome! Good for you!</div>');
+        } else {
+          votesToDate.append('<div>You join '+(main.votes[main.selectedCategory] - 1)+' others who have pledged to protect'+main.selectedCategory+'</div>');
+        }
+        pledgeConfirmation.append(votesToDate);
+
+        // ACTION LIST REMINDER
+        var cateogryObject = main.categories[main.selectedCategory];
+        var actionList = $('<div>');
+        actionList.append('<div>Remember, here\'s what you can do:</div>');
+
+        var meActions = $('<div>');
+        var weActions = $('<div>');
+
+        for (actionKey in cateogryObject.actions) {
+          var action = $('<div>');
+          var actionObject = cateogryObject.actions[actionKey];
+
+          action.append(actionObject.title);
+
+          if (actionObject.scope === 'ME') {
+            meActions.append(action);
+          } else if (actionObject.scope === 'WE') {
+            weActions.append(action);
+          }
+        }
+
+        actionList.append('<div>ME actions</div>');
+        actionList.append(meActions);
+        actionList.append('<div>WE actions</div>');
+        actionList.append(weActions);
+        pledgeConfirmation.append(actionList);
+
+        var emailMeButton = $('<div>');
+        emailMeButton.attr('id', 'emailMeButton');
+        emailMeButton.html('EMAIL ME THIS LIST');
+        emailMeButton.click(function() { showEmailForm(); });
+        pledgeConfirmation.append(emailMeButton);
+
+        var resetButton = $('<div>');
+        resetButton.attr('id', 'resetButton');
+        resetButton.html('START OVER');
+        resetButton.click(function() { resetInteraction(); });
+        pledgeConfirmation.append(resetButton);
+
+        $('#container').append(pledgeConfirmation);
+      }
+
+      function renderKeyboard() {
+        $('#keyboard').removeClass('hide');
+      }
+
+      $(function(){
+    var $write = $('#write'),
+        shift = false,
+        capslock = false;
+
+    $('#keyboard li').click(function(){
+        var $this = $(this),
+            character = $this.html(); // If it's a lowercase letter, nothing happens to this variable
+
+        // Shift keys
+        if ($this.hasClass('left-shift') || $this.hasClass('right-shift')) {
+            $('.letter').toggleClass('uppercase');
+            $('.symbol span').toggle();
+
+            shift = (shift === true) ? false : true;
+            capslock = false;
+            return false;
+        }
+
+        // Caps lock
+        if ($this.hasClass('capslock')) {
+            $('.letter').toggleClass('uppercase');
+            capslock = true;
+            return false;
+        }
+
+        // Delete
+        if ($this.hasClass('delete')) {
+            var html = $write.html();
+
+            $write.html(html.substr(0, html.length - 1));
+            return false;
+        }
+
+        // Special characters
+        if ($this.hasClass('symbol')) character = $('span:visible', $this).html();
+        if ($this.hasClass('space')) character = ' ';
+        if ($this.hasClass('tab')) character = "\t";
+        if ($this.hasClass('return')) character = "\n";
+
+        // Uppercase letter
+        if ($this.hasClass('uppercase')) character = character.toUpperCase();
+
+        // Remove shift once a key is clicked.
+        if (shift === true) {
+            $('.symbol span').toggle();
+            if (capslock === false) $('.letter').toggleClass('uppercase');
+
+            shift = false;
+        }
+
+        // Add the character
+        $write.html($write.html() + character);
+    });
+});
+
+
+      //////////////////////// ON READY ////////////////////////
+
       $(document).ready(function() { render(); });
 
     </script>
@@ -182,9 +264,9 @@
         bottom: 50px;
       }
 
-      #resetButton {
+      #emailButton {
         position: absolute;
-        bottom: 20px;
+        bottom: 50px;
       }
 
       #bar {
@@ -212,12 +294,168 @@
         width: 1000px;
       }
 
+      #pledgeConfirmation {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+      }
+
+      body {
+        font: 71%/1.5 Verdana, Sans-Serif;
+        background: #eee;
+      }
+
+      #write {
+        margin: 0 0 5px;
+        padding: 5px;
+        width: 671px;
+        height: 200px;
+        font: 1em/1.5 Verdana, Sans-Serif;
+        background: #fff;
+        border: 1px solid #f9f9f9;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+      }
+
+      #write {
+        position: absolute;
+        bottom: 60;
+        z-index: 5;
+      }
+
+      #keyboard {
+        position: absolute;
+        bottom: 0;
+        margin: 0;
+        padding: 0;
+        z-index: 5;
+        list-style: none;
+      }
+
+      #keyboard li {
+        float: left;
+        margin: 0 5px 5px 0;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        background: #fff;
+        border: 1px solid #f9f9f9;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+      }
+
+      .capslock, .tab, .left-shift {
+        clear: left;
+      }
+
+      #keyboard .tab, #keyboard .delete {
+       width: 70px;
+      }
+            #keyboard .capslock {
+            width: 80px;
+            }
+            #keyboard .return {
+            width: 77px;
+            }
+            #keyboard .left-shift {
+            width: 95px;
+            }
+            #keyboard .right-shift {
+            width: 109px;
+            }
+        .lastitem {
+        margin-right: 0;
+        }
+        .uppercase {
+        text-transform: uppercase;
+        }
+        #keyboard .space {
+        clear: left;
+        width: 681px;
+        }
+        .on {
+        display: none;
+        }
+        #keyboard li:hover {
+        position: relative;
+        top: 1px;
+        left: 1px;
+        border-color: #e5e5e5;
+        cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
-<div class="container">
+<div id="container">
   <div id="bar">
+    <div id="prompt">
+      What will you pledge to protect?
+    </div>
+    <div id="selectedCategory">
+    </div>
   </div>
+  <textarea id="write" rows="6" cols="60"></textarea>
+  <ul id="keyboard" class='hide'>
+      <li class="symbol"><span class="off">`</span><span class="on">~</span></li>
+      <li class="symbol"><span class="off">1</span><span class="on">!</span></li>
+      <li class="symbol"><span class="off">2</span><span class="on">@</span></li>
+      <li class="symbol"><span class="off">3</span><span class="on">#</span></li>
+      <li class="symbol"><span class="off">4</span><span class="on">$</span></li>
+      <li class="symbol"><span class="off">5</span><span class="on">%</span></li>
+      <li class="symbol"><span class="off">6</span><span class="on">^</span></li>
+      <li class="symbol"><span class="off">7</span><span class="on">&amp;</span></li>
+      <li class="symbol"><span class="off">8</span><span class="on">*</span></li>
+      <li class="symbol"><span class="off">9</span><span class="on">(</span></li>
+      <li class="symbol"><span class="off">0</span><span class="on">)</span></li>
+      <li class="symbol"><span class="off">-</span><span class="on">_</span></li>
+      <li class="symbol"><span class="off">=</span><span class="on">+</span></li>
+      <li class="delete lastitem">delete</li>
+      <li class="tab">tab</li>
+      <li class="letter">q</li>
+      <li class="letter">w</li>
+      <li class="letter">e</li>
+      <li class="letter">r</li>
+      <li class="letter">t</li>
+      <li class="letter">y</li>
+      <li class="letter">u</li>
+      <li class="letter">i</li>
+      <li class="letter">o</li>
+      <li class="letter">p</li>
+      <li class="symbol"><span class="off">[</span><span class="on">{</span></li>
+      <li class="symbol"><span class="off">]</span><span class="on">}</span></li>
+      <li class="symbol lastitem"><span class="off">\</span><span class="on">|</span></li>
+      <li class="capslock">caps lock</li>
+      <li class="letter">a</li>
+      <li class="letter">s</li>
+      <li class="letter">d</li>
+      <li class="letter">f</li>
+      <li class="letter">g</li>
+      <li class="letter">h</li>
+      <li class="letter">j</li>
+      <li class="letter">k</li>
+      <li class="letter">l</li>
+      <li class="symbol"><span class="off">;</span><span class="on">:</span></li>
+      <li class="symbol"><span class="off">'</span><span class="on">&quot;</span></li>
+      <li class="return lastitem">return</li>
+      <li class="left-shift">shift</li>
+      <li class="letter">z</li>
+      <li class="letter">x</li>
+      <li class="letter">c</li>
+      <li class="letter">v</li>
+      <li class="letter">b</li>
+      <li class="letter">n</li>
+      <li class="letter">m</li>
+      <li class="symbol"><span class="off">,</span><span class="on">&lt;</span></li>
+      <li class="symbol"><span class="off">.</span><span class="on">&gt;</span></li>
+      <li class="symbol"><span class="off">/</span><span class="on">?</span></li>
+      <li class="right-shift lastitem">shift</li>
+      <li class="space lastitem">&nbsp;</li>
+  </ul>
   <div id="scene">
     <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
        viewBox="0 0 888 666.2" style="enable-background:new 0 0 888 666.2;" xml:space="preserve">
