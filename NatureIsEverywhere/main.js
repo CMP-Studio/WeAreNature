@@ -13,7 +13,7 @@ var mapWindow = null;
 
 // CREATE WINDOWS
 app.on('ready', () => {
-    mapWindow = new BrowserWindow({ width: 960, height: 600, resizable: false });
+    mapWindow = new BrowserWindow({ width: 1920, height: 1080, resizable: false });
     mapWindow.loadURL(`file://${__dirname}/map.html`);
 });
 
