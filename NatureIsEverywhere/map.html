@@ -62,9 +62,15 @@
 
       // RENDER OVERLAY
       function renderOverlay() {
-        $(".category").bind('click', function() {
+        /*$(".category").bind('touchstart', function() {
           var category = ($(this).attr('id'));
-          console.log('#'+category+'Mask');
+          $('#'+category+'Mask').toggleClass('unselected');
+          $('#'+category+'Mask').toggleClass('selected');
+          delaySparkle();
+        }); */
+
+        $(".category").bind('mousedown', function() {
+          var category = ($(this).attr('id'));
           $('#'+category+'Mask').toggleClass('unselected');
           $('#'+category+'Mask').toggleClass('selected');
           delaySparkle();
@@ -107,6 +113,7 @@
       body {
         overflow: hidden;
         -webkit-user-select: none;
+        cursor: pointer !important;
       }
 
       @font-face {
@@ -140,8 +147,9 @@
       #question {
         position: absolute;
         top: 10px;
+        left: 10px;
         width: 100%;
-        text-align: center;
+        text-align: left;
         color: #fff;
         font-family: 'BrandonTitle';
       }
@@ -1830,7 +1838,7 @@
 </svg>
   </div>
   <div id="question">
-    Where is Nature?
+    Where is Nature? Make your selection on the map.
   </div>
   <div id="caption">
   </div>
