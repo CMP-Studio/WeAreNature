@@ -63,9 +63,10 @@
       // RENDER OVERLAY
       function renderOverlay() {
         $(".category").bind('click', function() {
-          console.log($(this).attr('id'));
-          $(this).toggleClass('unselected');
-          $(this).toggleClass('selected');
+          var category = ($(this).attr('id'));
+          console.log('#'+category+'Mask');
+          $('#'+category+'Mask').toggleClass('unselected');
+          $('#'+category+'Mask').toggleClass('selected');
           delaySparkle();
         });
       }
@@ -76,11 +77,11 @@
           sparkleTimeout = null;
         }
 
-        $(".category").each(function(index, obj) {
+        $(".categoryMask").each(function(index, obj) {
           $(obj).removeClass('sparkling');
         });
         sparkleTimeout = setTimeout(function() {
-          $(".category").each(function(index, obj) {
+          $(".categoryMask").each(function(index, obj) {
             $(obj).addClass('sparkling');
             $(obj).addClass('unselected');
             $(obj).removeClass('selected');
@@ -105,6 +106,7 @@
 
       body {
         overflow: hidden;
+        -webkit-user-select: none;
       }
 
       @font-face {
@@ -126,12 +128,13 @@
         max-width:100%;
       }
 
-      #overlay {
+      #clickableOverlay, #overlay, .categoryMask {
         position: absolute;
         top: 0px;
         left: 0px;
         bottom: 0px;
         right: 0px;
+        max-width:100%;
       }
 
       #question {
@@ -157,39 +160,49 @@
         100%   { opacity: .3; }
       }
 
-      #Rivers {
+      #RiverMask {
         animation-delay: 0.2s;
-        animation-duration: 1.5s;
+        animation-duration: 2s;
       }
 
-      #Forests {
+      #ForestsMask {
         animation-delay: 0.4s;
-        animation-duration: 1.5s;
+        animation-duration: 2s;
       }
 
-      #Suburbs {
+      #SuburbsMask {
         animation-delay: 0.6s;
-        animation-duration: 1.5s;
+        animation-duration: 2s;
       }
 
-      #City {
+      #CityMask {
         animation-delay: 0.8s;
-        animation-duration: 1.5s;
+        animation-duration: 2s;
       }
 
-      #Parks {
+      #ParksMask {
         animation-delay: 1s;
-        animation-duration: 1.5s;
+        animation-duration: 2s;
       }
 
-      #Farmland {
+      #FarmsMask {
         animation-delay: 1.2s;
-        animation-duration: 1.5s;
+        animation-duration: 2s;
       }
 
-      #POIs {
-        animation-delay: 1.4s;
-        animation-duration: 1.5s;
+      #KennywoodMask {
+        animation-delay: 1.5s;
+        animation-duration: 2s;
+      }
+
+      #AirportMask {
+        animation-delay: 1.8s;
+        animation-duration: 2s;
+      }
+
+      #PowdermillMask {
+        animation-delay: 2s;
+        animation-duration: 2s;
       }
 
       .unselected {
@@ -213,16 +226,25 @@
 <body>
 <div id="container">
   <img id="map" src="images/HDMap.jpg" />
-  <div id="overlay">
+  <img src="images/Airport.png" id="AirportMask" class="categoryMask unselected sparkling">
+  <img src="images/City.png" id="CityMask" class="categoryMask unselected sparkling">
+  <img src="images/Farms.png" id="FarmsMask" class="categoryMask unselected sparkling">
+  <img src="images/Forests.png" id="ForestsMask" class="categoryMask unselected sparkling">
+  <img src="images/Kennywood.png" id="KennywoodMask" class="categoryMask unselected sparkling">
+  <img src="images/Parks.png" id="ParksMask" class="categoryMask unselected sparkling">
+  <img src="images/Powdermill.png" id="PowdermillMask" class="categoryMask unselected sparkling">
+  <img src="images/River.png" id="RiverMask" class="categoryMask unselected sparkling">
+  <img src="images/Suburbs.png" id="SuburbsMask" class="categoryMask unselected sparkling">
+  <div id="clickableOverlay">
     <?xml version="1.0" encoding="utf-8"?>
     <!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-    
-    
+
+
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
    viewBox="0 0 691.2 388.8" enable-background="new 0 0 691.2 388.8" xml:space="preserve">
   <style>
     .category {
-      opacity: 0.1;
+      opacity: 0;
     }
   </style>
 <g id="Forests" class="category">
