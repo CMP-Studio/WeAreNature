@@ -27,53 +27,279 @@
 
       //////////////////////// DATA ////////////////////////
 
-      this.sparkleTimeout = null;
-      var currentlySelectedCategory = "";
+      var systems = {
+        'transportation' : {
+          name: 'Transportation',
+          actions: [
+            {
+              name: 'Ride my bike.',
+              text: 'You’ll have more fun getting there, and save carbon dioxide emissions along the way.',
+              localOrg: 'Bike Pittsburgh is a local organization working to transform streets and communities into vibrant, healthy places by making them safe and accessible for people to bike and walk. Joining a group helps your individual actions influence systems at a larger scale.',
+            },
+            {
+              name: 'Plan for parking.',
+              text: 'Save time and cut emissions produced from idling and circling to find parking.',
+              localOrg: 'The Pittsburgh Parking Authority is experimenting with sensors that can tell you where parking is full and where you can find a space. When transit systems can get information to the public, you can make informed decisions that save you time and improve air quality.',
+            },
+            {
+              name: 'Report air quality issues.',
+              text: 'Your observations can help scientists improve air quality.',
+              localOrg: 'Scientists at the Allegheny County Department of Health need your help to collect data on air quality. With the Smell Pittsburgh mobile phone app designed by the CREATE Lab at Carnegie Mellon University, you contribute to a citizen science project that will help improve air quality.',
+            },
+          ]
+        },
+        'energy' : {
+          name: 'Energy',
+          actions: [
+            {
+              name: 'Do an energy audit.',
+              text: 'Small changes in your home (like closing shades on sunny days) can save money on energy bills.',
+              localOrg: 'Conservation Consultants Inc. is a nonprofit that helps homeowners and small businesses address environmental concerns. The Home Energy Saver project can be used for a DIY evaluation. Every kilowatt we save counts in a region that relies on fossil fuels for much of our energy.',
+            },
+            {
+              name: 'Support renewable energy.',
+              text: 'Learn more about alternative energy options that are available to you.',
+              localOrg: 'Solar power generates energy without carbon emissions, and creates local jobs. Anyone who pays an electric bill can opt in to plans that source electricity from renewable sources. Ask your local electricity supplier or learn more from PA PowerSwitch.',
+            },
+            {
+              name: 'Try reuse.',
+              text: 'Instead of using energy to make something new, upcycle materials for your next project. ',
+              localOrg: 'Find a donation center to take your old materials and provide a starter for something new. Construction Junction has materials for home renovation, and Pittsburgh Center for Creative Reuse deals with craft supplies for small creative projects.',
+            },
+          ]
+        },
+        'food' : {
+          name: 'Food',
+          actions: [
+            {
+              name: 'Eat less beef.',
+              text: 'Eating plant-based meals instead of a burger can reduce your carbon footprint.',
+              localOrg: 'When you think about the energy, water, and fertilizer that go into meat production, the environmental impact really adds up. Grow your own food or visit a local farmer’s markets to find affordable seasonal produce and show support for sustainable agriculture.',
+            },
+            {
+              name: 'Reduce food waste.',
+              text: 'Use the Food Rescue Hero app to get your leftover food to someone who needs it.',
+              localOrg: 'Did you order too much for an office meeting or special event? Fight hunger by sharing leftovers with those in need. 412 Food rescue has a variety of programs to redirect fresh food from landfills to organizations that address hunger.',
+            },
+            {
+              name: 'Improve my soil.',
+              text: 'Try composting to reduce greenhouse gasses and help plants grow.',
+              localOrg: 'When organic materials decompose in landfill environments that lack oxygen, it creates methane gas that contributes to global warming. The Pennsylvania Resources Council offers low-cost classes on composting that include all required start-up materials. You can compost in your apartment or outdoors.: less landfill waste benefits everyone.',
+            },
+          ]
+        },
+        'water' : {
+          name: 'Water',
+          actions: [
+            {
+              name: 'Plant a tree.',
+              text: 'Trees provide shade, look great, and help prevent sewer system overflows.',
+              localOrg: 'One tree can soak up 100 gallons of water. Collectively, the trees across an urban landscape can keep a significant amount of water out of the sewer system. Tree Pittsburgh is dedicated to enhancing community vitality by restoring and protecting the urban forest.',
+            },
+            {
+              name: 'Try Kayaking.',
+              text: 'River recreation motivates people, businesses, and government to keep our rivers clean.',
+              localOrg: 'Riverfront access has never been better. By taking part in the many activities available along Pittsburgh’s waterfront, you show those in local government what is important to its people, and where money should be invested for further improvements.',
+            },
+            {
+              name: 'Replace plastics with reusables.',
+              text: 'Use a refillable water bottle or take your own bags to the grocery store.',
+              localOrg: 'Our local rivers are part of a much larger watershed. Disposable plastics like bottles and straws end up in our waterways and will eventually flow to the Mississippi River and into the Gulf of Mexico. We may think of ourselves as landlocked, but our trash can end up in the ocean.',
+            },
+          ]
+        },
+        'habitat' : {
+          name: 'Habitat',
+          actions: [
+            {
+              name: 'Help birds.',
+              text: 'Learn about techniques to minimize bird-building collisions.',
+              localOrg: 'Birds can thrive in cities, but sometimes have fatal collisions with reflective glass on buildings. BirdSafe Pittsburgh coordinates local research efforts to reduce bird-glass collisions and increase healthy habitats for birds.',
+            },
+            {
+              name: 'Grow native plants.',
+              text: 'Gardening with plants that are suited to your soil saves money by decreasing the need for watering.',
+              localOrg: 'Native plants create food and shelter for local wildlife including birds, butterflies, and beneficial insects. Your garden is part of a larger habitat, including parks and land trusts, creating green corridors that support migrating wildlife.',
+            },
+            {
+              name: 'Take a hike.',
+              text: 'Show support for local green spaces by exploring recreation in local parks.',
+              localOrg: 'There are hundreds of miles of hiking and biking trails to explore in city, county, and state parks. Your support for green public lands has additional benefits including more habitat for wildlife, protection for watersheds, and relief from urban heat islands.',
+            },
+          ]
+        },
+      }
+
+      var CATEGORY = null; // transporation, water, habitat, food, energy
+      var ACTION = null; // 0, 1, 2
+      var MODALSTATE = null; // checklist, confirmation, email, thanks
 
       //////////////////////// FUNCTIONS ////////////////////////
 
-      // RENDER
+      // RENDER :
+      // If there are no categories selected...
+      // Then we display the lure screen, modal-free.
+      // Otherwise...
+      // Unbind lure screen clicks and a modal should be displayed.
       function render() {
-        $(".category").bind('click', function() {
-          $('#'+currentlySelectedCategory+'Mask').addClass('unselected');
-          $('#'+currentlySelectedCategory+'Mask').removeClass('selected');
-          var category = ($(this).attr('id'));
-          currentlySelectedCategory = ($(this).attr('id'));
-          console.log(category)
-          $('#'+category+'Mask').removeClass('unselected');
-          $('#'+category+'Mask').addClass('selected');
 
-          delaySparkle();
-        });
-      }
+        if (CATEGORY === null) {
 
-      function delaySparkle() {
-        if (sparkleTimeout !== null) {
-          clearTimeout(sparkleTimeout);
-          sparkleTimeout = null;
+          // Hide and unbind modal behavior
+          $('.modal').addClass('hide');
+          $("#clickableOverlay").unbind('click');
+
+          $(".category").bind('click', function() {
+            selectCategory(($(this).attr('id')));
+          });
+
+          $(".categoryLabel").bind('click', function() {
+            selectCategory(($(this).attr('id')).slice(0, -5));
+          });
+
+          $(".closeModalButton").unbind( "click" );
+          
+
+          $(".categoryLabel").removeClass( "hide" );
+          $("#caption").removeClass( "hide" );
+
+        } else {
+
+          $(".category").unbind( "click" );
+          $(".categoryLabel").unbind( "click" );
+          
+
+          $("#caption").addClass( "hide" );
+          $(".categoryLabel").addClass( "hide" );
+
+          $(".closeModalButton").bind('click', function() {
+            MODALSTATE = null;
+            CATEGORY = null;
+            ACTION = null;
+            render();
+          });
+
+          renderModal();
+        
         }
 
-        $(".categoryMask").each(function(index, obj) {
-          $(obj).removeClass('sparkling');
+      }
+
+      // RENDER MODAL: 
+      // 
+      function renderModal() {
+        var categoryObject = systems[CATEGORY];
+
+       // clicking outside of modal will close modal
+       $("#clickableOverlay").unbind('click');
+       $("#clickableOverlay").bind('click', function() {
+          MODALSTATE = null;
+          CATEGORY = null;
+          ACTION = null;
+          render();
+       });
+
+        switch (MODALSTATE) {
+
+          case 'checklist':
+            $('#checklistPrompt').html('To improve '+ categoryObject.name +', I will:');
+
+            $('#checklistContainer').html('');
+
+            for (var i = 0; i < categoryObject.actions.length; i++) {
+              var actionItem = $("<div>");
+              actionItem.addClass('actionItem');
+
+              var actionItemCheckbox = $("<div>");
+              actionItemCheckbox.addClass('actionItemCheckbox');
+
+              var actionItemBody = $("<div>");
+              actionItemBody.addClass('actionItemBody');
+              var actionItemName = $("<div>"+categoryObject.actions[i].name+"</div>");
+              actionItemName.addClass('actionItemName');
+              var actionItemText = $("<div>"+categoryObject.actions[i].text+"</div>");
+              actionItemText.addClass('actionItemText');
+
+              actionItemBody.append(actionItemName);
+              actionItemBody.append(actionItemText);
+
+              actionItem.append(actionItemCheckbox);
+              actionItem.append(actionItemBody);
+
+              $('#checklistContainer').append(actionItem);
+            }
+
+            $('.actionItem').each(function(index, item) {
+              $(item).bind('click', function() {
+                ACTION = index;
+                $("#submitActionButton").removeClass('hide');
+                renderAction();
+              });
+            });
+
+            $("#submitActionButton").bind('click', function() {
+              $("#submitActionButton").unbind('click');
+              MODALSTATE = 'confirmation'
+              render();
+            });
+
+            $('#checklistModal').removeClass('hide');
+            break;
+
+          case 'confirmation':
+            $('#checklistModal').addClass('hide');
+            $('#confirmationModal').removeClass('hide');
+            break;
+
+          case 'email':
+            $('#confirmationModal').addClass('hide');
+            $('#emailModal').removeClass('hide');
+            break;
+
+          case 'thanks':
+            $('#emailModal').addClass('hide');
+            $('#thanksModal').removeClass('hide');
+            break;
+
+          default:
+            CATEGORY = null;
+            MODALSTATE = null;
+            ACTION = null;
+            render();
+            break;
+        }
+      }
+
+      function renderAction() {
+        $("#checklistLocalOrgText").html(systems[CATEGORY].actions[ACTION].localOrg);
+        var valign = ['top', 'initial', 'bottom'];
+        $("#checklistLocalOrgText").css({
+          'position': 'relative',
+          'top' : 200*ACTION,
         });
-        sparkleTimeout = setTimeout(function() {
-          $(".categoryMask").each(function(index, obj) {
-            $(obj).addClass('sparkling');
-            $(obj).addClass('unselected');
-            $(obj).removeClass('selected');
-          });
-        }, 60000);
       }
 
-      function presentFact() {
-        $('#birdFact').zoomTo({targetsize:0.75, duration:600});
+      function selectCategory(category) {
+        CATEGORY = category;
+        MODALSTATE = 'checklist';
+        render();
       }
-
 
       //////////////////////// ON READY ////////////////////////
 
       $(document).ready(function() {
         render();
+
+        /* 
+        $('html').bind('click', function () {
+                $('html').css({
+                    '-webkit-transform': 'rotate(180deg)',
+                    ' -moz-transform': 'rotate(180deg)',
+                    'position': 'relative',
+                    'top': '1000px'
+                })
+            });
+        */
       });
 
     </script>
@@ -86,6 +312,16 @@
         cursor: pointer !important;
       }
 
+       @font-face {
+        font-family: 'BrandonTitle';
+        src: url('fonts/Brandon_med.otf') format('opentype');
+      }
+
+      @font-face {
+        font-family: 'BrandonBody';
+        src: url('fonts/Brandon_reg.otf') format('opentype');
+      }
+
       #map {
         position: absolute;
         top: 0px;
@@ -93,6 +329,10 @@
         bottom: 0px;
         right: 0px;
         max-width:100%;
+      }
+
+      .hide {
+        display: none !important;
       }
 
       #clickableOverlay, #overlay, .categoryMask {
@@ -104,97 +344,217 @@
         max-width:100%;
       }
 
-      #question {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        width: 100%;
-        text-align: left;
-        color: #fff;
-      }
-
       #caption {
         position: absolute;
-        bottom: 50px;
-        width: 100%;
-        text-align: center;
-        color: #000;
+        top: 8%;
+        right: 5%;
+        font-size: 50px;
+        line-height: 52px;
+        color: rgb(233, 239, 231);
+        font-family: 'BrandonTitle';
+        text-align: left;
       }
 
-      @keyframes sparkle {
-        0%   { opacity: 0.6; }
-        100%   { opacity: .3; }
-      }
-
-      #EnergyMask {
-        animation-delay: 0.2s;
-        animation-duration: 2s;
-      }
-
-      #TransportationMask {
-        animation-delay: 0.6s;
-        animation-duration: 2s;
-      }
-
-      #AgricultureMask {
-        animation-delay: 1s;
-        animation-duration: 2s;
-      }
-
-      #LandUseMask {
-        animation-delay: 1.5s;
-        animation-duration: 2s;
-      }
-
-      #WaterwaysMask {
-        animation-delay: 2s;
-        animation-duration: 2s;
-      }
-
-      .unselected {
-        opacity: 0.6;
-      }
-
-      .selected {
-        opacity: 0 !important;
-      }
-
-      .sparkling {
-        animation-name: sparkle;
-        animation-duration: 1.5s;
-        animation-timing-function: ease-in-out;
-        animation-iteration-count: infinite;
-        animation-direction: alternate;
-      }
-
-      #birdFact {
+      .categoryLabel {
         position: absolute;
-        width: 100px;
-        height: 100px;
-        top: 70%;
-        left: 80%;
+        padding: 15px 40px;
+        font-size: 40px;
+        color: rgb(233, 239, 231);
+        text-align: center;
+        background-color: rgba(4, 70, 78, 0.9);
+        font-family: 'BrandonBody';
+        border-radius: 7px;
+        box-shadow: 0px 0px 10px rgba(55, 55, 53, 0.8);
+      }
+
+      #energyLabel {
+        top: 19.5%;
+        left: 30%;
+      }
+
+      #waterLabel {
+        top: 55%;
+        left: 46%;
+      }
+
+      #foodLabel {
+        top: 32%;
+        left: 82%;
+      }
+
+      #habitatLabel {
+        top: 68%;
+        left: 73%;
+      }
+
+      #transportationLabel {
+        top: 65%;
+        left: 10%;
       }
 
       #button {
         position: absolute;
         bottom: 20px;
         right: 20px;
-        background-color: #ffffff;
+        color: rgb(233, 239, 231);        
         height: 50px;
         width: 50px;
         border-radius: 25px;
       }
 
+      .modal {
+        background-color: rgba(4, 70, 78, 0.93);
+        position: absolute;
+        top: 5%;
+        bottom: 7%;
+        left: 3%;
+        right: 3%;
+        border-radius: 7px;
+        box-shadow: 0px 0px 5px rgba(55, 55, 53, 0.5);
+      }
+
+
+      #checklistHeader {
+        padding: 4%;
+      }
+
+      #checklistLogo {
+        display: inline-block;
+        height: 150px;
+        width: 150px;
+        border-radius: 75px;
+        margin-right: 3%;
+        background-color: pink;
+        vertical-align: middle;
+      }
+
+      #checklistHeaderText {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      #checklistPrompt {
+        font-size: 50px;
+        padding-bottom: 10px;
+        color: rgb(233, 239, 231);
+        font-family: 'BrandonBody';
+        text-align: left;
+      }
+
+      #checklistInstruction {
+        font-family: 'BrandonBody';
+        color: rgb(135, 173, 208);
+        font-size: 30px;
+        line-height: 34px;
+      }
+
+      #checklistBody {
+        padding: 5%;
+        padding-top: 1%;
+        position: relative;
+      }
+
+      #checklistContainer {
+        display: inline-block;
+        width: 43%;
+      }
+
+      #checklistSeparator {
+        display: inline-block;
+        width: 5px;
+        position: absolute;
+        top: 0%;
+        bottom: 12%;
+        border-radius: 2.5px;
+        background-color: rgba(45, 96, 111, 0.5);
+      }
+
+      .actionItem {
+        display: block;
+        height: 200px;
+        width: 100%;
+      }
+
+      .actionItemCheckbox {
+        display: inline-block;
+        background-color: white;
+        width: 50px;
+        height: 50px;
+        margin-right: 4%;
+        vertical-align: top;
+      }
+
+      .actionItemBody {
+        display: inline-block;
+        vertical-align: top;
+        width: 80%;
+      }
+
+      .actionItemName {
+        font-family: 'BrandonBody';
+        color: rgb(233, 239, 231);
+        font-size: 45px;
+        line-height: 50px;
+        padding-bottom: 2%;
+      }
+
+      .actionItemText {
+        font-family: 'BrandonBody';
+        color: rgb(135, 173, 208);
+        font-size: 30px;
+        line-height: 34px;
+      }
+
+      #checklistLocalOrgText {
+        font-family: 'BrandonBody';
+        color: rgb(189, 204, 155);
+        font-size: 30px;
+        line-height: 34px;
+        display: inline-block;
+        width: 50%;
+        vertical-align: top;
+        padding-left: 5%;
+      }
+
+      .closeModalButton {
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        height: 70px;
+        width: 70px;
+        border-radius: 35px;
+         color: white;
+        font-size: 24px;
+        line-height: 70px;
+        font-family: 'BrandonTitle';
+        text-align: center;
+        background-color: rgb(114, 181, 177);
+        box-shadow: 0px 0px 5px rgba(55, 55, 53, 0.5);
+      }
+
+      #submitActionButton {
+        position: absolute;
+        bottom: -35px;
+        right: 35px;
+        height: 70px;
+        padding: 0px 35px;
+        border-radius: 35px;
+        color: white;
+        font-size: 24px;
+        line-height: 70px;
+        font-family: 'BrandonTitle';
+        text-align: center;
+        background-color: rgb(114, 181, 177);
+        box-shadow: 0px 0px 5px rgba(55, 55, 53, 0.5);
+      }
+
+
+
+
     </style>
 </head>
 <body>
-<div id="container">
   <img id="map" src="images/Scene.jpg" />
-  <img src="images/Scene_Energy.png" id="EnergyMask" class="categoryMask unselected sparkling">
-  <img src="images/Scene_Transportation.png" id="TransportationMask" class="categoryMask unselected sparkling">
-  <img src="images/Scene_Agriculture.png" id="AgricultureMask" class="categoryMask unselected sparkling">
-  <img src="images/Scene_LandUse.png" id="LandUseMask" class="categoryMask unselected sparkling">
-  <img src="images/Scene_Waterways.png" id="WaterwaysMask" class="categoryMask unselected sparkling">
   <div id="clickableOverlay">
     <?xml version="1.0" encoding="utf-8"?>
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -204,7 +564,7 @@
            opacity: 0;
          }
        </style>
-      <g id="LandUse" class="category">
+      <g id="habitat" class="category">
       	<g>
       		<path d="M0.3,466.8c0-10.5,0-20.9,0-31.4c0.2,0,0.4,0,0.6-0.1c4.4-1.4,8.7-2.8,13-4.7c2.1-0.9,4.2-1.9,6.4-2.6
       			c6.2-2.2,12.2-4.6,18.1-7.5c0.5-0.3,0.9-0.5,1.1-1.2c0.9-3.5,2.4-4.6,6-4.8c0.4,0,0.8-0.1,1-0.3c1-0.9,2-1.8,2.9-2.8
@@ -340,7 +700,7 @@
       			c-0.6-2.2-1.6-4.3-2.3-6.5c-0.5-1.5-0.9-3.1-1.3-4.7C17.5,110.3,17.3,109.2,17,108z"/>
       	</g>
       </g>
-      <g id="Agriculture" class="category">
+      <g id="food" class="category">
       	<g>
       		<path d="M658.5,239.6c-0.2-1.2-0.3-2.3-0.5-3.4c-0.5-2.7-2-4.8-4.5-5.8c-1.3-0.5-2.9-0.4-4.4-0.5c-1.2,0-2.4,0.1-3.5,0.2
       			c-1.3,0.2-2.5,0.6-3.8,0.9c-0.2,0-0.5,0.1-0.7,0c-1-0.9-2.1-0.6-3.1-0.3c-0.9,0.3-1.8,0.8-2.6,1.4c-1,0.7-1.9,1.5-2.8,2.3
@@ -415,7 +775,7 @@
       			c-0.2-0.1-0.3-0.3-0.5-0.4C602.3,158.6,601.9,158.6,601.5,158.6z"/>
       	</g>
       </g>
-      <g id="Transportation" class="category">
+      <g id="transportation" class="category">
       	<g>
       		<path d="M0.1,434.8c0-0.4,0.1-0.8,0.1-1.2c0-19.6,0-39.1,0-58.7c0-1.2,0-1.2,1.1-1.6c0.6-0.2,1.3-0.4,1.9-0.7
       			c1.6-0.8,3.4-0.9,5.1-1.2c1.5-0.3,3-0.7,4.5-1.2c3.2-1,6.4-1.9,9.6-3c3.5-1.2,6.9-2.7,10.4-4c1.4-0.5,2.8-0.9,4.1-1.5
@@ -469,7 +829,7 @@
       			c0.1-1.3,0.9-2.2,2.1-2.4c0.3,0,0.7,0.1,0.9,0.2C23.6,78.9,23.8,79.1,24.2,79.4z"/>
       	</g>
       </g>
-      <g id="Energy" class="category">
+      <g id="energy" class="category">
       	<g>
       		<path d="M405.3,197.4c0.2,0,0.3-0.1,0.6-0.2c-0.1,0.1-0.1,0.2-0.2,0.3c-1.2,1-2.3,1.9-3.5,2.9c-1.1,0.9-2,1.9-3.1,2.8
       			c-0.7,0.6-1.4,1.1-1.8,2c-0.1,0.2-0.9,0.2-1.4,0.2c-0.4,0-0.9-0.1-1.3-0.1c0,0.1-0.1,0.2-0.1,0.2c0.2,0.2,0.4,0.3,0.6,0.5
@@ -559,7 +919,7 @@
       			z"/>
       	</g>
       </g>
-      <g id="Waterways" class="category">
+      <g id="water" class="category">
       	<g>
       		<path d="M71.8,161.1c0.1-0.4,0.2-0.8,0.2-1.2c0.1-0.8,0.2-1.6,0.4-2.4c0.1-0.5,0.3-0.9,0.6-1.3c0.4-0.5,0.8-1.1,1.6-1
       			c0.8,0.1,0.7,0.8,0.9,1.3c0.2,0.5,0.4,1.1,0.6,1.6c0.1,0.3,0.4,0.5,0.8,1.1c0.2-0.8,0.3-1.2,0.3-1.7c0.1-1,0-2,0.1-3
@@ -619,15 +979,72 @@
       </g>
     </svg>
   </div>
-  <div id="caption">
-  </div>
-  <div id="no">
-  </div>
-</div>
-<div id="birdFact">
-</div>
 
-<div id="notbutton">
-</div>
+  <!-- Caption -->
+  <div id="caption">
+    Choose a system that you are interested <br>
+    in taking action to improve.
+  </div>
+
+  <!-- Category Labels -->
+  <div class="categoryLabel" id="transportationLabel">Transportation</div>
+  <div class="categoryLabel" id="habitatLabel">Habitat</div>
+  <div class="categoryLabel" id="foodLabel">Food</div>
+  <div class="categoryLabel" id="waterLabel">Water</div>
+  <div class="categoryLabel" id="energyLabel">Energy</div>
+
+  <!-- Modals -->
+  <div class="modal largeModal hide" id="checklistModal">
+    <div id="checklistHeader">
+      <div id="checklistLogo">
+      </div>
+      <div id="checklistHeaderText">
+        <div id="checklistPrompt">
+          To improve (system), I will:
+        </div>
+        <div id="checklistInstruction">
+          Select one individual action and click submit. <br>
+          The poll above will tally the systems our visitors are interested in improving.
+        </div>
+      </div>
+    </div>
+    <div id="checklistBody">
+      <div id="checklistContainer">
+      </div>
+      <div id="checklistSeparator"> 
+        <div class="checklistLocalOrgIndicator">
+        </div>
+        <div class="checklistLocalOrgIndicator">
+        </div>
+        <div class="checklistLocalOrgIndicator">
+        </div>
+      </div>
+      <div id="checklistLocalOrgText">
+      </div>
+    </div>
+    <div class="closeModalButton">
+      X
+    </div>
+    <div id="submitActionButton" class="hide">
+      SUBMIT
+    </div>
+  </div>
+
+  <div class="modal largeModal hide" id="confirmationModal">
+    Confirmation
+    <div class="closeModalButton">
+    </div>
+  </div>
+
+  <div class="modal largeModal hide" id="emailModal">
+    Email
+    <div class="closeModalButton">
+    </div>
+  </div>
+
+  <div class="modal smallModal hide" id="thanksModal">
+    Thanks
+  </div>
+
 </body>
 </html>
