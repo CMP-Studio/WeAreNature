@@ -30,6 +30,7 @@
       var systems = {
         'transportation' : {
           name: 'Transportation',
+          icon: 'transportation_icon.png',
           actions: [
             {
               name: 'Ride my bike.',
@@ -50,6 +51,7 @@
         },
         'energy' : {
           name: 'Energy',
+          icon: 'energy_icon.png',
           actions: [
             {
               name: 'Do an energy audit.',
@@ -70,6 +72,7 @@
         },
         'food' : {
           name: 'Food',
+          icon: 'food_icon.png',
           actions: [
             {
               name: 'Eat less beef.',
@@ -90,6 +93,7 @@
         },
         'water' : {
           name: 'Water',
+          icon: 'water_icon.png',
           actions: [
             {
               name: 'Plant a tree.',
@@ -110,6 +114,7 @@
         },
         'habitat' : {
           name: 'Habitat',
+          icon: 'habitat_icon.png',
           actions: [
             {
               name: 'Help birds.',
@@ -130,9 +135,33 @@
         },
       }
 
+      var confirmationSynonyms = [
+        'Awesome!',
+        'Fabulous!',
+        'Fantastic!',
+        'Terrific!',
+        'Great!',
+        'Cool!',
+        'Super!',
+        'Excellent!',
+        'Brilliant!',
+        'Neat!',
+        'Good for you!',
+        'Good on you!',
+        'Well done!',
+        'Neat-o!',
+        'Good job!',
+        'Good choice!',
+        'Good decision!'
+      ];
+
+      var THANKSTIMEOUT = null;
+      var SYNONYMINDEX = 0;
       var CATEGORY = null; // transporation, water, habitat, food, energy
       var ACTION = null; // 0, 1, 2
-      var MODALSTATE = null; // checklist, confirmation, email, thanks
+      var MODALSTATE = null; // checklist, confirmation, email, thanksTim
+
+
 
       //////////////////////// FUNCTIONS ////////////////////////
 
@@ -142,6 +171,11 @@
       // Otherwise...
       // Unbind lure screen clicks and a modal should be displayed.
       function render() {
+
+        $("#submitActionButton").unbind('click');
+        $("#confirmationEmailQuestionNoButton").unbind('click');
+        $("#confirmationEmailQuestionYesButton").unbind('click');
+        window.clearTimeout(THANKSTIMEOUT);
 
         if (CATEGORY === null) {
 
@@ -176,6 +210,7 @@
             MODALSTATE = null;
             CATEGORY = null;
             ACTION = null;
+            console.log('close modal button render')
             render();
           });
 
@@ -196,6 +231,7 @@
           MODALSTATE = null;
           CATEGORY = null;
           ACTION = null;
+          console.log('overlay clicked render');
           render();
        });
 
@@ -205,6 +241,11 @@
             $('#checklistPrompt').html('To improve '+ categoryObject.name +', I will:');
 
             $('#checklistContainer').html('');
+
+            if (ACTION === null) {
+              $("#checklistLocalOrgText").html('')
+              $(".checklistLocalOrgIndicator").css({ 'background-color': 'rgba(45, 96, 111, 0.5)'})
+            }
 
             for (var i = 0; i < categoryObject.actions.length; i++) {
               var actionItem = $("<div>");
@@ -238,8 +279,9 @@
             });
 
             $("#submitActionButton").bind('click', function() {
-              $("#submitActionButton").unbind('click');
+              // Submit vote now
               MODALSTATE = 'confirmation'
+              console.log('change to confirmationModal render')
               render();
             });
 
@@ -247,6 +289,20 @@
             break;
 
           case 'confirmation':
+            $("#confirmationEmailQuestionNoButton").bind('click', function() {
+              MODALSTATE = 'thanks';
+              render();
+            });
+
+            $("#confirmationEmailQuestionYesButton").bind('click', function() {
+              MODALSTATE = 'email';
+              render();
+            });
+
+            $('#confirmationAction').html(categoryObject.actions[ACTION].name.toLowerCase());
+            $('#confirmationTitle').html(confirmationSynonyms[SYNONYMINDEX]);
+            SYNONYMINDEX = (SYNONYMINDEX + 1) % confirmationSynonyms.length;
+
             $('#checklistModal').addClass('hide');
             $('#confirmationModal').removeClass('hide');
             break;
@@ -257,14 +313,24 @@
             break;
 
           case 'thanks':
+            $('#write').html('');
             $('#emailModal').addClass('hide');
+            $('#confirmationModal').addClass('hide');
             $('#thanksModal').removeClass('hide');
+            $("#thanksTimeoutBar").addClass('countingDown');
+            THANKSTIMEOUT = window.setTimeout(function() {
+              CATEGORY = null;
+              MODALSTATE = null;
+              ACTION = null;
+              render();
+            }, 5000)
             break;
 
           default:
             CATEGORY = null;
             MODALSTATE = null;
             ACTION = null;
+            console.log('no category selected render')
             render();
             break;
         }
@@ -277,17 +343,93 @@
           'position': 'relative',
           'top' : 200*ACTION,
         });
+
+        $(".checklistLocalOrgIndicator").css({ 'background-color': 'rgba(45, 96, 111, 0.5)'})
+        $($(".checklistLocalOrgIndicator")[ACTION]).css({ 'background-color': 'rgb(189, 204, 155)' })
+
+        $(".actionItemCheckbox").css({ 'background-color': 'white'})
+        $($(".actionItemCheckbox")[ACTION]).css({ 'background-color': 'rgb(189, 204, 155)' })
       }
 
       function selectCategory(category) {
         CATEGORY = category;
         MODALSTATE = 'checklist';
+        $("#checklistLogo").attr('src', 'images/'+systems[category].icon)
+        console.log('select category render')
         render();
       }
 
       //////////////////////// ON READY ////////////////////////
 
+
+
+
       $(document).ready(function() {
+        console.log('initial rnder')
+
+         $("#submitEmail").click(function() {
+            MODALSTATE = 'thanks';
+            render();
+        });
+
+        $(function(){
+    var $write = $('#write'),
+        shift = false,
+        capslock = false;
+
+
+     
+    $('#keyboard li').click(function(){
+        var $this = $(this),
+            character = $this.html(); // If it's a lowercase letter, nothing happens to this variable
+         
+        // Shift keys
+        if ($this.hasClass('left-shift') || $this.hasClass('right-shift')) {
+            $('.letter').toggleClass('uppercase');
+            $('.symbol span').toggle();
+             
+            shift = (shift === true) ? false : true;
+            capslock = false;
+            return false;
+        }
+         
+        // Caps lock
+        if ($this.hasClass('capslock')) {
+            $('.letter').toggleClass('uppercase');
+            capslock = true;
+            return false;
+        }
+         
+        // Delete
+        if ($this.hasClass('delete')) {
+            var html = $write.html();
+             
+            $write.html(html.substr(0, html.length - 1));
+            return false;
+        }
+         
+        // Special characters
+        if ($this.hasClass('symbol')) character = $('span:visible', $this).html();
+        if ($this.hasClass('space')) character = ' ';
+        if ($this.hasClass('tab')) character = "\t";
+        if ($this.hasClass('return')) character = "\n";
+         
+        // Uppercase letter
+        if ($this.hasClass('uppercase')) character = character.toUpperCase();
+         
+        // Remove shift once a key is clicked.
+        if (shift === true) {
+            $('.symbol span').toggle();
+            if (capslock === false) $('.letter').toggleClass('uppercase');
+             
+            shift = false;
+        }
+         
+        // Add the character
+        $write.html($write.html() + character);
+    });
+});
+
         render();
 
         /* 
@@ -413,6 +555,14 @@
         box-shadow: 0px 0px 5px rgba(55, 55, 53, 0.5);
       }
 
+      .smallModal {
+        top: 43%;
+        left: 40%;
+        right: 40%;
+        bottom: 43%;
+        padding-top: 1.8%;
+      }
+
 
       #checklistHeader {
         padding: 4%;
@@ -464,9 +614,18 @@
         width: 5px;
         position: absolute;
         top: 0%;
+        padding-top: 1%;
         bottom: 12%;
         border-radius: 2.5px;
         background-color: rgba(45, 96, 111, 0.5);
+      }
+
+      .checklistLocalOrgIndicator {
+        width: 45px;
+        height: 50px;
+        background-color: rgba(45, 96, 111, 0.5);
+        margin-bottom: 150px;
+        margin-left: 5px;
       }
 
       .actionItem {
@@ -548,8 +707,201 @@
         box-shadow: 0px 0px 5px rgba(55, 55, 53, 0.5);
       }
 
+      #confirmationContainer {
+        width: 80%;
+        margin-left: 10%;
+        margin-top: 10%;
+      }
+
+      #confirmationTitle {
+        font-size: 50px;
+        line-height: 50px;
+        color: rgb(233, 239, 231);
+        font-family: 'BrandonBody';
+        text-align: left;
+      }
+
+      #confirmationSubtitle {
+        font-size: 50px;
+        padding-bottom: 200px;
+        color: rgb(233, 239, 231);
+        font-family: 'BrandonBody';
+        text-align: left;
+      }
+
+      #confirmationEmailQuestion {
+        font-size: 36px;
+        padding-bottom: 10px;
+        color: rgb(233, 239, 231);
+        font-family: 'BrandonBody';
+        text-align: left;
+      }
+
+      #confirmationEmailPrivacyStatement {
+        font-size: 28px;
+        padding-bottom: 100px;
+        color: rgb(233, 239, 231);
+        font-family: 'BrandonBody';
+        text-align: left;
+        color: rgb(135, 173, 208);
+      }
+
+      #confirmationAction {
+       color: rgb(189, 204, 155);
+      }
+
+      #confirmationEmailQuestionButtons {
+        
+      }
+
+      #confirmationEmailQuestionNoButton, #confirmationEmailQuestionYesButton {
+        display: inline-block;
+        height: 70px;
+        padding: 0px 35px;
+        border-radius: 35px;
+        color: white;
+        font-size: 24px;
+        line-height: 70px;
+        font-family: 'BrandonTitle';
+        text-align: center;
+        background-color: rgb(114, 181, 177);
+        box-shadow: 0px 0px 5px rgba(55, 55, 53, 0.5);
+        margin-right: 50px;
+      }
+
+      #thanksText {
+        font-size: 50px;
+        padding-bottom: 200px;
+        color: rgb(233, 239, 231);
+        font-family: 'BrandonBody';
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      @keyframes timeoutBar {
+          from {right: 100%;}
+          to {right: 0%;}
+      }
+
+      #thanksTimeoutBar {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        right: 100%;
+        background-color: rgba(189, 204, 155, 0.3);
+        height: 15px;
+        border-radius: 0px 0px 0px 7px;
+      }
+
+      .countingDown {
+        animation-name: timeoutBar;
+        animation-duration: 5s;
+        animation-timing-function: linear;
+      }
+
+      #container {
+        margin: 100px auto;
+        width: 70%;
+      }
+
+      #emailTextbox {
+        margin-top: 150px;
+        margin-bottom: 100px;
+        height: 90px;
+      }
+
+      #write {
+        vertical-align: top;
+        display: inline-block;
+        font-size: 50px;
+        line-height: 90px;
+        font-family: 'BrandonBody';
+        padding: 10px;
+        padding-top: 0px;
+        width: 85%;
+        margin-right: 1%;
+        height: 80px;
+        background: #fff;
+        -moz-border-radius: 7px;
+        -webkit-border-radius: 7px;
+        resize: none;
+        border: none;
+      }
+
+      #submitEmail {
+        vertical-align: top;
+        display: inline-block;
+        width: 12%;
+        background-color: rgb(114, 181, 177);
+        height: 90px;
+        border-radius: 7px;
+        box-shadow: 0px 0px 5px rgba(55, 55, 53, 0.5);
+      }
+
+      #keyboard {
+        margin: 0 auto;
+        padding: 0;
+        list-style: none;
+        text-align: center;
+      }
+
+    #keyboard li {
+      float: left;
+      margin: 0 5px 5px 0;
+      width: 80px;
+      height: 80px;
+      line-height: 80px;
+      font-size: 40px;
+        font-family: 'BrandonBody';
+        vertical-align: middle;
+        color: #fff;
+      text-align: center;
+      background: rgba(11, 11, 8, 0.5);
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+    }
+
+    #keyboard .invisibleKey {
+      visibility: hidden;
+      margin: 0px;
+      background-color: red;
+      clear: left;
+    }
 
 
+
+        #keyboard .email, 
+        #keyboard .tab, 
+        #keyboard .delete, 
+        #keyboard .return, 
+        #keyboard .left-shift, 
+        #keyboard .right-shift, 
+        #keyboard .capslock {
+          width: auto;
+          font-size: 32px;
+          padding-left: 15px;
+          padding-right: 15px;
+        }
+        .lastitem {
+        margin-right: 0;
+        clear: right;
+        }
+        .uppercase {
+        text-transform: uppercase;
+        }
+        #keyboard .space {
+        width: 681px;
+        }
+        .on {
+        display: none;
+        }
+        #keyboard li:hover {
+        position: relative;
+        top: 1px;
+        left: 1px;
+        border-color: #e5e5e5;
+        cursor: pointer;
+        }
 
     </style>
 </head>
@@ -996,8 +1348,7 @@
   <!-- Modals -->
   <div class="modal largeModal hide" id="checklistModal">
     <div id="checklistHeader">
-      <div id="checklistLogo">
-      </div>
+      <img id="checklistLogo" src="images/habitat_icon.png" width="150" height="150" />
       <div id="checklistHeaderText">
         <div id="checklistPrompt">
           To improve (system), I will:
@@ -1031,19 +1382,115 @@
   </div>
 
   <div class="modal largeModal hide" id="confirmationModal">
-    Confirmation
+    <div id="confirmationContainer">
+      <div id="confirmationTitle">
+      </div>
+      <div id="confirmationSubtitle">
+        You've pledged to <span id="confirmationAction">ACTION</span>
+      </div>
+      <div id="confirmationEmailQuestion">
+        Would you like to have a follow-up email sent to you in 6 months to see if you followed through?
+      </div>
+      <div id="confirmationEmailPrivacyStatement">
+        We only collect and hold your email address in order to send you a follow up to this exhibit. We won't use this to spam you.
+      </div>
+      <div id="confirmationEmailQuestionButtons">
+        <div id="confirmationEmailQuestionNoButton">
+          NO
+        </div>
+        <div id="confirmationEmailQuestionYesButton">
+          YES
+        </div>
+      </div>
+    </div>
     <div class="closeModalButton">
+     X
     </div>
   </div>
 
   <div class="modal largeModal hide" id="emailModal">
-    Email
+    <div id="container">
+      <div id='emailTextbox'>
+        <textarea id="write" rows="1" resizeable="no"></textarea>
+        <div id="submitEmail"></div>
+      </div>
+      <ul id="keyboard">
+          <li class="invisibleKey" style="width: 3px"></li>
+          <li class="email firstitem">@gmail.com</li>
+          <li class="email">@yahoo.com</li>
+          <li class="email">@hotmail.com</li>
+          <li class="email">@outlook.com</li>
+          <li class="email">@inbox.com</li>
+          <li class="email lastitem">@mail.com</li>
+          <li class="symbol firstitem"><span class="off">1</span><span class="on">!</span></li>
+          <li class="symbol"><span class="off">2</span><span class="on">@</span></li>
+          <li class="symbol"><span class="off">3</span><span class="on">#</span></li>
+          <li class="symbol"><span class="off">4</span><span class="on">$</span></li>
+          <li class="symbol"><span class="off">5</span><span class="on">%</span></li>
+          <li class="symbol"><span class="off">6</span><span class="on">^</span></li>
+          <li class="symbol"><span class="off">7</span><span class="on">&amp;</span></li>
+          <li class="symbol"><span class="off">8</span><span class="on">*</span></li>
+          <li class="symbol"><span class="off">9</span><span class="on">(</span></li>
+          <li class="symbol"><span class="off">0</span><span class="on">)</span></li>
+          <li class="symbol"><span class="off">_</span><span class="on">~</span></li>
+          <li class="symbol"><span class="off">-</span><span class="on">_</span></li>
+          <li class="symbol"><span class="off">=</span><span class="on">+</span></li>
+          <li class="delete lastitem">delete</li>
+          <li class="invisibleKey" style="width: 15px"></li>
+          <li class="tab">tab</li>
+          <li class="letter">q</li>
+          <li class="letter">w</li>
+          <li class="letter">e</li>
+          <li class="letter">r</li>
+          <li class="letter">t</li>
+          <li class="letter">y</li>
+          <li class="letter">u</li>
+          <li class="letter">i</li>
+          <li class="letter">o</li>
+          <li class="letter">p</li>
+          <li class="symbol"><span class="off">[</span><span class="on">{</span></li>
+          <li class="symbol"><span class="off">]</span><span class="on">}</span></li>
+          <li class="symbol lastitem"><span class="off">\</span><span class="on">|</span></li>
+          <li class="invisibleKey" style="width: 6px"></li>
+          <li class="capslock">caps lock</li>
+          <li class="letter">a</li>
+          <li class="letter">s</li>
+          <li class="letter">d</li>
+          <li class="letter">f</li>
+          <li class="letter">g</li>
+          <li class="letter">h</li>
+          <li class="letter">j</li>
+          <li class="letter">k</li>
+          <li class="letter">l</li>
+          <li class="symbol"><span class="off">;</span><span class="on">:</span></li>
+          <li class="symbol"><span class="off">'</span><span class="on">&quot;</span></li>
+          <li class="return lastitem">return</li>
+          <li class="invisibleKey" style="width: 75px"></li>
+          <li class="left-shift">shift</li>
+          <li class="letter">z</li>
+          <li class="letter">x</li>
+          <li class="letter">c</li>
+          <li class="letter">v</li>
+          <li class="letter">b</li>
+          <li class="letter">n</li>
+          <li class="letter">m</li>
+          <li class="symbol"><span class="off">,</span><span class="on">&lt;</span></li>
+          <li class="symbol"><span class="off">.</span><span class="on">&gt;</span></li>
+          <li class="symbol"><span class="off">/</span><span class="on">?</span></li>
+          <li class="right-shift lastitem">shift</li>
+          <li class="invisibleKey" style="width: 248px"></li>
+          <li class="space lastitem">&nbsp;</li>
+      </ul>
+    </div>
+ 
     <div class="closeModalButton">
+    X
     </div>
   </div>
 
   <div class="modal smallModal hide" id="thanksModal">
-    Thanks
+    <div id="thanksText">Thanks!</div>
+    <Div id="thanksTimeoutBar"></div>
   </div>
 
 </body>
