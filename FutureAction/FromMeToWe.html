@@ -43,6 +43,7 @@
           $(item).bind('click', function() {
             SESSION_ACTION = index;
             // Populate html with this action
+            console.log(systems[SESSION_CATEGORY].actions[SESSION_ACTION].localOrg);
             $("#checklistLocalOrgText").html(systems[SESSION_CATEGORY].actions[SESSION_ACTION].localOrg);
             var valign = ['top', 'initial', 'bottom'];
             $("#checklistLocalOrgText").css({
@@ -78,24 +79,33 @@
           var $write = $('#write'),
           shift = false,
           capslock = false;
+          $('.capslock').removeClass('highlighted');
          
           $('#keyboard li').click( function() {            
             var $this = $(this);
             var character = $this.html();
              
             // Shift keys
-            if ($this.hasClass('left-shift') || $this.hasClass('right-shift')) {
-              $('.letter').toggleClass('uppercase');
+            if ($this.hasClass('left-shift')) {
+              $('.letter').addClass('uppercase');
               $('.symbol span').toggle();
               shift = (shift === true) ? false : true;
               capslock = false;
+              $('.capslock').removeClass('highlighted');
+              $this.addClass('highlighted');
               return false;
             }
              
             // Caps lock
             if ($this.hasClass('capslock')) {
               $('.letter').toggleClass('uppercase');
-              capslock = true;
+              if (capslock) {
+                capslock = false;
+                $('.capslock').removeClass('highlighted');
+              } else {
+                capslock = true;
+                $('.capslock').addClass('highlighted');
+              }
               return false;
             }
              
@@ -112,17 +122,16 @@
             // Special characters
             if ($this.hasClass('symbol')) character = $('span:visible', $this).html();
             if ($this.hasClass('space')) character = ' ';
-            if ($this.hasClass('tab')) character = "\t";
-            if ($this.hasClass('return')) character = "\n";
              
             // Uppercase letter
             if ($this.hasClass('uppercase')) character = character.toUpperCase();
              
             // Remove shift once a key is clicked.
             if (shift === true) {
-                $('.symbol span').toggle();
-                if (capslock === false) $('.letter').toggleClass('uppercase');
-                shift = false;
+              $('.symbol span').toggle();
+              if (capslock === false) $('.letter').toggleClass('uppercase');
+              shift = false;
+              $('.left-shift').removeClass('highlighted');
             }
              
             // Add the character
@@ -191,7 +200,7 @@
 
           case 'checklist':
             // Populate checklist html
-            $('#checklistPrompt').html('To improve '+ categoryObject.name +', I will:');
+            $('#checklistPrompt').html('To improve '+ categoryObject.name.toLowerCase() +', I will:');
             for (var i = 0; i < 3; i++) {
               $($(".actionItemName")[i]).html(categoryObject.actions[i].name);
               $($(".actionItemText")[i]).html(categoryObject.actions[i].text);
@@ -272,7 +281,6 @@
       body {
         overflow: hidden;
         -webkit-user-select: none;
-        cursor: none !important;
         background-color: #373735; /* black */
       }
 
@@ -313,6 +321,11 @@
         line-height: 34px;
       }
 
+      .bodyBold {
+        font-family: 'BrandonTitle' !important;
+        color: #bdcc9b; /* light green */
+      }
+
       .shadow {
         box-shadow: 0px 0px 10px #373735;
       }
@@ -335,7 +348,7 @@
       }
 
       .modal {
-        background-color: #04464e;  /* base darkest blue */
+        background-color: rgba(4, 70, 78, 0.85);  /* base darkest blue */
         position: absolute;
         top: 50px;
         bottom: 75px;
@@ -350,7 +363,7 @@
         left: 40%;
         right: 40%;
         bottom: 43%;
-        padding-top: 1.8%;
+        padding-top: 2.3%;
       }
 
       .closeModalButton {
@@ -387,6 +400,7 @@
         padding: 15px 40px;
         text-align: center;
         border-radius: 7px;
+        background-color: rgba(4, 70, 78, 0.85);  /* base darkest blue */
       }
 
       #energyLabel {
@@ -516,7 +530,7 @@
 
       #confirmationContainer {
         width: 80%;
-        padding-top: 150px;
+        padding-top: 120px;
         margin: auto;
       }
 
@@ -529,15 +543,17 @@
 
       #confirmationEmailQuestion {
         padding-top: 120px;
-        padding-bottom: 120px;
+        padding-bottom: 20px;
       }
 
       #confirmationEmailPrivacyStatement {
-        padding-bottom: 200px;
+        padding-bottom: 120px;
+        font-size: 25px;
+        line-height: 30px;
       }
 
       #confirmationAction {
-        color: rgb(189, 204, 155);
+        color: #d2d940; /* hightlight yellow */
       }
 
       #confirmationEmailQuestionNoButton, #confirmationEmailQuestionYesButton {
@@ -571,7 +587,7 @@
         font-family: 'BrandonBody';
         padding: 10px;
         padding-top: 0px;
-        width: 1218px;
+        width: 1197px;
         margin-right: 10px;
         height: 70px;
         background: #fff;
@@ -627,11 +643,8 @@
       }
 
       #keyboard .email, 
-      #keyboard .tab, 
       #keyboard .delete, 
-      #keyboard .return, 
       #keyboard .left-shift, 
-      #keyboard .right-shift, 
       #keyboard .capslock {
         width: auto;
         font-size: 32px;
@@ -663,7 +676,9 @@
         background-color: #72b5b1; /* highlight blue */
       }
 
-
+      .highlighted {
+        background-color: #72b5b1 !important; /* highlight blue */
+      }
 
       /* Thanks Modal Style */
 
@@ -1198,11 +1213,11 @@
       <div id="confirmationTitle" class="title"></div>
       <div id="confirmationSubtitle" class="title">You've pledged to <span id="confirmationAction"></span></div>
       <div id="confirmationEmailQuestion" class="subtitle">
-        Would you like to have a follow-up email sent to you in 6 months <br> to see if you followed through?
+        Would you like to have an email sent to you in 6 months <br> to see if you followed through with your pledge?
       </div>
-      <!--<div id="confirmationEmailPrivacyStatement" class="body">
-        We only collect and hold your email address in order to send you a follow up to this exhibit. <br>We won't use this to spam you.
-      </div> -->
+      <div id="confirmationEmailPrivacyStatement" class="body">
+        We only collect your email address in order to send you a follow up to this exhibit. <br>We won't use this to spam you.
+      </div>
       <div id="confirmationEmailQuestionButtons">
         <div id="confirmationEmailQuestionNoButton" class="clickable shadow">
           NO
@@ -1223,7 +1238,7 @@
         <textarea id="write" rows="1" resizeable="no"></textarea>
       </div>
       <ul id="keyboard">
-          <li class="invisibleKey" style="width: 3px"></li>
+          <li class="invisibleKey" style="width: 2.5px"></li>
           <li class="email firstitem">@gmail.com</li>
           <li class="email">@yahoo.com</li>
           <li class="email">@hotmail.com</li>
@@ -1245,8 +1260,7 @@
           <li class="symbol"><span class="off">-</span><span class="on">_</span></li>
           <li class="symbol"><span class="off">=</span><span class="on">+</span></li>
           <li class="delete lastitem">delete</li>
-          <li class="invisibleKey" style="width: 15px"></li>
-          <li class="tab">tab</li>
+          <li class="invisibleKey" style="width: 56px"></li>
           <li class="letter">q</li>
           <li class="letter">w</li>
           <li class="letter">e</li>
@@ -1260,7 +1274,7 @@
           <li class="symbol"><span class="off">[</span><span class="on">{</span></li>
           <li class="symbol"><span class="off">]</span><span class="on">}</span></li>
           <li class="symbol lastitem"><span class="off">\</span><span class="on">|</span></li>
-          <li class="invisibleKey" style="width: 6px"></li>
+          <li class="invisibleKey" style="width: 67.5px"></li>
           <li class="capslock">caps lock</li>
           <li class="letter">a</li>
           <li class="letter">s</li>
@@ -1272,9 +1286,8 @@
           <li class="letter">k</li>
           <li class="letter">l</li>
           <li class="symbol"><span class="off">;</span><span class="on">:</span></li>
-          <li class="symbol"><span class="off">'</span><span class="on">&quot;</span></li>
-          <li class="return lastitem">return</li>
-          <li class="invisibleKey" style="width: 75px"></li>
+          <li class="symbol lastitem"><span class="off">'</span><span class="on">&quot;</span></li>
+          <li class="invisibleKey" style="width: 138.5px"></li>
           <li class="left-shift">shift</li>
           <li class="letter">z</li>
           <li class="letter">x</li>
@@ -1285,9 +1298,8 @@
           <li class="letter">m</li>
           <li class="symbol"><span class="off">,</span><span class="on">&lt;</span></li>
           <li class="symbol"><span class="off">.</span><span class="on">&gt;</span></li>
-          <li class="symbol"><span class="off">/</span><span class="on">?</span></li>
-          <li class="right-shift lastitem">shift</li>
-          <li class="invisibleKey" style="width: 248px"></li>
+          <li class="symbol lastitem"><span class="off">/</span><span class="on">?</span></li>
+          <li class="invisibleKey" style="width: 268px"></li>
           <li class="space lastitem">&nbsp;</li>
       </ul>
     </div> 
