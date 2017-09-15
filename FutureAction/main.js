@@ -14,7 +14,7 @@ var mapWindow = null;
 // CREATE WINDOWS
 app.on('ready', () => {
     mapWindow = new BrowserWindow({ width: 1920, height: 1080, resizable: false }); // type:'toolbar', fullscreen: true, frame: false, 'auto-hide-menu-bar': true, });
-    mapWindow.loadURL(`file://${__dirname}/scene.html`);
+    mapWindow.loadURL(`file://${__dirname}/FromMeToWe.html`);
     mapWindow.setMenu(null);
 });
 

@@ -8,24 +8,8 @@
     <script src="data/systems.js" charset="utf-8"></script>
     <script src="data/confirmationSynonyms.js" charset="utf-8"></script>
     <script>
-      //////////////////////// IMPORTS ////////////////////////
 
-      // var {ipcRenderer, remote} = require('electron');
-      // var main = remote.require("./main.js");
 
-      //////////////////////// EVENT LISTENERS ////////////////////////
-
-      // ipcRenderer.on('render', (event) => { render(); });
-
-      //////////////////////// EVENT EMITTERS ////////////////////////
-
-      // function selectCategory(category) {
-      //  ipcRenderer.send('selectCategory', category);
-      //}
-
-      //function resetInteraction() {
-      //  ipcRenderer.send('resetInteraction');
-      // }
 
       //////////////////////// GLOBAL VARS ////////////////////////
 
@@ -48,7 +32,11 @@
         SESSION_CATEGORY = null;
         SESSION_ACTION = null;
 
+
         // Init click events
+        $(".category").bind('click', function() { startSession($(this).attr('id')); });
+        $(".categoryLabel").bind('click', function() { startSession(($(this).attr('id')).slice(0, -5)); });
+
         $(".closeModalButton").bind('click', function() { endSession(); });
 
         $('.actionItem').each(function(index, item) {
@@ -61,11 +49,9 @@
               'position': 'relative',
               'top' : 200*SESSION_ACTION,
             });
-            // Highlight the correct checkbox and indicator
-            $(".checklistLocalOrgIndicator").css({ 'background-color': 'rgba(45, 96, 111, 0.5)'})
-            $($(".checklistLocalOrgIndicator")[SESSION_ACTION]).css({ 'background-color': 'rgb(189, 204, 155)' })
-            $(".actionItemCheckbox").css({ 'background-color': 'white'})
-            $($(".actionItemCheckbox")[SESSION_ACTION]).css({ 'background-color': 'rgb(189, 204, 155)' })
+            // Highlight the correct checkbox
+            $(".itemCheckboxImage").attr('src', 'images/unchecked_box.png');
+            $($(".itemCheckboxImage")[SESSION_ACTION]).attr('src', 'images/checked_box.png');
             // Show submit button
             $("#submitActionButton").removeClass('hide');
           });
@@ -93,7 +79,7 @@
           shift = false,
           capslock = false;
          
-          $('#keyboard li').click( function() {
+          $('#keyboard li').click( function() {            
             var $this = $(this);
             var character = $this.html();
              
@@ -117,6 +103,9 @@
             if ($this.hasClass('delete')) {
               var html = $write.html();
               $write.html(html.substr(0, html.length - 1));
+              if ($write.val().length === 0) {
+                $("#submitEmail").addClass('hide');
+              }
               return false;
             }
              
@@ -138,6 +127,11 @@
              
             // Add the character
             $write.html($write.html() + character);
+            if ($write.val().length > 0) {
+              $("#submitEmail").removeClass('hide');
+            } else {
+              $("#submitEmail").addClass('hide');
+            }
           });
         });
       }
@@ -150,9 +144,7 @@
         $(".categoryLabel").addClass( "hide" );
         $(".categoryLabel").unbind( "click" );
         $(".category").unbind( "click" );
-
-        // Clicking outside of modal will end session
-         $("#clickableOverlay").bind('click', function() { endSession(); });
+        $("#map").css("opacity", 0.5);
 
         // Store category selection
         SESSION_CATEGORY = category;
@@ -168,22 +160,21 @@
         $('.modal').addClass('hide');
 
         // Reset lure screen
-        $("#clickableOverlay").unbind('click');
         $(".category").bind('click', function() { startSession(($(this).attr('id'))); });
         $(".categoryLabel").bind('click', function() { startSession(($(this).attr('id')).slice(0, -5)); });
         $(".categoryLabel").removeClass( "hide" );
         $("#caption").removeClass( "hide" );
+        $("#map").css("opacity", 1);
 
         // Clear thanks timeout
-        if (THANKS_TIMEOUT !== null)
+        if (THANKS_TIMEOUT !== null) {
           window.clearTimeout(THANKS_TIMEOUT);
           THANKS_TIMEOUT = null;
         }
 
         // Clear divs, html, applied style
         $("#checklistLocalOrgText").html('');
-        $(".checklistLocalOrgIndicator").css({ 'background-color': 'rgba(45, 96, 111, 0.5)'});
-        $(".actionItemCheckbox").css({ 'background-color': 'white'})
+        $(".itemCheckboxImage").attr('src', 'images/unchecked_box.png');
         $('#write').html('');
 
         // Reset session selections
@@ -202,10 +193,10 @@
             // Populate checklist html
             $('#checklistPrompt').html('To improve '+ categoryObject.name +', I will:');
             for (var i = 0; i < 3; i++) {
-              $(".actionItemName")[i].html(categoryObject.actions[i].name);
-              $(".actionItemText")[i].html(categoryObject.actions[i].text);
+              $($(".actionItemName")[i]).html(categoryObject.actions[i].name);
+              $($(".actionItemText")[i]).html(categoryObject.actions[i].text);
             }
-            $("#checklistLogo").attr('src', 'images/'+systems[category].icon)
+            $("#checklistLogo").attr('src', 'images/'+systems[SESSION_CATEGORY].icon)
 
             // Show checklist modal
             $('#checklistModal').removeClass('hide');
@@ -249,34 +240,43 @@
         }
       }
 
+
+
       //////////////////////// ON READY ////////////////////////
+
 
 
       $(document).ready(function() {
         init();
         initKeyboard();
 
-        if (true) {
+        if (false) {
           $('html').css({
             '-webkit-transform': 'rotate(180deg)',
             ' -moz-transform': 'rotate(180deg)',
-            'position': 'relative',
+            'width': '100%',
+            'height': '100%',
             'top': '1000px'
           });
         }
       });
 
+
+
     </script>
     <script>if (window.module) module = window.module;</script>
     <style type="text/css">
 
+      /* General Style */
+
       body {
         overflow: hidden;
         -webkit-user-select: none;
-        cursor: pointer !important;
+        cursor: none !important;
+        background-color: #373735; /* black */
       }
 
-       @font-face {
+      @font-face {
         font-family: 'BrandonTitle';
         src: url('fonts/Brandon_med.otf') format('opentype');
       }
@@ -286,20 +286,85 @@
         src: url('fonts/Brandon_reg.otf') format('opentype');
       }
 
-      #map {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        bottom: 0px;
-        right: 0px;
-        max-width:100%;
+      .title {
+        font-size: 50px;
+        line-height: 52px;
+        color: #e9efe7; /* white */
+        font-family: 'BrandonTitle';
+      }
+
+      .subtitle {
+        font-size: 40px !important; 
+        color: #e9efe7 !important; /* white */
+        font-family: 'BrandonBody' !important;
+      }
+
+      .instruction {
+        font-family: 'BrandonBody';
+        color: #bdcc9b; /* light green */
+        font-size: 30px;
+        line-height: 34px;
+      }
+
+      .body {
+        font-family: 'BrandonBody';
+        color: #bec4ba; /* light gray */
+        font-size: 30px;
+        line-height: 34px;
+      }
+
+      .shadow {
+        box-shadow: 0px 0px 10px #373735;
+      }
+
+      .clickable {
+        background-color: #2d606f; /* base middle blue */
+        color:  #e9efe7; /* white */
+        text-align: center;
+        font-size: 28px;
+        font-family: 'BrandonTitle';
+      }
+
+      .clickable:active {
+        background-color: #72b5b1; /* highlight blue */
+        box-shadow: 0px 0px 0px rgba(55, 55, 53, 0.5);
       }
 
       .hide {
         display: none !important;
       }
 
-      #clickableOverlay, #overlay, .categoryMask {
+      .modal {
+        background-color: #04464e;  /* base darkest blue */
+        position: absolute;
+        top: 50px;
+        bottom: 75px;
+        left: 50px;
+        right: 50px;
+        border-radius: 7px;
+        padding: 75px;
+      }
+
+      .smallModal {
+        top: 43%;
+        left: 40%;
+        right: 40%;
+        bottom: 43%;
+        padding-top: 1.8%;
+      }
+
+      .closeModalButton {
+        position: absolute;
+        top: -25px;
+        right: -25px;
+        height: 55px;
+        width: 80px;
+        padding-top: 25px;
+        border-radius: 50px;
+      }
+
+      #map, 
+      #clickableOverlay {
         position: absolute;
         top: 0px;
         left: 0px;
@@ -308,27 +373,20 @@
         max-width:100%;
       }
 
+
+      /* Lure Screen Style */
+
       #caption {
         position: absolute;
         top: 8%;
         right: 5%;
-        font-size: 50px;
-        line-height: 52px;
-        color: rgb(233, 239, 231);
-        font-family: 'BrandonTitle';
-        text-align: left;
       }
 
       .categoryLabel {
         position: absolute;
         padding: 15px 40px;
-        font-size: 40px;
-        color: rgb(233, 239, 231);
         text-align: center;
-        background-color: rgba(4, 70, 78, 0.9);
-        font-family: 'BrandonBody';
         border-radius: 7px;
-        box-shadow: 0px 0px 10px rgba(55, 55, 53, 0.8);
       }
 
       #energyLabel {
@@ -342,8 +400,8 @@
       }
 
       #foodLabel {
-        top: 32%;
-        left: 82%;
+        top: 30%;
+        left: 70%;
       }
 
       #habitatLabel {
@@ -356,49 +414,20 @@
         left: 10%;
       }
 
-      #button {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        color: rgb(233, 239, 231);        
-        height: 50px;
-        width: 50px;
-        border-radius: 25px;
-      }
 
-      .modal {
-        background-color: rgba(4, 70, 78, 0.93);
-        position: absolute;
-        top: 5%;
-        bottom: 7%;
-        left: 3%;
-        right: 3%;
-        border-radius: 7px;
-        box-shadow: 0px 0px 5px rgba(55, 55, 53, 0.5);
-      }
-
-      .smallModal {
-        top: 43%;
-        left: 40%;
-        right: 40%;
-        bottom: 43%;
-        padding-top: 1.8%;
-      }
-
-
-      #checklistHeader {
-        padding: 4%;
-      }
+      /* Checklist Modal Style */
 
       #checklistLogo {
         display: inline-block;
         height: 150px;
         width: 150px;
         border-radius: 75px;
-        margin-right: 3%;
-        background-color: pink;
+        margin-right: 50px;
         vertical-align: middle;
-        box-shadow: 0px 0px 5px rgba(55, 55, 53, 1);
+      }
+
+      #checklistHeader {
+        margin-bottom: 50px;
       }
 
       #checklistHeaderText {
@@ -407,29 +436,17 @@
       }
 
       #checklistPrompt {
-        font-size: 50px;
-        padding-bottom: 10px;
-        color: rgb(233, 239, 231);
-        font-family: 'BrandonBody';
-        text-align: left;
-      }
-
-      #checklistInstruction {
-        font-family: 'BrandonBody';
-        color: rgb(135, 173, 208);
-        font-size: 30px;
-        line-height: 34px;
+        padding-bottom: 20px;
       }
 
       #checklistBody {
-        padding: 5%;
-        padding-top: 1%;
         position: relative;
       }
 
       #checklistContainer {
         display: inline-block;
-        width: 43%;
+        width: 750px;
+        padding-top: 30px;
       }
 
       #checklistSeparator {
@@ -437,173 +454,226 @@
         width: 5px;
         position: absolute;
         top: 0%;
-        padding-top: 1%;
-        bottom: 12%;
+        padding-top: 30px;
+        bottom: 0%;
         border-radius: 2.5px;
-        background-color: rgba(45, 96, 111, 0.5);
+        background-color: #2d606f; /* base middle blue */
       }
 
-      .checklistLocalOrgIndicator {
-        width: 45px;
-        height: 50px;
-        background-color: rgba(45, 96, 111, 0.5);
-        margin-bottom: 150px;
-        margin-left: 5px;
-      }
 
       .actionItem {
         display: block;
         height: 200px;
-        width: 100%;
       }
 
       .actionItemCheckbox {
         display: inline-block;
-        background-color: white;
         width: 50px;
         height: 50px;
-        margin-right: 4%;
+        margin-right: 30px;
         vertical-align: top;
+        position: relative;
+      }
+
+      .itemCheckboxImage {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
       }
 
       .actionItemBody {
         display: inline-block;
         vertical-align: top;
-        width: 80%;
+        width: 620px;
       }
 
       .actionItemName {
-        font-family: 'BrandonBody';
-        color: rgb(233, 239, 231);
-        font-size: 45px;
         line-height: 50px;
-        padding-bottom: 2%;
-      }
-
-      .actionItemText {
-        font-family: 'BrandonBody';
-        color: rgb(135, 173, 208);
-        font-size: 30px;
-        line-height: 34px;
+        padding-bottom: 20px;
       }
 
       #checklistLocalOrgText {
-        font-family: 'BrandonBody';
-        color: rgb(189, 204, 155);
-        font-size: 30px;
-        line-height: 34px;
+        color: #d2d940; /* hightlight yellow */
         display: inline-block;
-        width: 50%;
+        width: 850px;
         vertical-align: top;
-        padding-left: 5%;
-      }
-
-      .closeModalButton {
-        position: absolute;
-        top: -20px;
-        right: -20px;
-        height: 70px;
-        width: 70px;
-        border-radius: 35px;
-         color: white;
-        font-size: 24px;
-        line-height: 70px;
-        font-family: 'BrandonTitle';
-        text-align: center;
-        background-color: rgb(114, 181, 177);
-        box-shadow: 0px 0px 5px rgba(55, 55, 53, 0.5);
+        padding-top: 30px;
+        margin-left: 50px;
       }
 
       #submitActionButton {
         position: absolute;
-        bottom: -35px;
-        right: 35px;
-        height: 70px;
-        padding: 0px 35px;
-        border-radius: 35px;
-        color: white;
-        font-size: 24px;
-        line-height: 70px;
-        font-family: 'BrandonTitle';
-        text-align: center;
-        background-color: rgb(114, 181, 177);
-        box-shadow: 0px 0px 5px rgba(55, 55, 53, 0.5);
+        bottom: -40px;
+        right: 30px;
+        height: 80px;
+        padding: 0px 40px;
+        border-radius: 40px;
+        line-height: 80px;
       }
+
+
+      /* Confirmation Modal Style */ 
 
       #confirmationContainer {
         width: 80%;
-        margin-left: 10%;
-        margin-top: 10%;
+        padding-top: 150px;
+        margin: auto;
       }
 
       #confirmationTitle {
-        font-size: 50px;
-        line-height: 50px;
-        color: rgb(233, 239, 231);
-        font-family: 'BrandonBody';
-        text-align: left;
+        padding-bottom: 10px;
       }
 
       #confirmationSubtitle {
-        font-size: 50px;
-        padding-bottom: 200px;
-        color: rgb(233, 239, 231);
-        font-family: 'BrandonBody';
-        text-align: left;
       }
 
       #confirmationEmailQuestion {
-        font-size: 36px;
-        padding-bottom: 10px;
-        color: rgb(233, 239, 231);
-        font-family: 'BrandonBody';
-        text-align: left;
+        padding-top: 120px;
+        padding-bottom: 120px;
       }
 
       #confirmationEmailPrivacyStatement {
-        font-size: 28px;
-        padding-bottom: 100px;
-        color: rgb(233, 239, 231);
-        font-family: 'BrandonBody';
-        text-align: left;
-        color: rgb(135, 173, 208);
+        padding-bottom: 200px;
       }
 
       #confirmationAction {
-       color: rgb(189, 204, 155);
-      }
-
-      #confirmationEmailQuestionButtons {
-        
+        color: rgb(189, 204, 155);
       }
 
       #confirmationEmailQuestionNoButton, #confirmationEmailQuestionYesButton {
         display: inline-block;
-        height: 70px;
-        padding: 0px 35px;
-        border-radius: 35px;
-        color: white;
-        font-size: 24px;
-        line-height: 70px;
-        font-family: 'BrandonTitle';
-        text-align: center;
-        background-color: rgb(114, 181, 177);
-        box-shadow: 0px 0px 5px rgba(55, 55, 53, 0.5);
+        height: 80px;
+        padding: 0px 40px;
+        border-radius: 40px;
+        line-height: 80px;
         margin-right: 50px;
       }
 
-      #thanksText {
-        font-size: 50px;
-        padding-bottom: 200px;
-        color: rgb(233, 239, 231);
-        font-family: 'BrandonBody';
-        text-align: center;
-        vertical-align: middle;
+
+      /* Email Modal Style */
+      
+      #container {
+        width: 1218px;
+        margin: auto;
       }
+
+      #emailTextbox {
+        margin-top: 100px;
+        margin-bottom: 100px;
+        height: 80px;
+      }
+
+      #write {
+        vertical-align: top;
+        display: inline-block;
+        font-size: 50px;
+        line-height: 80px;
+        font-family: 'BrandonBody';
+        padding: 10px;
+        padding-top: 0px;
+        width: 1218px;
+        margin-right: 10px;
+        height: 70px;
+        background: #fff;
+        -moz-border-radius: 7px;
+        -webkit-border-radius: 7px;
+        resize: none;
+        border: none;
+      }
+
+      #submitEmail {
+        position: absolute;
+        bottom: -40px;
+        right: 30px;
+        height: 80px;
+        padding: 0px 40px;
+        border-radius: 40px;
+        line-height: 80px;
+      }
+
+
+
+      /* Keyboard Style */
+
+      #keyboard {
+        margin: 0 auto;
+        padding: 0;
+        list-style: none;
+        text-align: center;
+      }
+
+      #keyboard li {
+        float: left;
+        margin: 0 5px 5px 0;
+        width: 80px;
+        height: 80px;
+        line-height: 80px;
+        font-size: 40px;
+        font-family: 'BrandonBody';
+        vertical-align: middle;
+        text-align: center;
+        background-color: #2d606f; /* base middle blue */
+        color:  #e9efe7; /* white */
+        text-align: center;
+        -moz-border-radius: 7px;
+        -webkit-border-radius: 7px;
+      }
+
+      #keyboard .invisibleKey {
+        visibility: hidden;
+        margin: 0px;
+        background-color: red;
+        clear: left;
+      }
+
+      #keyboard .email, 
+      #keyboard .tab, 
+      #keyboard .delete, 
+      #keyboard .return, 
+      #keyboard .left-shift, 
+      #keyboard .right-shift, 
+      #keyboard .capslock {
+        width: auto;
+        font-size: 32px;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      .lastitem {
+        margin-right: 0;
+        clear: right;
+      }
+
+      .uppercase {
+        text-transform: uppercase;
+      }
+
+      #keyboard .space {
+        width: 681px;
+      }
+
+      .on {
+        display: none;
+      }
+
+      #keyboard li:active {
+        position: relative;
+        top: 1px;
+        left: 1px;
+        background-color: #72b5b1; /* highlight blue */
+      }
+
+
+
+      /* Thanks Modal Style */
 
       @keyframes timeoutBar {
           from {right: 100%;}
           to {right: 0%;}
+      }
+
+      #thanksText {
+        text-align: center;
       }
 
       #thanksTimeoutBar {
@@ -611,7 +681,7 @@
         bottom: 0px;
         left: 0px;
         right: 100%;
-        background-color: rgba(189, 204, 155, 0.3);
+        background-color: #2d606f;
         height: 15px;
         border-radius: 0px 0px 0px 7px;
       }
@@ -622,109 +692,7 @@
         animation-timing-function: linear;
       }
 
-      #container {
-        margin: 100px auto;
-        width: 70%;
-      }
 
-      #emailTextbox {
-        margin-top: 150px;
-        margin-bottom: 100px;
-        height: 90px;
-      }
-
-      #write {
-        vertical-align: top;
-        display: inline-block;
-        font-size: 50px;
-        line-height: 90px;
-        font-family: 'BrandonBody';
-        padding: 10px;
-        padding-top: 0px;
-        width: 85%;
-        margin-right: 1%;
-        height: 80px;
-        background: #fff;
-        -moz-border-radius: 7px;
-        -webkit-border-radius: 7px;
-        resize: none;
-        border: none;
-      }
-
-      #submitEmail {
-        vertical-align: top;
-        display: inline-block;
-        width: 12%;
-        background-color: rgb(114, 181, 177);
-        height: 90px;
-        border-radius: 7px;
-        box-shadow: 0px 0px 5px rgba(55, 55, 53, 0.5);
-      }
-
-      #keyboard {
-        margin: 0 auto;
-        padding: 0;
-        list-style: none;
-        text-align: center;
-      }
-
-    #keyboard li {
-      float: left;
-      margin: 0 5px 5px 0;
-      width: 80px;
-      height: 80px;
-      line-height: 80px;
-      font-size: 40px;
-        font-family: 'BrandonBody';
-        vertical-align: middle;
-        color: #fff;
-      text-align: center;
-      background: rgba(11, 11, 8, 0.5);
-      -moz-border-radius: 5px;
-      -webkit-border-radius: 5px;
-    }
-
-    #keyboard .invisibleKey {
-      visibility: hidden;
-      margin: 0px;
-      background-color: red;
-      clear: left;
-    }
-
-
-
-        #keyboard .email, 
-        #keyboard .tab, 
-        #keyboard .delete, 
-        #keyboard .return, 
-        #keyboard .left-shift, 
-        #keyboard .right-shift, 
-        #keyboard .capslock {
-          width: auto;
-          font-size: 32px;
-          padding-left: 15px;
-          padding-right: 15px;
-        }
-        .lastitem {
-        margin-right: 0;
-        clear: right;
-        }
-        .uppercase {
-        text-transform: uppercase;
-        }
-        #keyboard .space {
-        width: 681px;
-        }
-        .on {
-        display: none;
-        }
-        #keyboard li:hover {
-        position: relative;
-        top: 1px;
-        left: 1px;
-        border-color: #e5e5e5;
-        cursor: pointer;
-        }
 
     </style>
 </head>
@@ -1156,27 +1124,27 @@
   </div>
 
   <!-- Caption -->
-  <div id="caption">
+  <div id="caption" class="title">
     Choose a system that you are interested <br>
     in taking action to improve.
   </div>
 
   <!-- Category Labels -->
-  <div class="categoryLabel" id="transportationLabel">Transportation</div>
-  <div class="categoryLabel" id="habitatLabel">Habitat</div>
-  <div class="categoryLabel" id="foodLabel">Food</div>
-  <div class="categoryLabel" id="waterLabel">Water</div>
-  <div class="categoryLabel" id="energyLabel">Energy</div>
+  <div class="categoryLabel shadow clickable subtitle" id="transportationLabel">Transportation</div>
+  <div class="categoryLabel shadow clickable subtitle" id="habitatLabel">Habitat</div>
+  <div class="categoryLabel shadow clickable subtitle" id="foodLabel">Food</div>
+  <div class="categoryLabel shadow clickable subtitle" id="waterLabel">Water</div>
+  <div class="categoryLabel shadow clickable subtitle" id="energyLabel">Energy</div>
 
   <!-- Modals -->
-  <div class="modal largeModal hide" id="checklistModal">
+  <div class="modal largeModal shadow hide" id="checklistModal">
     <div id="checklistHeader">
-      <img id="checklistLogo" src="images/habitat_icon.png" width="150" height="150" />
+      <img id="checklistLogo" class="shadow" src="images/habitat_icon.png" width="150" height="150" draggable="false" />
       <div id="checklistHeaderText">
-        <div id="checklistPrompt">
+        <div id="checklistPrompt" class="title">
           To improve (system), I will:
         </div>
-        <div id="checklistInstruction">
+        <div id="checklistInstruction" class="instruction">
           Select one individual action and click submit. <br>
           The poll above will tally the systems our visitors are interested in improving.
         </div>
@@ -1184,58 +1152,75 @@
     </div>
     <div id="checklistBody">
       <div id="checklistContainer">
+        <div class="actionItem">
+          <div class="actionItemCheckbox">
+            <img class="itemCheckboxImage" src="images/unchecked_box.png" draggable="false" />
+          </div>
+          <div class="actionItemBody">
+            <div class="actionItemName title"></div>
+            <div class="actionItemText body"></div>
+          </div>
+        </div>
+        <div class="actionItem">
+          <div class="actionItemCheckbox">
+            <img class="itemCheckboxImage" src="images/unchecked_box.png" draggable="false" />
+          </div>
+          <div class="actionItemBody">
+            <div class="actionItemName title"></div>
+            <div class="actionItemText body"></div>
+          </div>
+        </div>
+        <div class="actionItem lastAction">
+          <div class="actionItemCheckbox">
+            <img class="itemCheckboxImage" src="images/unchecked_box.png" draggable="false" />
+          </div>
+          <div class="actionItemBody">
+            <div class="actionItemName title"></div>
+            <div class="actionItemText body"></div>
+          </div>
+        </div>
       </div>
       <div id="checklistSeparator"> 
-        <div class="checklistLocalOrgIndicator">
-        </div>
-        <div class="checklistLocalOrgIndicator">
-        </div>
-        <div class="checklistLocalOrgIndicator">
-        </div>
       </div>
-      <div id="checklistLocalOrgText">
+      <div id="checklistLocalOrgText" class="body">
       </div>
     </div>
-    <div class="closeModalButton">
-      X
+    <div class="closeModalButton clickable shadow">
+      <img src="images/dismiss_icon.png" width="30" height="30" draggable="false" />
     </div>
-    <div id="submitActionButton" class="hide">
+    <div id="submitActionButton" class="hide clickable shadow">
       SUBMIT
     </div>
   </div>
 
-  <div class="modal largeModal hide" id="confirmationModal">
+  <div class="modal largeModal shadow hide" id="confirmationModal">
     <div id="confirmationContainer">
-      <div id="confirmationTitle">
+      <div id="confirmationTitle" class="title"></div>
+      <div id="confirmationSubtitle" class="title">You've pledged to <span id="confirmationAction"></span></div>
+      <div id="confirmationEmailQuestion" class="subtitle">
+        Would you like to have a follow-up email sent to you in 6 months <br> to see if you followed through?
       </div>
-      <div id="confirmationSubtitle">
-        You've pledged to <span id="confirmationAction">ACTION</span>
-      </div>
-      <div id="confirmationEmailQuestion">
-        Would you like to have a follow-up email sent to you in 6 months to see if you followed through?
-      </div>
-      <div id="confirmationEmailPrivacyStatement">
-        We only collect and hold your email address in order to send you a follow up to this exhibit. We won't use this to spam you.
-      </div>
+      <!--<div id="confirmationEmailPrivacyStatement" class="body">
+        We only collect and hold your email address in order to send you a follow up to this exhibit. <br>We won't use this to spam you.
+      </div> -->
       <div id="confirmationEmailQuestionButtons">
-        <div id="confirmationEmailQuestionNoButton">
+        <div id="confirmationEmailQuestionNoButton" class="clickable shadow">
           NO
         </div>
-        <div id="confirmationEmailQuestionYesButton">
+        <div id="confirmationEmailQuestionYesButton" class="clickable shadow">
           YES
         </div>
       </div>
     </div>
-    <div class="closeModalButton">
-     X
+    <div class="closeModalButton clickable shadow">
+      <img src="images/dismiss_icon.png" width="30" height="30" draggable="false" />
     </div>
   </div>
 
-  <div class="modal largeModal hide" id="emailModal">
+  <div class="modal largeModal shadow hide" id="emailModal">
     <div id="container">
       <div id='emailTextbox'>
         <textarea id="write" rows="1" resizeable="no"></textarea>
-        <div id="submitEmail"></div>
       </div>
       <ul id="keyboard">
           <li class="invisibleKey" style="width: 3px"></li>
@@ -1245,6 +1230,7 @@
           <li class="email">@outlook.com</li>
           <li class="email">@inbox.com</li>
           <li class="email lastitem">@mail.com</li>
+          <li class="invisibleKey" style="width: 0px"></li>
           <li class="symbol firstitem"><span class="off">1</span><span class="on">!</span></li>
           <li class="symbol"><span class="off">2</span><span class="on">@</span></li>
           <li class="symbol"><span class="off">3</span><span class="on">#</span></li>
@@ -1304,15 +1290,15 @@
           <li class="invisibleKey" style="width: 248px"></li>
           <li class="space lastitem">&nbsp;</li>
       </ul>
+    </div> 
+    <div class="closeModalButton clickable shadow">
+      <img src="images/dismiss_icon.png" width="30" height="30" draggable="false" />
     </div>
- 
-    <div class="closeModalButton">
-    X
-    </div>
+     <div id="submitEmail" class="hide clickable shadow">SUBMIT</div>
   </div>
 
-  <div class="modal smallModal hide" id="thanksModal">
-    <div id="thanksText">Thanks!</div>
+  <div class="modal smallModal shadow hide" id="thanksModal">
+    <div id="thanksText" class="title">Thanks!</div>
     <Div id="thanksTimeoutBar"></div>
   </div>
 
