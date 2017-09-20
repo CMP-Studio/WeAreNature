@@ -9,7 +9,44 @@
     <script src="data/confirmationSynonyms.js" charset="utf-8"></script>
     <script>
 
+      //////////////////////// IMPORTS ////////////////////////
 
+      var { remote, ipcRenderer } = require('electron');
+      var main = remote.require("./main.js");
+
+
+      //////////////////////// EVENT LISTENERS ////////////////////////
+
+      ipcRenderer.on('pledgeRecorded', (event) => {
+        animateTheVote();
+      });
+
+      ipcRenderer.on('reminderRecorded', (event) => { 
+        showModal('thanks');
+      });
+
+      //////////////////////// EVENT EMITTERS ////////////////////////
+ 
+      function pledge(category) {
+        ipcRenderer.send('pledge', 
+          {
+            category: category,
+            screen: 'left',
+          });
+      }
+
+      function reminder(category, subcategory, email) {
+        var date = new Date();
+        date.toISOString(); //"2011-12-19T15:28:46.493Z"
+
+        ipcRenderer.send('reminder',
+          {
+            category: category,
+            subcategory: subcategory,
+            email: email,
+            time: date, 
+          });
+      }
 
       //////////////////////// GLOBAL VARS ////////////////////////
 
@@ -43,7 +80,6 @@
           $(item).bind('click', function() {
             SESSION_ACTION = index;
             // Populate html with this action
-            console.log(systems[SESSION_CATEGORY].actions[SESSION_ACTION].localOrg);
             $("#checklistLocalOrgText").html(systems[SESSION_CATEGORY].actions[SESSION_ACTION].localOrg);
             var valign = ['top', 'initial', 'bottom'];
             $("#checklistLocalOrgText").css({
@@ -58,16 +94,20 @@
           });
         });
 
-        $("#submitActionButton").bind('click', function() {
-          // Submit vote now w/ Rubens database
-          showModal('confirmation');
-        });
+        $("#submitActionButton").bind('click', function() { pledge(SESSION_CATEGORY); });
 
         $("#confirmationEmailQuestionNoButton").bind('click', function() { showModal('thanks'); });
 
         $("#confirmationEmailQuestionYesButton").bind('click', function() { showModal('email'); });
 
-        $("#submitEmail").click(function() { showModal('thanks'); });
+        $("#submitEmail").click(function() { 
+          var categoryObject = systems[SESSION_CATEGORY];
+          var action = categoryObject.actions[SESSION_ACTION].id;
+          console.log(SESSION_CATEGORY);
+          console.log(action);
+          console.log($('#write').val());
+          reminder(SESSION_CATEGORY, action, $('#write').val());
+        });
       }
 
 
@@ -168,6 +208,9 @@
         // Close modals
         $('.modal').addClass('hide');
 
+        // Put logo back
+        $("#checklistLogo").removeClass('voted');
+
         // Reset lure screen
         $(".category").bind('click', function() { startSession(($(this).attr('id'))); });
         $(".categoryLabel").bind('click', function() { startSession(($(this).attr('id')).slice(0, -5)); });
@@ -247,6 +290,15 @@
             endSession();
             break;
         }
+      }
+
+
+
+      function animateTheVote() {
+        $("#checklistLogo").addClass('voted');
+        window.setTimeout(function() {
+          showModal('confirmation');
+        }, 3000);
       }
 
 
@@ -438,6 +490,19 @@
         border-radius: 75px;
         margin-right: 50px;
         vertical-align: middle;
+      }
+
+      .voted {
+        position: relative;
+        animation-duration: 1.5s;
+        animation-timing-function: ease-in;
+        animation-name: voted;
+        animation-fill-mode: forwards;
+      }
+
+      @keyframes voted {
+        from { top: 0px; }
+        to { top: -1000px; }
       }
 
       #checklistHeader {
@@ -1311,7 +1376,7 @@
 
   <div class="modal smallModal shadow hide" id="thanksModal">
     <div id="thanksText" class="title">Thanks!</div>
-    <Div id="thanksTimeoutBar"></div>
+    <div id="thanksTimeoutBar"></div>
   </div>
 
 </body>

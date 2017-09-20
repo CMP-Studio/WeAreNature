@@ -9,25 +9,34 @@ var {app, BrowserWindow, ipcMain} = electron;
 
 //////////////////////// WINDOWS ////////////////////////
 
-var mapWindow = null;
+var FromMeToWe = null;
 
 // CREATE WINDOWS
 app.on('ready', () => {
-    mapWindow = new BrowserWindow({ width: 1920, height: 1080, resizable: false }); // type:'toolbar', fullscreen: true, frame: false, 'auto-hide-menu-bar': true, });
-    mapWindow.loadURL(`file://${__dirname}/FromMeToWe.html`);
-    mapWindow.setMenu(null);
+    FromMeToWe = new BrowserWindow({ width: 1920, height: 1080, resizable: false }); // type:'toolbar', fullscreen: true, frame: false, 'auto-hide-menu-bar': true, });
+    FromMeToWe.loadURL(`file://${__dirname}/FromMeToWe.html`);
+    FromMeToWe.setMenu(null);
 });
 
 //////////////////////// EVENTS ////////////////////////
 
-// SELECT CATEGORY
-ipcMain.on('selectCategory', (event, category) => {
+ipcMain.on('pledge', (event, object) => {
     try {
-      if (this.selectedCategory === category) this.selectedCategory = null;
-      else this.selectedCategory = category;
-
-      sceneWindow.send('render');
+      // send pledge to database....
+      FromMeToWe.send('pledgeRecorded');
     } catch (e) {
       console.log(e);
+      FromMeToWe.send('pledgeNotRecorded');
+    }
+});
+
+
+ipcMain.on('reminder', (event, object) => {
+    try {
+      // send reminder info to database....
+      FromMeToWe.send('reminderRecorded');
+    } catch (e) {
+      console.log(e);
+      FromMeToWe.send('reminderNotRecorded');
     }
 });
