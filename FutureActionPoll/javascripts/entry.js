@@ -11,30 +11,12 @@ import TransitionGroup from 'react-addons-transition-group';
 import { TweenMax } from 'gsap';
 
 const data = [
-  {name: 'Water', value: 0, label: 'Water', color: '#5cb7b3'},
-  {name: 'Habitat', value: 0, label: 'Habitat', color: '#146170'},
-  {name: 'Transportation', value: 0, label: 'Transportation', color: '#a65a95'},
-  {name: 'Food', value: 0, label: 'Food', color: '#cb7d31'},
-  {name: 'Energy', value: 0, label: 'Energy', color: '#cedb29'}
+  {name: 'Water', value: 1, label: 'Water', color: '#5cb7b3'},
+  {name: 'Habitat', value: 1, label: 'Habitat', color: '#146170'},
+  {name: 'Transportation', value: 1, label: 'Transportation', color: '#a65a95'},
+  {name: 'Food', value: 1, label: 'Food', color: '#cb7d31'},
+  {name: 'Energy', value: 1, label: 'Energy', color: '#cedb29'}
 ];
-
-const duration = 300;
-
-const defaultStyle = {
-  transition: `opacity ${duration}ms ease-in-out`,
-  opacity: 0,
-  width: 100,
-  height: 100,
-  backgroundColor: 'black',
-  position: 'absolute',
-  left: 100,
-  bottom: 100,
-}
-
-const transitionStyles = {
-  entering: { opacity: 1 },
-  entered:  { opacity: 1 },
-};
 
 
 class Entry extends React.Component {
@@ -42,8 +24,9 @@ class Entry extends React.Component {
     this.renderLabel = this.renderLabel.bind(this);
 
     this.setState({
-      total: 0,
+      total: 5,
       data: data,
+      showLabels: true,
       voteEnteringFromLeft: false,
       categoryEnteringFromLeft: null,
       voteEnteringFromRight: false,
@@ -67,7 +50,7 @@ class Entry extends React.Component {
           lineHeight: 1.5,
         }}
       >
-          {props.value !== 0 ? props.label : ''}
+          {this.state.showLabels ? props.label : ''}
       </text>);
   }
 
@@ -79,11 +62,13 @@ class Entry extends React.Component {
       this.setState({
         voteEnteringFromLeft: true,
         categoryEnteringFromLeft: category,
+        showLabels: false,
       });
     } else {
       this.setState({
         voteEnteringFromRight: true,
         categoryEnteringFromRight: category,
+        showLabels: false,
       });
     }
   }
@@ -101,12 +86,14 @@ class Entry extends React.Component {
         total: this.state.total+1,
         data: updatedData,
         categoryEnteringFromLeft: null,
+        voteEnteringFromLeft: false,
       });
     } else {
       this.setState({
         total: this.state.total+1,
         data: updatedData,
         categoryEnteringFromRight: null,
+        voteEnteringFromRight: false,
       });
     }
   }
@@ -122,7 +109,7 @@ class Entry extends React.Component {
             width: 1920,
             height: 1080,
             background: '#000',
-            opacity: 0.00,
+            opacity: 0.3,
           }}
         />
         
@@ -175,7 +162,6 @@ class Entry extends React.Component {
             fill="#82ca9d"
             labelLine={false}
             label={this.renderLabel}
-            isAnimationActive={true}
           >
             {
               this.state.data.map((entry, index) => 
@@ -216,14 +202,11 @@ class Entry extends React.Component {
           { this.state.voteEnteringFromLeft && 
             <Vote 
               direction={'left'}
-              enterCallback={() => { 
-                this.setState({
-                  voteEnteringFromLeft: false,
-                });
-              }}
+              enterCallback={() => { this.addVote('left', this.state.categoryEnteringFromLeft); }}
               category={this.state.categoryEnteringFromLeft}
-              exitCallback={() => {
-                this.addVote('left', this.state.categoryEnteringFromLeft);
+              exitCallback={() => { 
+                // console.log('show those labels');
+                this.setState({ showLabels: true }); 
               }}
             />
           }
@@ -233,15 +216,9 @@ class Entry extends React.Component {
           { this.state.voteEnteringFromRight && 
             <Vote 
               direction={'right'}
-              enterCallback={() => { 
-                this.setState({
-                  voteEnteringFromRight: false,
-                });
-              }}
+              enterCallback={() => { this.addVote('right', this.state.categoryEnteringFromRight); }}
               category={this.state.categoryEnteringFromRight}
-              exitCallback={() => {
-                this.addVote('left', this.state.categoryEnteringFromRight);
-              }}
+              exitCallback={() => { this.setState({ showLabels: true }); }}
             />
           }
         </TransitionGroup>
@@ -270,23 +247,25 @@ class Vote extends React.Component {
 
   componentWillEnter (callback) {
     const el = this.container;
+    const im = this.image;
+    TweenMax.fromTo(im, 1, {opacity: 1}, {opacity: 0});
     TweenMax.fromTo(el, 1, {y: 500, opacity: 1}, {y: 0, opacity: 1, onComplete: () => {
-      callback();
       this.enterAnimationComplete();
+      callback();
     }});
   }
 
   componentWillLeave (callback) {
     const el = this.container;
     if (this.props.direction === 'left') {
-      TweenMax.fromTo(el, 1, {x: 0, opacity: 1, scale: 1 }, {x: 750, opacity: 1, scale: 0, onComplete: () => {
-        callback();
+      TweenMax.fromTo(el, 2, {x: 0, opacity: 1, scale: 1 }, {x: 700, opacity: 1, scale: 0, onComplete: () => {
         this.exitAnimationComplete();
+        callback();
       }});
     } else {
-      TweenMax.fromTo(el, 1, {x: 0, opacity: 1, scale: 1 }, {x: -750, opacity: 1, scale: 0, onComplete: () => {
-        callback();
+      TweenMax.fromTo(el, 2, {x: 0, opacity: 1, scale: 1 }, {x: -700, opacity: 1, scale: 0, onComplete: () => {
         this.exitAnimationComplete();
+        callback();
       }});
     }
   }
@@ -300,23 +279,46 @@ class Vote extends React.Component {
             top: 500,
             width: 150,
             height: 150,
-            left: 100,
+            left: 200,
+            borderRadius: 75,
           } : { 
             position: 'absolute',
             top: 500,
             width: 150,
             height: 150,
-            right: 100,
+            right: 200,
+            borderRadius: 75,
         }
       }
       >
-        {this.props.category === 'Transportation' && <img style={{ flex: 1 }} src={require('./assets/transportation_icon.png')} /> }
-        {this.props.category === 'Habitat' && <img style={{ flex: 1 }} src={require('./assets/habitat_icon.png')} /> }
-        {this.props.category === 'Water' && <img style={{ flex: 1 }} src={require('./assets/water_icon.png')} /> }
-        {this.props.category === 'Food' && <img style={{ flex: 1 }} src={require('./assets/food_icon.png')} /> }
-        {this.props.category === 'Energy' && <img style={{ flex: 1 }} src={require('./assets/energy_icon.png')} /> }
+        {this.props.category === 'Transportation' &&
+          <div style={{ backgroundColor: '#a65a95', borderRadius: 75 }}>
+            <img ref={c => this.image = c} style={{ flex: 1 }} src={require('./assets/transportation_icon.png')} /> 
+          </div>
+        }
+        {this.props.category === 'Habitat' &&
+          <div style={{ backgroundColor: '#146170', borderRadius: 75 }}>
+            <img ref={c => this.image = c} style={{ flex: 1 }} src={require('./assets/habitat_icon.png')} /> 
+          </div>
+        }
+        {this.props.category === 'Water' &&
+          <div style={{ backgroundColor: '#5cb7b3', borderRadius: 75 }}>
+            <img ref={c => this.image = c} style={{ flex: 1 }} src={require('./assets/water_icon.png')} /> 
+          </div>
+        }
+        {this.props.category === 'Food' &&
+          <div style={{ backgroundColor: '#cb7d31', borderRadius: 75 }}>
+            <img ref={c => this.image = c} style={{ flex: 1 }} src={require('./assets/food_icon.png')} /> 
+          </div>
+        }
+        {this.props.category === 'Energy' &&
+          <div style={{ backgroundColor: '#cedb29', borderRadius: 75 }}>
+            <img ref={c => this.image = c} style={{ flex: 1 }} src={require('./assets/energy_icon.png')} /> 
+          </div>
+        }
       </div>);
   }
 }
+
 
 ReactDOM.render(<Entry />, document.getElementById('content'));
