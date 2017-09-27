@@ -62,7 +62,8 @@
 
         $("#timeoutBar").removeClass('countingDown');
         
-        $("#map").addClass(fact.class);
+        $("#map").css('display', 'none');
+        $("#undermap").addClass(fact.class);
         $("#factTitle").html(fact.factTitle);
         $("#factBody").html(fact.factBody);
         $("#factMask").attr("src", fact.image);
@@ -165,10 +166,14 @@
         bottom: 0px;
         right: 0px;
         max-width:100%;
+        
+        background-color: #3b837f;
+      }
+
+      #undermap {
+        will-change: transform;
         -webkit-transition: transform 3s;
         transition: transform 3s;
-        background-color: #3b837f;
-        will-change: transform;
       }
 
 
@@ -328,6 +333,10 @@
     <img src="images/Forests.png" id="ForestsMask"  class="sparkling categoryMask" style="animation-delay: 8s;">
     <img src="images/Parks.png" id="ParksMask" class="sparkling categoryMask" style="animation-delay: 10s;">
     <img src="images/River.png" id="RiverMask" class="sparkling categoryMask" style="animation-delay: 12s;">
+  </div>
+
+  <div id="undermap">
+    <img src="images/BaseMap.png" id="map">
   </div>
 
   <div id="clickableOverlay">
