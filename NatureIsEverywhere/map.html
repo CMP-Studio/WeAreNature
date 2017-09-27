@@ -8,8 +8,8 @@
     <script>
       //////////////////////// IMPORTS ////////////////////////
 
-      var {remote} = require('electron');
-      var main = remote.require("./main.js");
+      // var {remote} = require('electron');
+      // var main = remote.require("./main.js");
 
       //////////////////////// EVENT LISTENERS ////////////////////////
 
@@ -166,10 +166,9 @@
         right: 0px;
         max-width:100%;
         -webkit-transition: transform 3s;
-        -moz-transition: transform 3s;
-        -o-transition: transform 3s;
         transition: transform 3s;
         background-color: #3b837f;
+        will-change: transform;
       }
 
 
@@ -211,6 +210,7 @@
         -moz-transition: height 2s;
         -o-transition: height 2s;
         transition: height 2s;
+        will-change: height;
       }
 
       #submitSelectionButton {
@@ -224,18 +224,13 @@
       }
 
       .categoryMask {
-        -webkit-transform: translate3d(0, 0, 0);
-        -moz-transform: translate3d(0, 0, 0);
-        -ms-transform: translate3d(0, 0, 0);
-        transform: translate3d(0, 0, 0);
-        -webkit-filter: blur(1.5px); 
-        -moz-filter: blur(1.5px); 
-        filter: blur(1.5px); 
+        -webkit-filter: blur(1px); 
+        -moz-filter: blur(1px); 
+        filter: blur(1px); 
         opacity: 0.3;
-        -webkit-transition: all 0.5s;
-        -moz-transition: all 0.5s;
-        -o-transition: all 0.5s;
-        transition: all 0.5s;
+        -webkit-transition: opacity 0.5s;
+        transition: opacity 0.5s;
+        will-change: opacity;
       }
 
       @keyframes sparkle {
@@ -254,7 +249,6 @@
       .selected {
         opacity: 0.9 !important;
         -webkit-filter: blur(0px); 
-        -moz-filter: blur(0px); 
         filter: blur(0px); 
       }
 
@@ -278,6 +272,7 @@
         background-color: #72b5b1;
         height: 15px;
         border-radius: 0px 0px 0px 7px;
+        will-change: width;
       }
 
       .title {
