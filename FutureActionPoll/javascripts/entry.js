@@ -1,6 +1,7 @@
 require('../less/main.less');
 
 import './index.css';
+import secret from './secrets.js';
 
 'use strict';
 
@@ -11,17 +12,100 @@ import TransitionGroup from 'react-addons-transition-group';
 import { TweenMax } from 'gsap';
 
 const data = [
-  {name: 'Water', value: 1, label: 'Water', color: '#5cb7b3'},
-  {name: 'Habitat', value: 1, label: 'Habitat', color: '#146170'},
-  {name: 'Transportation', value: 1, label: 'Transportation', color: '#a65a95'},
-  {name: 'Food', value: 1, label: 'Food', color: '#cb7d31'},
-  {name: 'Energy', value: 1, label: 'Energy', color: '#cedb29'}
+  {name: 'Water', value: 1, color: '#5cb7b3'},
+  {name: 'Habitat', value: 1, color: '#146170'},
+  {name: 'Transportation', value: 1, color: '#a65a95'},
+  {name: 'Food', value: 1, color: '#cb7d31'},
+  {name: 'Energy', value: 1, color: '#cedb29'}
 ];
 
 
 class Entry extends React.Component {
+
+  GETInitialVotes () {
+    var myHeaders = new Headers({
+      'X-Api-Key' : secret,
+    }); 
+
+    var myInit = { method: 'GET', headers: myHeaders, mode: 'cors' };
+    return fetch('https://9s98iyz7s5.execute-api.us-east-1.amazonaws.com/production/pledge', myInit)
+    .then(function(res) {
+
+      if (res.ok) { return res.json(); } 
+      else { throw new TypeError('GETVotes error'); }
+
+    })
+    .then(function(resJSON) {
+
+      var total = 0;
+
+      const resBody = JSON.parse(resJSON.body);
+      data.map((category, i) => {
+        var key = category.name;
+        var votes = resBody[key];
+        category.value = votes;
+        total += votes;
+        return category;
+      });
+      
+      return { data, total };
+
+    }).catch(function(err) {
+
+      console.log(err);
+    
+    });
+  }
+
+
+  GETVotes (currentData) {
+    var myHeaders = new Headers({
+      'X-Api-Key' : secret,
+    }); 
+
+    var myInit = { method: 'GET', headers: myHeaders, mode: 'cors' };
+    return fetch('https://9s98iyz7s5.execute-api.us-east-1.amazonaws.com/production/pledge', myInit)
+    .then(function(res) {
+
+      if (res.ok) { return res.json(); } 
+      else { throw new TypeError('GETVotes error'); }
+
+    })
+    .then(function(resJSON) {
+
+      var categoryChanged = '';
+      var directions = ['Left', 'Right'];
+      var direction = '';
+
+      const resBody = JSON.parse(resJSON.body);
+      currentData.map((category, i) => {
+        var updatedVotes = resBody[category.name];
+        if (category.value !== updatedVotes) {
+          categoryChanged = category.name;
+          direction = directions[Math.floor(Math.random() * 1.9)];
+        }
+      });
+      
+      return { categoryChanged, direction };
+      
+    }).catch(function(err) {
+
+      console.log(err);
+    
+    });
+  }
+
+  socketFaker () {
+    this.GETVotes(this.state.data).then(votes => {
+      if (votes.categoryChanged !== '' && votes.direction !== '') {
+        this.animateVote(votes.direction, votes.categoryChanged);
+      }
+    });
+  }
+
   componentWillMount () {
     this.renderLabel = this.renderLabel.bind(this);
+    this.socketFaker = this.socketFaker.bind(this);
 
     this.setState({
       total: 5,
@@ -31,7 +115,18 @@ class Entry extends React.Component {
       categoryEnteringFromLeft: null,
       voteEnteringFromRight: false,
       categoryEnteringFromRight: null,
-    })
+    });
+
+    this.GETInitialVotes().then(votes => {
+      this.setState({
+        total: votes.total,
+        data: votes.data,
+      });
+    });
+
+    // TODO: Ruben set up socket :) thanks!
+
+    window.setInterval(this.socketFaker, 2000);
   }
 
   renderLabel (props) {
@@ -50,15 +145,12 @@ class Entry extends React.Component {
           lineHeight: 1.5,
         }}
       >
-          {this.state.showLabels ? props.label : ''}
+          {this.state.showLabels && props.value > 0 ? props.name : ''}
       </text>);
   }
 
   animateVote (direction, category) {
-    let cateogries = ['Transportation', 'Habitat', 'Water', 'Food', 'Energy'];
-    category = cateogries[Math.floor(Math.random()*5)]
-
-    if (direction === 'left') {
+    if (direction === 'Left') {
       this.setState({
         voteEnteringFromLeft: true,
         categoryEnteringFromLeft: category,
@@ -81,7 +173,7 @@ class Entry extends React.Component {
       return entry;
     })
 
-    if (direction === 'left') {
+    if (direction === 'Left') {
       this.setState({
         total: this.state.total+1,
         data: updatedData,
