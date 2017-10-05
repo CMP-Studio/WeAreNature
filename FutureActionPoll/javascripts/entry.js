@@ -43,8 +43,6 @@ class Entry extends React.Component {
       const resBody = JSON.parse(resJSON.body);
       const { currentVotes, iotProperties } = resBody;
 
-      console.log(resBody);
-
       data.map((category, i) => {
         var key = category.name;
         var votes = currentVotes[key];
