@@ -23,10 +23,12 @@ const data = [
 class Entry extends React.Component {
 
   GETInitialVotes () {
+
     var myHeaders = new Headers({
       'X-Api-Key' : secret,
     }); 
 
+    const that = this;
     var myInit = { method: 'GET', headers: myHeaders, mode: 'cors' };
     return fetch('https://9s98iyz7s5.execute-api.us-east-1.amazonaws.com/production/pledge', myInit)
     .then(function(res) {
@@ -36,17 +38,38 @@ class Entry extends React.Component {
 
     })
     .then(function(resJSON) {
-
       var total = 0;
 
       const resBody = JSON.parse(resJSON.body);
+      const { currentVotes, iotProperties } = resBody;
+
+      console.log(resBody);
+
       data.map((category, i) => {
         var key = category.name;
-        var votes = resBody[key];
+        var votes = currentVotes[key];
         category.value = votes;
         total += votes;
         return category;
       });
+
+      // Setup a websocket to listen to new votes
+      IoT.create(
+        iotProperties.topic,
+        iotProperties.endpoint,
+        iotProperties.region,
+        iotProperties.accessKey,
+        iotProperties.secretKey,
+        () => {
+          console.log('websocket connect');
+        }, 
+        (topic, message) => {
+          const { category, computerLocation } = JSON.parse(message);
+          that.animateVote(computerLocation, category);
+        }, 
+        () => {
+          console.log('websocket close');
+        });
       
       return { data, total };
 
@@ -57,55 +80,9 @@ class Entry extends React.Component {
     });
   }
 
-
-  GETVotes (currentData) {
-    var myHeaders = new Headers({
-      'X-Api-Key' : secret,
-    }); 
-
-    var myInit = { method: 'GET', headers: myHeaders, mode: 'cors' };
-    return fetch('https://9s98iyz7s5.execute-api.us-east-1.amazonaws.com/production/pledge', myInit)
-    .then(function(res) {
-
-      if (res.ok) { return res.json(); } 
-      else { throw new TypeError('GETVotes error'); }
-
-    })
-    .then(function(resJSON) {
-
-      var categoryChanged = '';
-      var directions = ['Left', 'Right'];
-      var direction = '';
-
-      const resBody = JSON.parse(resJSON.body);
-      currentData.map((category, i) => {
-        var updatedVotes = resBody[category.name];
-        if (category.value !== updatedVotes) {
-          categoryChanged = category.name;
-          direction = directions[Math.floor(Math.random() * 1.9)];
-        }
-      });
-      
-      return { categoryChanged, direction };
-      
-    }).catch(function(err) {
-
-      console.log(err);
-    
-    });
-  }
-
-  socketFaker () {
-    this.GETVotes(this.state.data).then(votes => {
-      if (votes.categoryChanged !== '' && votes.direction !== '') {
-        this.animateVote(votes.direction, votes.categoryChanged);
-      }
-    });
-  }
-
   componentWillMount () {
     this.renderLabel = this.renderLabel.bind(this);
-    this.socketFaker = this.socketFaker.bind(this);
+    this.GETInitialVotes = this.GETInitialVotes.bind(this);
 
     this.setState({
       total: 5,
@@ -123,10 +100,6 @@ class Entry extends React.Component {
         data: votes.data,
       });
     });
-
-    // TODO: Ruben set up socket :) thanks!
-
-    window.setInterval(this.socketFaker, 2000);
   }
 
   renderLabel (props) {
@@ -267,34 +240,13 @@ class Entry extends React.Component {
           </Pie> 
          </PieChart>
 
-         <div
-            style={{
-              position: 'absolute',
-              left: 0,
-              bottom: 0,
-            }}
-            onClick={() => { this.animateVote('left', 'Transportation')}}
-         >
-            left
-        </div>
-
-
-        <div
-            style={{
-              position: 'absolute',
-              right: 0,
-              bottom: 0,
-            }}
-            onClick={() => { this.animateVote('right', 'Habitat') }}
-         >
-            right
-        </div>
-
         <TransitionGroup>
           { this.state.voteEnteringFromLeft && 
             <Vote 
-              direction={'left'}
-              enterCallback={() => { this.addVote('left', this.state.categoryEnteringFromLeft); }}
+              direction={'Left'}
+              enterCallback={() => { 
+                this.addVote('Left', this.state.categoryEnteringFromLeft); 
+              }}
               category={this.state.categoryEnteringFromLeft}
               exitCallback={() => { 
                 // console.log('show those labels');
@@ -307,8 +259,10 @@ class Entry extends React.Component {
         <TransitionGroup> 
           { this.state.voteEnteringFromRight && 
             <Vote 
-              direction={'right'}
-              enterCallback={() => { this.addVote('right', this.state.categoryEnteringFromRight); }}
+              direction={'Right'}
+              enterCallback={() => {
+                this.addVote('Right', this.state.categoryEnteringFromRight);
+              }}
               category={this.state.categoryEnteringFromRight}
               exitCallback={() => { this.setState({ showLabels: true }); }}
             />
