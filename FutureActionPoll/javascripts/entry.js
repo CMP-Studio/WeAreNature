@@ -30,7 +30,7 @@ class Entry extends React.Component {
 
     const that = this;
     var myInit = { method: 'GET', headers: myHeaders, mode: 'cors' };
-    return fetch('https://9s98iyz7s5.execute-api.us-east-1.amazonaws.com/production/pledge', myInit)
+    return fetch('https://yhwyy8uzf7.execute-api.us-east-1.amazonaws.com/production/pledge', myInit)
     .then(function(res) {
 
       if (res.ok) { return res.json(); } 
