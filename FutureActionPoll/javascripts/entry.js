@@ -40,8 +40,7 @@ class Entry extends React.Component {
     .then(function(resJSON) {
       var total = 0;
 
-      const resBody = JSON.parse(resJSON.body);
-      const { currentVotes, iotProperties } = resBody;
+      const { currentVotes, iotProperties } = resJSON;
 
       data.map((category, i) => {
         var key = category.name;
