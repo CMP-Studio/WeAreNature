@@ -5,6 +5,7 @@
     <title>Scene</title>
     <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script src="lib/jquery-3.2.1.min.js" charset="utf-8"></script>
+    <script src="secrets.js" charset="utf-8"></script>
     <script src="data/systems.js" charset="utf-8"></script>
     <script src="data/confirmationSynonyms.js" charset="utf-8"></script>
     <script>
@@ -18,7 +19,7 @@
       //////////////////////// EVENT LISTENERS ////////////////////////
 
       ipcRenderer.on('pledgeRecorded', (event) => {
-        animateTheVote();
+        
       });
 
       ipcRenderer.on('reminderRecorded', (event) => { 
@@ -27,24 +28,55 @@
 
       //////////////////////// EVENT EMITTERS ////////////////////////
  
+
+      function didNotWork(header, status, err) {
+        console.log(err);
+      }
+
+      function didWork() {
+        animateTheVote();
+        console.log('DID WORK');
+      }
+
+
       function pledge(category) {
+
+        $.post({
+            url: 'https://yhwyy8uzf7.execute-api.us-east-1.amazonaws.com/production/pledge',
+            headers: { 'x-api-key': secret },
+            data: {
+              category: category.charAt(0).toUpperCase() + category.slice(1),
+              screen: 'Left',
+            },
+            success: didWork,
+            error: didNotWork,
+        });
+        // 200 it worked
+        // anything else it didn't
+        // 500 server error out
+        // 400 bad request
+        // 401 forbidden
+        // 404 not found
+
+
+        /*
         ipcRenderer.send('pledge', 
           {
             category: category,
             screen: 'left',
           });
+        */
       }
 
-      function reminder(category, subcategory, email) {
-        var date = new Date();
-        date.toISOString(); //"2011-12-19T15:28:46.493Z"
+      function reminder(subcategory, email) {
+
+        //URL: https://yhwyy8uzf7.execute-api.us-east-1.amazonaws.com/production/reminder
+        // All the data you need is the email and the subcategory
 
         ipcRenderer.send('reminder',
           {
-            category: category,
             subcategory: subcategory,
             email: email,
-            time: date, 
           });
       }
 

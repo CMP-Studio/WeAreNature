@@ -13,7 +13,7 @@ var mapWindow = null;
 
 // CREATE WINDOWS
 app.on('ready', () => {
-    mapWindow = new BrowserWindow({ width: 960, height: 540, }); //resizable: false, type:'toolbar', fullscreen: true, frame: false, 'auto-hide-menu-bar': true, });
+    mapWindow = new BrowserWindow({ width: 1080, height: 920, frame: false, resizeable: false, fullscreen: true }); //resizable: false, type:'toolbar', fullscreen: true, frame: false, 'auto-hide-menu-bar': true, });
     mapWindow.loadURL(`file://${__dirname}/map.html`);
     mapWindow.setMenu(null);
 });
