@@ -273,7 +273,7 @@ class Entry extends React.Component {
               left: 0,
               bottom: 0,
             }}
-            onClick={() => { this.animateVote('left', 'Transportation')}}
+            onClick={() => { this.animateVote('Left', 'Transportation')}}
          >
             left
         </div>
@@ -294,7 +294,7 @@ class Entry extends React.Component {
           { this.state.voteEnteringFromLeft && 
             <Vote 
               direction={'left'}
-              enterCallback={() => { this.addVote('left', this.state.categoryEnteringFromLeft); }}
+              enterCallback={() => { this.addVote('Left', this.state.categoryEnteringFromLeft); }}
               category={this.state.categoryEnteringFromLeft}
               exitCallback={() => { 
                 // console.log('show those labels');
@@ -308,7 +308,7 @@ class Entry extends React.Component {
           { this.state.voteEnteringFromRight && 
             <Vote 
               direction={'right'}
-              enterCallback={() => { this.addVote('right', this.state.categoryEnteringFromRight); }}
+              enterCallback={() => { this.addVote('Right', this.state.categoryEnteringFromRight); }}
               category={this.state.categoryEnteringFromRight}
               exitCallback={() => { this.setState({ showLabels: true }); }}
             />

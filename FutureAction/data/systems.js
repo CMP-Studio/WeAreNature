@@ -60,7 +60,7 @@ var systems = {
           name: 'Try reuse.',
           text: 'Instead of using energy to make something new, upcycle materials for your next project. ',
           localOrgText: 'Find a donation center to take your old materials and provide a starter for something new. <span class="bodyBold">Construction Junction</span> has materials for home renovation, and <span class="bodyBold">Pittsburgh Center for Creative Reuse</span> deals with craft supplies for small creative projects.',
-          localOrgLink: ['https://www.cjreuse.org/', 'http://pccr.org/ '],
+          localOrgLink: ['https://www.cjreuse.org/', 'http://pccr.org/'],
           learnMoreText: 'Learn more about the bigger picture from Zero Waste PA',
           learnMoreLink: 'http://prc.org/programs/zero-waste-services/zero-waste-pa/',
         },
