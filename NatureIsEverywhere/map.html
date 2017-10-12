@@ -16,24 +16,32 @@
 
       var STATE = 'selection'; // 'answer', 'fact'
 
+      // All 6 is the correct answer
+      var categoriesSelected = 0;
+
+      var idleTime = 0;
+
+      var currentlyPlayingTransition;
+
+      var fact;
       var facts = [
         {
           factTitle: "Coyotes:",
           factBody: "Coyotes can live anywhere that humans do, but are so secretive that we rarely see them. They have been documented in every county in Pennsylvania.",
-          class: 'coyoteFact',
           image: 'images/CoyoteFact.png',
+          domID: 'coyoteFact',
         },
         {
           factTitle: "Spiders:",
           factBody: "A typical house supports at least 10 different species of spiders. These tiny eight-legged roommates are essential insect and pest control.",
-          class: 'spiderFact',
           image: 'images/SpiderFact.png',
+          domID: 'spiderFact',
         },
         {
           factTitle: "Birds:",
           factBody: "More than 100 species of birds breed in the Pittsburgh Area. Another 100 pass through the area during migration.",
-          class: 'birdFact',
           image: 'images/BirdFact.png',
+          domID: 'birdFact',
         }
       ]
 
@@ -42,98 +50,140 @@
       function checkAnswers() {
         STATE = 'answer';
 
-        $("#submitSelectionButton").addClass('hide');
-        $("#question").addClass('hide');
-
-        if ($(".selected").length < 6) {
-          $("#wrongModal").removeClass('hide');
-        } else {
-          $("#correctModal").removeClass('hide');
-        }
-
+        $("#promptModal").addClass('hiddenOverlay');
         $('.categoryMask').addClass('selected');
 
-        $("#timeoutBar").addClass('countingDown');
+        currentlyPlayingTransition = window.setTimeout(function() {
+          $("#answerModalMask").removeClass('hiddenOverlay');
+          if (categoriesSelected === 6) {
+            $("#correctModal").removeClass('hiddenOverlay');
+          } else {
+            $("#wrongModal").removeClass('hiddenOverlay');
+          }
 
-        window.setTimeout(function() { zoomIn(); }, 15000);
+          $("#timeoutBar").addClass('countingDown');
+          currentlyPlayingTransition = window.setTimeout(function() { zoomIn(); }, 15000);
+
+        }, 1000);
       }
+
 
       function zoomIn() {
-        var fact = facts[factIndex];
-
+        $("#wrongModal").addClass('hiddenOverlay');
+        $("#correctModal").addClass('hiddenOverlay');
+        $("#answerModalMask").addClass('hiddenOverlay');
         $("#timeoutBar").removeClass('countingDown');
-        
         $("#map").css('display', 'none');
-        $("#undermap").addClass(fact.class);
-        $("#factTitle").html(fact.factTitle);
-        $("#factBody").html(fact.factBody);
-        $("#factMask").attr("src", fact.image);
 
-        factIndex = (factIndex + 1) % 3;
+        fact = facts[factIndex];
 
-        window.setTimeout(function() { presentFact(); }, 3500);
+        $("#undermap").addClass(fact.domID);
+
+        currentlyPlayingTransition = window.setTimeout(presentFact, 3500);
       }
+
+
 
       function presentFact() {
         STATE = 'fact';
 
-        $("#wrongModal").addClass('hide');
-        $("#correctModal").addClass('hide');
-        $("#factModal").removeClass('hide');  
-        $("#factMask").removeClass('invisible');
         $("#timeoutBar").addClass('countingDown');
+        $("#"+fact.domID).removeClass('hiddenOverlay');
 
-        window.setTimeout(function() { reset(); }, 15000)  
+        currentlyPlayingTransition = window.setTimeout(function() { reset(); }, 15000)  
       }
 
 
       function reset() {
-        STATE = 'selection';
+        if (STATE !== 'selection') {
+          $("#timeoutBar").removeClass('countingDown');
+          $("#"+fact.domID).addClass('hiddenOverlay');
+          $("#undermap").removeClass(fact.domID);
+          $("#map").css('display', 'block');
 
-        $("#modal").addClass('hide');
-        $("#factModal").addClass('hide');
-        $("#factMask").addClass('invisible'); 
-        $("#timeoutBar").removeClass('countingDown');
-        $("#undermap").removeClass('birdFact');
-        $("#undermap").removeClass('coyoteFact');
-        $("#undermap").removeClass('spiderFact');
+          $("#wrongModal").addClass('hiddenOverlay');
+          $("#correctModal").addClass('hiddenOverlay');
+          $("#answerModalMask").addClass('hiddenOverlay');
+        }
 
-        window.setTimeout(function() {
-          $('.categoryMask').removeClass('selected');
-          $('.categoryMask').addClass('sparkling');
-          $("#question").removeClass('hide');
-          $("#modal").removeClass('hide');
-        }, 3000);
+        currentlyPlayingTransition = window.setTimeout(function() { 
+          STATE = 'selection';
+          $(".categoryMask").removeClass('selected');
+          $(".categoryMask").addClass('sparkling');
+          $("#submitSelectionButton").removeClass('growingButton');
+          $("#promptModal").removeClass('hiddenOverlay');
+        }, 5000);
+
+        factIndex = (factIndex + 1) % 3;
       }
-
 
       //////////////////////// ON READY ////////////////////////
 
+      function timerIncrement(ms) {
+        idleTime = idleTime + ms;
+        if (idleTime > 60000) { // 60 seconds
+          idleTime = 0;
+          reset();
+        }
+      }
+      
       $(document).ready(function() {
 
-        $("#wrongModal").addClass('hide');
-        $("#correctModal").addClass('hide');
+        // Listener to tell when someone has walked away from the app
+        // Check every 5 seconds
+        // Increment the idle time counter every minute.
+        var idleInterval = setInterval(function() {
+          timerIncrement(5000);
+        }, 5000);
 
-        $("#submitSelectionButton").bind('click', function() {
-          if (STATE === 'selection') {
-            checkAnswers();
-          }
-        });
+        // Bind click events:
 
+        // When a category is clicked 
         $(".category").bind('mousedown', function() {
+          idleTime = 0;
           if (STATE === 'selection') {
+            // Toggle category on/off
             var category = ($(this).attr('id'));
             $('#'+category+'Mask').toggleClass('selected');
-            if ($('.selected').length === 0) {
-              $("#submitSelectionButton").addClass('hide');
-              $(".categoryMask").addClass('sparkling');
-            } else {
-              $("#submitSelectionButton").removeClass('hide');
-              $(".categoryMask").removeClass('sparkling');
-            }
+            categoriesSelected = $(".selected").length;
+            // Show submit button
+            $("#submitSelectionButton").addClass('growingButton');
+            // Stop lure screen
+            $(".categoryMask").removeClass('sparkling');
           }
         });
 
+        // Submit button
+        $("#submitSelectionButton").bind('click', function() {
+          idleTime = 0;
+          checkAnswers();
+        });
+
+        // Screen clicked when answer shown 
+        $("#correctModal").bind('mousedown', function() {
+          idleTime = 0;
+          window.clearTimeout(currentlyPlayingTransition);
+          zoomIn();
+        });
+
+        $("#wrongModal").bind('mousedown', function() {
+          idleTime = 0;
+          window.clearTimeout(currentlyPlayingTransition);
+          zoomIn();
+        });
+
+        $("#answerModalMask").bind('mousedown', function() {
+          idleTime = 0;
+          window.clearTimeout(currentlyPlayingTransition);
+          zoomIn();
+        });
+
+        // Screen clicked when fact shown 
+        $(".fact").bind('mousedown', function() {
+          idleTime = 0;
+          window.clearTimeout(currentlyPlayingTransition);
+          reset();
+        });
       });
 
     </script>
@@ -145,7 +195,7 @@
         width: 1920px;
         height: 1080px;
         margin: 0px;
-        -webkit-user-select: none;
+        -webkit-user-select: none !important;
       }
 
       @font-face {
@@ -158,6 +208,11 @@
         src: url('fonts/Brandon_reg.otf') format('opentype');
       }
 
+      body {
+        background-color: #3b837f;
+        touch-action: none !important;
+      }
+
       #map {
         position: absolute;
         top: 0px;
@@ -165,9 +220,6 @@
         bottom: 0px;
         right: 0px;
         max-width:100%;
-        opacity: 0.5;
-        
-        background-color: #3b837f;
       }
 
       #undermap {
@@ -180,8 +232,8 @@
         bottom: 0px;
         right: 0px;
         max-width:100%;
+        opacity: 0.96;
       }
-
 
       .birdFact {
         transform: scale(3) translate(-636px, -353px);
@@ -199,7 +251,7 @@
         opacity: 0;
       }
 
-      #clickableOverlay, .categoryMask, #factMask {
+      #clickableOverlay, .categoryMask, .factMask {
         position: absolute;
         top: 0px;
         left: 0px;
@@ -209,56 +261,139 @@
       }
 
       .modal {
-        background-color: rgba(4, 70, 78, 0.8);
-        padding: 50px;
+        background-color: rgba(4, 70, 78, 0.85);
+        padding: 40px;
+        height: auto;
+        border-radius: 7px;
+      }
+
+      #promptModal {
+        width: 760px;
+        will-change: opacity;
+        transition: opacity 0.5s;
+        animation-timing-function: ease-in-out;
         position: absolute;
         bottom: 60px;
         left: 60px;
-        height: auto;
-        border-radius: 7px;
-        width: 720px;
-        -webkit-transition: height 2s;
-        -moz-transition: height 2s;
-        -o-transition: height 2s;
-        transition: height 2s;
-        will-change: height;
+      }
+
+      #answerModalMask {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        width: 1920px;
+        height: 1080px;
+        will-change: opacity;
+        transition: opacity 1s;
+        animation-timing-function: ease-in-out;
+      }
+
+      #correctModal {
+        background-color: transparent;
+        width: 700px;
+        padding: 0px;
+        will-change: opacity;
+        transition: opacity 1s;
+        animation-timing-function: ease-in-out;
+        position: absolute;
+        margin: 350px 610px;
+      }
+
+      #wrongModal {
+        background-color: transparent;
+        width: 700px;
+        padding: 0px;
+        will-change: opacity;
+        transition: opacity 1s;
+        animation-timing-function: ease-in-out;
+        position: absolute;
+        margin: 350px 610px;
+      }
+
+      .fact {
+        background-color: transparent;
+        padding: 0px;
+        will-change: opacity;
+        transition: opacity 1s;
+        animation-timing-function: ease-in-out;
+        position: absolute;
+      }
+
+      #coyoteFactText {
+        position: absolute;
+        bottom: 60px;
+        left: 60px;
+        width: 500px;
+      }
+
+      #spiderFactText {
+        position: absolute;
+        bottom: 60px;
+        left: 60px;
+        width: 500px;
+      }
+
+      #birdFactText {
+        position: absolute;
+        bottom: 60px;
+        left: 60px;
+        width: 500px;
       }
 
       #submitSelectionButton {
-        position: absolute;
-        bottom: 30px;
-        left: 700px;
-        height: 60px;
+        background-color: #106d82;
+        font-size: 30px;
+        font-family: 'BrandonTitle';
+        font-weight: bold;
+        margin: auto;
+        text-align: center;
         padding: 0px 30px;
-        border-radius: 30px;
-        line-height: 60px;
+        border-radius: 7px;
+        line-height: 70px;
+        will-change: height;
+        will-change: margin;
+        will-change: color;
+        animation-timing-function: ease-in-out;
+        height: 0px;
+        margin-top: 0px; 
+        color: transparent;     
+      }
+
+      #submitSelectionButton:active {
+        background-color: #55b7b3;
+      }
+
+      .growingButton {
+        height: 75px !important;
+        margin-top: 35px !important;
+        color: #accbe2 !important;
+        transition: height 0.5s, margin 0.5s, color 0.5s;
       }
 
       .categoryMask {
-        -webkit-filter: blur(1px); 
-        -moz-filter: blur(1px); 
-        filter: blur(1px); 
-        opacity: 0.3;
-        -webkit-transition: opacity 0.5s;
+        opacity: 1;
         transition: opacity 0.5s;
         will-change: opacity;
+        animation-timing-function: ease-in-out;
       }
 
       @keyframes sparkle {
-        0%   { opacity: 0.3; }
-        8%   { opacity: 0.7; }
-        30%  { opacity: 0.3; }
+        0%   { opacity: 1; }
+        20%   { opacity: 0.3; }
+        80%  { opacity: 1; }
       }
 
       .sparkling {
         animation-name: sparkle;
         animation-timing-function: linear;
         animation-iteration-count: infinite;
-        animation-duration: 12s;
+        animation-duration: 6s;
       } 
 
       .selected {
-        opacity: 0.9 !important;
+        opacity: 0.0 !important;
         -webkit-filter: blur(0px); 
         filter: blur(0px); 
       }
@@ -275,27 +410,26 @@
         animation-iteration-count: infinite;
       }
 
-      #timeoutBar {
+      .timeoutBar {
         position: absolute;
         bottom: 0px;
         left: 0px;
         width: 0px;
-        background-color: #72b5b1;
-        height: 15px;
-        border-radius: 0px 0px 0px 7px;
+        background-color: #55b7b3;
+        height: 25px;
         will-change: width;
       }
 
       .title {
-        font-size: 42px;
-        line-height: 42px;
+        font-size: 44px;
+        line-height: 1.2;
         color: #e9efe7 !important; /* white */
         font-family: 'BrandonTitle';
       }
 
       .body {
-        font-size: 30px;
-        line-height: 33px;
+        font-size: 36px;
+        line-height: 1.3;
         font-family: 'BrandonBody';
         color: #e9efe7 !important; /* white */
         margin-top: 30px;
@@ -303,11 +437,11 @@
       }
 
       .shadow {
-        box-shadow: 0px 0px 10px #373735;
+        box-shadow: 0px 0px 2px rgba(55, 55, 53, 0.5);
       }
 
       .clickable {
-        color: #e9efe7 !important; /* base middle blue */
+        color: #e9efe7; /* base middle blue */
         text-align: center;
         
         background-color:  #2d606f; /* white */
@@ -324,6 +458,11 @@
         display: none !important;
       }
 
+      .hiddenOverlay {
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+
       .invisible {
         display: none;
         opacity: 0 !important;
@@ -332,9 +471,7 @@
     </style>
 </head>
 <body>
-  <div id="undermap">
-    <img src="images/BaseMap.png">
-  </div>
+  <img id="undermap" src="images/BaseMap.png">
 
   <div id="map">
     <img src="images/City.png" id="CityMask" class="sparkling categoryMask" style="animation-delay: 2s;">
@@ -344,7 +481,6 @@
     <img src="images/Parks.png" id="ParksMask" class="sparkling categoryMask" style="animation-delay: 10s;">
     <img src="images/River.png" id="RiverMask" class="sparkling categoryMask" style="animation-delay: 12s;">
   </div>
-
   
   <div id="clickableOverlay">
 
@@ -1391,12 +1527,19 @@
 </svg>
 
   </div>
-  <img id="factMask" class="invisible" />
-  <div id="modal" class="modal shadow">
-    <div id="question" class="title">
-      Touch the parts of the Pittsburgh landscape<br>that you would consider nature.
+    <!-- PROMPT MODAL -->
+    <div id="promptModal" class="modal shadow">
+      <div class="title">
+        Touch the parts of the Pittsburgh landscape<br>that you would consider nature.
+        <div id="submitSelectionButton">
+          SUBMIT
+        </div>
+      </div>
     </div>
-    <div id="wrongModal">
+    <!-- ANSWER MODAL MASK -->
+    <img id="answerModalMask" class="hiddenOverlay" src="./images/CentralMask.png" />
+    <!-- WRONG MODAL -->
+    <div id="wrongModal" class="modal hiddenOverlay">
       <div class="title">
         Actually,
       </div>
@@ -1404,7 +1547,8 @@
        Nature is EVERYWHERE. We are not seperate from nature; We Are Nature. We assume nature is where humans are not; wild places like forests, parks, and rivers. But nature is everywhere, even where you live.
       </div>
     </div>
-    <div id="correctModal">
+    <!-- CORRECT MODAL -->
+    <div id="correctModal" class="modal hiddenOverlay">
       <div class="title">
         YES!
       </div>
@@ -1412,17 +1556,46 @@
        Nature is EVERYWHERE.
        We are not seperate from nature; We Are Nature. Nature does not stop where humans begin, it is in our homes and city sidewalks. Turkeys feed along the road in the Hill District, deer roam the suburbs, and insects share your home.
       </div>
+      <div id="correctModalTimeoutBar" class="timeoutBar"></div>
     </div>
-    <div id="factModal" class="hide">
-      <div class="title" id="factTitle">
-      </div>
-      <div class="body" id="factBody">
+    <!-- FACT OVERLAY COYOTE -->
+    <div id="coyoteFact" class="fact hiddenOverlay">
+      <img class="factMask" src="./images/CoyoteFact.png" />
+      <div id="coyoteFactText">
+        <div class="title" id="factTitle">
+          Coyotes:
+        </div>
+        <div class="body" id="factBody">
+          Coyotes can live anywhere that humans do, but are so secretive that we rarely see them. They have been documented in every county in Pennsylvania.
+        </div>
       </div>
     </div>
-    <div id="timeoutBar"></div>
-  </div>
-  <div id="submitSelectionButton" class="clickable shadow hide">
-    SUBMIT
+    <!-- FACT OVERLAY SPIDER -->
+    <div id="spiderFact" class="fact hiddenOverlay">
+      <img class="factMask" src="./images/SpiderFact.png" />
+      <div id="spiderFactText">
+        <div class="title" id="factTitle">
+          Spiders:
+        </div>
+        <div class="body" id="factBody">
+          A typical house supports at least 10 different species of spiders. These tiny eight-legged roommates are essential insect and pest control.
+        </div>
+      </div>
+    </div>
+    <!-- FACT OVERLAY BIRD -->
+    <div id="birdFact" class="fact hiddenOverlay">
+      <img class="factMask" src="./images/BirdFact.png" />
+      <div id="birdFactText">
+        <div class="title" id="factTitle">
+          Birds:
+        </div>
+        <div class="body" id="factBody">
+          More than 100 species of birds breed in the Pittsburgh Area. Another 100 pass through the area during migration.
+        </div>
+      </div>
+    </div>
+    <!-- TIMEOUT BAR -->
+    <div id="timeoutBar" class="timeoutBar"></div>
   </div>
 </body>
 </html>
