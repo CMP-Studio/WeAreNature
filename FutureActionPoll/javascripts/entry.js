@@ -237,6 +237,32 @@ class Entry extends React.Component {
           </Pie> 
          </PieChart>
 
+         <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              bottom: 0,
+            }}
+            onClick={() => { this.animateVote('Left', 'Transportation')}}
+         >
+            left
+        </div>
+
+
+        <div
+            style={{
+              position: 'absolute',
+              right: 0,
+              bottom: 0,
+            }}
+            onClick={() => { this.animateVote('right', 'Habitat') }}
+         >
+            right
+        </div>
+
+        <TransitionGroup>
+          { this.state.voteEnteringFromLeft && 
+
         <TransitionGroup>
           { this.state.voteEnteringFromLeft && 
             <Vote 
