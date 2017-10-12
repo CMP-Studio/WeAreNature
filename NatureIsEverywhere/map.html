@@ -23,6 +23,7 @@
 
       var currentlyPlayingTransition;
 
+      var factIndex = 0;
       var fact;
       var facts = [
         {
@@ -45,7 +46,6 @@
         }
       ]
 
-      var factIndex = 0;
 
       function checkAnswers() {
         STATE = 'answer';
@@ -313,33 +313,38 @@
       }
 
       .fact {
-        background-color: transparent;
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
         padding: 0px;
         will-change: opacity;
         transition: opacity 1s;
         animation-timing-function: ease-in-out;
         position: absolute;
+        opacity: 1;
       }
 
       #coyoteFactText {
         position: absolute;
-        bottom: 60px;
-        left: 60px;
-        width: 500px;
+        top: 150px;
+        left: 160px;
+        width: 600px;
       }
 
       #spiderFactText {
         position: absolute;
-        bottom: 60px;
-        left: 60px;
-        width: 500px;
+        bottom: 150px;
+        left: 600px;
+        width: 600px;
       }
 
       #birdFactText {
         position: absolute;
-        bottom: 60px;
-        left: 60px;
-        width: 500px;
+        bottom: 200px;
+        left: 280px;
+        width: 600px;
       }
 
       #submitSelectionButton {
