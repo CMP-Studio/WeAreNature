@@ -2,13 +2,14 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>Scene</title>
     <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script src="js/jquery-3.2.1.min.js" charset="utf-8"></script>
     <script>
       //////////////////////// IMPORTS ////////////////////////
 
-      // var {remote} = require('electron');
+      var {remote} = require('electron');
       // var main = remote.require("./main.js");
 
       //////////////////////// EVENT LISTENERS ////////////////////////
@@ -127,7 +128,27 @@
         }
       }
       
+
+	function touchHandler(event) {
+
+		event.preventDefault();	
+		event.stopPropagation();	
+		return false;
+	}
+
       $(document).ready(function() {
+
+
+	window.addEventListener('keydown', function(e) {
+		if (e.keyCode === 68) remote.getCurrentWindow().toggleDevTools(); // D
+		else if (e.keyCode === 82) location.reload(); // R	
+	});
+
+	window.addEventListener('ontouchstart', touchHandler, false);
+	window.addEventListener('ontouchend', touchHandler, false);
+	window.addEventListener('touchcancel', touchHandler, false);
+	window.addEventListener('touchmove', touchHandler, false);
+	window.addEventListener('wheel', touchHandler, false);
 
         // Listener to tell when someone has walked away from the app
         // Check every 5 seconds
@@ -154,7 +175,7 @@
         });
 
         // Submit button
-        $("#submitSelectionButton").bind('click', function() {
+        $("#submitSelectionButton").bind('mousedown', function() {
           idleTime = 0;
           checkAnswers();
         });
