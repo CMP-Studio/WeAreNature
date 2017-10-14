@@ -7,7 +7,6 @@
     <style type="text/css">
 
       * {
-
         cursor: url(cursor.cur), auto;
       }
 
@@ -358,10 +357,7 @@
 
             $("#timeoutBar").addClass('countingDown');
             currentlyPlayingTransition = window.setTimeout(function() { zoomIn(); }, 15000);
-
           }, 1500);
-
-        
       }
 
 
@@ -390,7 +386,7 @@
           $("#coyoteFactFront").removeClass('hiddenOverlay');
         }
 
-        // currentlyPlayingTransition = window.setTimeout(function() { reset(); }, 15000)  
+        currentlyPlayingTransition = window.setTimeout(function() { reset(); }, 15000)  
       }
 
 
@@ -438,19 +434,21 @@
 		return false;
 	}
 
-      $(document).ready(function() {
 
+  // SETUP 
 
-	window.addEventListener('keydown', function(e) {
-		if (e.keyCode === 68) remote.getCurrentWindow().toggleDevTools(); // D
-		else if (e.keyCode === 82) location.reload(); // R	
-	});
+  $(document).ready(function() {
 
-	window.addEventListener('ontouchstart', touchHandler, false);
-	window.addEventListener('ontouchend', touchHandler, false);
-	window.addEventListener('touchcancel', touchHandler, false);
-	window.addEventListener('touchmove', touchHandler, false);
-	window.addEventListener('wheel', touchHandler, false);
+	     window.addEventListener('keydown', function(e) {
+		    if (e.keyCode === 68) remote.getCurrentWindow().toggleDevTools(); // D
+		    else if (e.keyCode === 82) location.reload(); // R	
+	       });
+
+      	window.addEventListener('ontouchstart', touchHandler, false);
+      	window.addEventListener('ontouchend', touchHandler, false);
+      	window.addEventListener('touchcancel', touchHandler, false);
+      	window.addEventListener('touchmove', touchHandler, false);
+      	window.addEventListener('wheel', touchHandler, false);
 
         // Listener to tell when someone has walked away from the app
         // Check every 5 seconds
@@ -508,6 +506,15 @@
           reset();
         });
       });
+
+      if (true) {
+          $('html').css({
+            '-webkit-transform': 'rotate(180deg)',
+            ' -moz-transform': 'rotate(180deg)',
+            'width': '100%',
+            'height': '100%',
+          });
+        }
 
     </script>
     <script>if (window.module) module = window.module;</script>
