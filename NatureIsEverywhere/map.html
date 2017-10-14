@@ -4,217 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>Scene</title>
-    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
-    <script src="js/jquery-3.2.1.min.js" charset="utf-8"></script>
-    <script>
-      //////////////////////// IMPORTS ////////////////////////
-
-      var {remote} = require('electron');
-      // var main = remote.require("./main.js");
-
-      //////////////////////// EVENT LISTENERS ////////////////////////
-
-
-      var STATE = 'selection'; // 'answer', 'fact'
-
-      // All 6 is the correct answer
-      var categoriesSelected = 0;
-
-      var idleTime = 0;
-
-      var currentlyPlayingTransition;
-
-      var factIndex = 0;
-      var fact;
-      var facts = [
-        {
-          factTitle: "Coyotes:",
-          factBody: "Coyotes can live anywhere that humans do, but are so secretive that we rarely see them. They have been documented in every county in Pennsylvania.",
-          image: 'images/CoyoteFact.png',
-          domID: 'coyoteFact',
-        },
-        {
-          factTitle: "Spiders:",
-          factBody: "A typical house supports at least 10 different species of spiders. These tiny eight-legged roommates are essential insect and pest control.",
-          image: 'images/SpiderFact.png',
-          domID: 'spiderFact',
-        },
-        {
-          factTitle: "Birds:",
-          factBody: "More than 100 species of birds breed in the Pittsburgh Area. Another 100 pass through the area during migration.",
-          image: 'images/BirdFact.png',
-          domID: 'birdFact',
-        }
-      ]
-
-
-      function checkAnswers() {
-        STATE = 'answer';
-
-        $("#promptModal").addClass('hiddenOverlay');
-        $('.categoryMask').addClass('selected');
-
-        currentlyPlayingTransition = window.setTimeout(function() {
-          $("#answerModalMask").removeClass('hiddenOverlay');
-          if (categoriesSelected === 6) {
-            $("#correctModal").removeClass('hiddenOverlay');
-          } else {
-            $("#wrongModal").removeClass('hiddenOverlay');
-          }
-
-          $("#timeoutBar").addClass('countingDown');
-          currentlyPlayingTransition = window.setTimeout(function() { zoomIn(); }, 15000);
-
-        }, 1000);
-      }
-
-
-      function zoomIn() {
-        $("#wrongModal").addClass('hiddenOverlay');
-        $("#correctModal").addClass('hiddenOverlay');
-        $("#answerModalMask").addClass('hiddenOverlay');
-        $("#timeoutBar").removeClass('countingDown');
-        $("#map").css('display', 'none');
-
-        fact = facts[factIndex];
-
-        $("#undermap").addClass(fact.domID);
-
-        currentlyPlayingTransition = window.setTimeout(presentFact, 3500);
-      }
-
-
-
-      function presentFact() {
-        STATE = 'fact';
-
-        $("#timeoutBar").addClass('countingDown');
-        $("#"+fact.domID).removeClass('hiddenOverlay');
-
-        currentlyPlayingTransition = window.setTimeout(function() { reset(); }, 15000)  
-      }
-
-
-      function reset() {
-        if (STATE !== 'selection') {
-          $("#timeoutBar").removeClass('countingDown');
-          $("#"+fact.domID).addClass('hiddenOverlay');
-          $("#undermap").removeClass(fact.domID);
-          $("#map").css('display', 'block');
-
-          $("#wrongModal").addClass('hiddenOverlay');
-          $("#correctModal").addClass('hiddenOverlay');
-          $("#answerModalMask").addClass('hiddenOverlay');
-        }
-
-        currentlyPlayingTransition = window.setTimeout(function() { 
-          STATE = 'selection';
-          $(".categoryMask").removeClass('selected');
-          $(".categoryMask").addClass('sparkling');
-          $("#submitSelectionButton").removeClass('growingButton');
-          $("#promptModal").removeClass('hiddenOverlay');
-        }, 5000);
-
-        factIndex = (factIndex + 1) % 3;
-      }
-
-      //////////////////////// ON READY ////////////////////////
-
-      function timerIncrement(ms) {
-        idleTime = idleTime + ms;
-        if (idleTime > 60000) { // 60 seconds
-          idleTime = 0;
-          reset();
-        }
-      }
-      
-
-	function touchHandler(event) {
-
-		event.preventDefault();	
-		event.stopPropagation();	
-		return false;
-	}
-
-      $(document).ready(function() {
-
-
-	window.addEventListener('keydown', function(e) {
-		if (e.keyCode === 68) remote.getCurrentWindow().toggleDevTools(); // D
-		else if (e.keyCode === 82) location.reload(); // R	
-	});
-
-	window.addEventListener('ontouchstart', touchHandler, false);
-	window.addEventListener('ontouchend', touchHandler, false);
-	window.addEventListener('touchcancel', touchHandler, false);
-	window.addEventListener('touchmove', touchHandler, false);
-	window.addEventListener('wheel', touchHandler, false);
-
-        // Listener to tell when someone has walked away from the app
-        // Check every 5 seconds
-        // Increment the idle time counter every minute.
-        var idleInterval = setInterval(function() {
-          timerIncrement(5000);
-        }, 5000);
-
-        // Bind click events:
-
-        // When a category is clicked 
-        $(".category").bind('mousedown', function() {
-          idleTime = 0;
-          if (STATE === 'selection') {
-            // Toggle category on/off
-            var category = ($(this).attr('id'));
-            $('#'+category+'Mask').toggleClass('selected');
-            categoriesSelected = $(".selected").length;
-            // Show submit button
-            $("#submitSelectionButton").addClass('growingButton');
-            // Stop lure screen
-            $(".categoryMask").removeClass('sparkling');
-          }
-        });
-
-        // Submit button
-        $("#submitSelectionButton").bind('mousedown', function() {
-          idleTime = 0;
-          checkAnswers();
-        });
-
-        // Screen clicked when answer shown 
-        $("#correctModal").bind('mousedown', function() {
-          idleTime = 0;
-          window.clearTimeout(currentlyPlayingTransition);
-          zoomIn();
-        });
-
-        $("#wrongModal").bind('mousedown', function() {
-          idleTime = 0;
-          window.clearTimeout(currentlyPlayingTransition);
-          zoomIn();
-        });
-
-        $("#answerModalMask").bind('mousedown', function() {
-          idleTime = 0;
-          window.clearTimeout(currentlyPlayingTransition);
-          zoomIn();
-        });
-
-        // Screen clicked when fact shown 
-        $(".fact").bind('mousedown', function() {
-          idleTime = 0;
-          window.clearTimeout(currentlyPlayingTransition);
-          reset();
-        });
-      });
-
-    </script>
-    <script>if (window.module) module = window.module;</script>
     <style type="text/css">
 
-    	* {
+      * {
 
-    		cursor: url(cursor.cur), auto;
-    	}
+        cursor: url(cursor.cur), auto;
+      }
 
       body {
         overflow: hidden !important;
@@ -266,7 +61,7 @@
       }
 
       .coyoteFact {
-        transform: scale(3) translate(500px, -100px);
+        transform: scale(3) translate(500px, -214px);
       }
 
       .spiderFact {
@@ -354,23 +149,26 @@
 
       #coyoteFactText {
         position: absolute;
-        top: 150px;
-        left: 160px;
-        width: 600px;
+        width: 760px;
+        position: absolute;
+        bottom: 360px;
+        left: 230px;
       }
 
       #spiderFactText {
         position: absolute;
-        bottom: 150px;
-        left: 600px;
-        width: 600px;
+        width: 760px;
+        position: absolute;
+        bottom: 155px;
+        left: 620px;
       }
 
       #birdFactText {
         position: absolute;
-        bottom: 200px;
-        left: 280px;
-        width: 600px;
+        width: 760px;
+        position: absolute;
+        bottom: 150px;
+        left: 325px;
       }
 
       #submitSelectionButton {
@@ -392,7 +190,7 @@
         color: transparent;     
       }
 
-      #submitSelectionButton:active {
+      #submitSelectionButton:active, #submitSelectionButton:hover {
         background-color: #55b7b3;
       }
 
@@ -500,6 +298,220 @@
       }
 
     </style>
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="js/jquery-3.2.1.min.js" charset="utf-8"></script>
+    <script>
+      //////////////////////// IMPORTS ////////////////////////
+
+      var {remote} = require('electron');
+      // var main = remote.require("./main.js");
+
+      //////////////////////// EVENT LISTENERS ////////////////////////
+
+
+      var STATE = 'selection'; // 'answer', 'fact'
+
+      // All 6 is the correct answer
+      var categoriesSelected = 0;
+
+      var idleTime = 0;
+
+      var currentlyPlayingTransition;
+
+      var factIndex = 0;
+      var fact;
+      var facts = [
+        {
+          factTitle: "Coyotes:",
+          factBody: "Coyotes can live anywhere that humans do, but are so secretive that we rarely see them. They have been documented in every county in Pennsylvania.",
+          image: 'images/CoyoteFact.png',
+          domID: 'coyoteFact',
+        },
+        {
+          factTitle: "Spiders:",
+          factBody: "A typical house supports at least 10 different species of spiders. These tiny eight-legged roommates are essential insect and pest control.",
+          image: 'images/SpiderFact.png',
+          domID: 'spiderFact',
+        },
+        {
+          factTitle: "Birds:",
+          factBody: "More than 100 species of birds breed in the Pittsburgh Area. Another 100 pass through the area during migration.",
+          image: 'images/BirdFact.png',
+          domID: 'birdFact',
+        }
+      ]
+
+
+      function checkAnswers() {
+        STATE = 'answer';
+
+        $("#promptModal").addClass('hiddenOverlay');
+        $('.categoryMask').addClass('selected');         
+
+          currentlyPlayingTransition = window.setTimeout(function() {
+            $("#answerModalMask").removeClass('hiddenOverlay');
+            if (categoriesSelected === 6) {
+              $("#correctModal").removeClass('hiddenOverlay');
+            } else {
+              $("#wrongModal").removeClass('hiddenOverlay');
+            }
+
+            $("#timeoutBar").addClass('countingDown');
+            currentlyPlayingTransition = window.setTimeout(function() { zoomIn(); }, 15000);
+
+          }, 1500);
+
+        
+      }
+
+
+      function zoomIn() {
+        $("#wrongModal").addClass('hiddenOverlay');
+        $("#correctModal").addClass('hiddenOverlay');
+        $("#answerModalMask").addClass('hiddenOverlay');
+        $("#timeoutBar").removeClass('countingDown');
+        $("#map").css('display', 'none');
+
+        fact = facts[factIndex];
+
+        $("#undermap").addClass(fact.domID);
+
+        currentlyPlayingTransition = window.setTimeout(presentFact, 3500);
+      }
+
+
+
+      function presentFact() {
+        STATE = 'fact';
+
+        $("#timeoutBar").addClass('countingDown');
+        $("#"+fact.domID).removeClass('hiddenOverlay');
+        if (factIndex === 0) { 
+          $("#coyoteFactFront").removeClass('hiddenOverlay');
+        }
+
+        // currentlyPlayingTransition = window.setTimeout(function() { reset(); }, 15000)  
+      }
+
+
+      function reset() {
+        if (STATE !== 'selection') {
+          $("#timeoutBar").removeClass('countingDown');
+          $("#"+fact.domID).addClass('hiddenOverlay');
+          if (factIndex === 0) { 
+            $("#coyoteFactFront").addClass('hiddenOverlay');
+          }
+          $("#undermap").removeClass(fact.domID);
+          $("#map").css('display', 'block');
+
+          $("#wrongModal").addClass('hiddenOverlay');
+          $("#correctModal").addClass('hiddenOverlay');
+          $("#answerModalMask").addClass('hiddenOverlay');
+        }
+
+        currentlyPlayingTransition = window.setTimeout(function() { 
+          STATE = 'selection';
+          $(".categoryMask").removeClass('selected');
+          $(".categoryMask").addClass('sparkling');
+          $("#submitSelectionButton").removeClass('growingButton');
+          $("#promptModal").removeClass('hiddenOverlay');
+        }, 5000);
+
+        factIndex = (factIndex + 1) % 3;
+      }
+
+      //////////////////////// ON READY ////////////////////////
+
+      function timerIncrement(ms) {
+        idleTime = idleTime + ms;
+        if (idleTime > 60000) { // 60 seconds
+          idleTime = 0;
+          reset();
+        }
+      }
+      
+
+	function touchHandler(event) {
+
+		event.preventDefault();	
+		event.stopPropagation();	
+		return false;
+	}
+
+      $(document).ready(function() {
+
+
+	window.addEventListener('keydown', function(e) {
+		if (e.keyCode === 68) remote.getCurrentWindow().toggleDevTools(); // D
+		else if (e.keyCode === 82) location.reload(); // R	
+	});
+
+	window.addEventListener('ontouchstart', touchHandler, false);
+	window.addEventListener('ontouchend', touchHandler, false);
+	window.addEventListener('touchcancel', touchHandler, false);
+	window.addEventListener('touchmove', touchHandler, false);
+	window.addEventListener('wheel', touchHandler, false);
+
+        // Listener to tell when someone has walked away from the app
+        // Check every 5 seconds
+        // Increment the idle time counter every minute.
+        var idleInterval = setInterval(function() {
+          timerIncrement(5000);
+        }, 5000);
+
+        // Bind click events:
+
+        // When a category is clicked 
+        $(".category").bind('mousedown', function() {
+          idleTime = 0;
+          if (STATE === 'selection') {
+            // Toggle category on/off
+            var category = ($(this).attr('id'));
+            $('#'+category+'Mask').toggleClass('selected');
+            categoriesSelected = $(".selected").length;
+            // Show submit button
+            $("#submitSelectionButton").addClass('growingButton');
+            // Stop lure screen
+            $(".categoryMask").removeClass('sparkling');
+          }
+        });
+
+        // Submit button
+        $("#submitSelectionButton").bind('click', function() {
+          idleTime = 0;
+          checkAnswers();
+        });
+
+        // Screen clicked when answer shown 
+        $("#correctModal").bind('mousedown', function() {
+          idleTime = 0;
+          window.clearTimeout(currentlyPlayingTransition);
+          zoomIn();
+        });
+
+        $("#wrongModal").bind('mousedown', function() {
+          idleTime = 0;
+          window.clearTimeout(currentlyPlayingTransition);
+          zoomIn();
+        });
+
+        $("#answerModalMask").bind('mousedown', function() {
+          idleTime = 0;
+          window.clearTimeout(currentlyPlayingTransition);
+          zoomIn();
+        });
+
+        // Screen clicked when fact shown 
+        $(".fact").bind('mousedown', function() {
+          idleTime = 0;
+          window.clearTimeout(currentlyPlayingTransition);
+          reset();
+        });
+      });
+
+    </script>
+    <script>if (window.module) module = window.module;</script>
+  
 </head>
 <body>
   <img id="undermap" src="images/BaseMap.png">
@@ -1591,7 +1603,7 @@
     </div>
     <!-- FACT OVERLAY COYOTE -->
     <div id="coyoteFact" class="fact hiddenOverlay">
-      <img class="factMask" src="./images/CoyoteFact.png" />
+      <img class="factMask" src="./images/CoyoteFactBack.png" />
       <div id="coyoteFactText">
         <div class="title" id="factTitle">
           Coyotes:
@@ -1627,6 +1639,7 @@
     </div>
     <!-- TIMEOUT BAR -->
     <div id="timeoutBar" class="timeoutBar"></div>
+    <img class="factMask hiddenOverlay fact" id="coyoteFactFront" src="./images/CoyoteFactFront.png" />
   </div>
 </body>
 </html>
