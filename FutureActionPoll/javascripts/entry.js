@@ -203,7 +203,7 @@ class Entry extends React.Component {
             top: 1080/2 - 20,
           }}> 
           {this.state.total+'\n'}
-          <text style={{ fontSize: 60, display: 'block', lineHeight: 1.2 }}>Pledges</text>
+          <text style={{ fontSize: 60, display: 'block', lineHeight: 1.3 }}>Pledges</text>
         </text>
 
         <PieChart
