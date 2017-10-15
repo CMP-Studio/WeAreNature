@@ -102,14 +102,13 @@ class Entry extends React.Component {
   renderLabel (props) {
     return (
       <text 
-        x={props.x > props.cx ? props.x+15 : props.x - 15}
-        y={props.y > props.cy ? props.y+15 : props.y - 15}
+        x={props.x > props.cx ? props.x+25 : props.x - 25}
+        y={props.y > props.cy ? props.y+25 : props.y - 25}
         textAnchor={props.x > props.cx ? 'start' : 'end'}
         fill={'#fefaeb'}
         style={{
           color: '#fefaeb',
           fontSize: 35,
-          padding: 10,
           fontFamily: 'BrandonBody',
           flexDirection: 'column',
           textAlign: 'center',
