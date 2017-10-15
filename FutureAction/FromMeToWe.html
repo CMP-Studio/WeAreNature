@@ -10,47 +10,32 @@
     <script src="data/confirmationSynonyms.js" charset="utf-8"></script>
     <script>
 
-      //////////////////////// IMPORTS ////////////////////////
-
-      var { remote, ipcRenderer } = require('electron');
-      var main = remote.require("./main.js");
-
-
-      //////////////////////// EVENT LISTENERS ////////////////////////
-
-      ipcRenderer.on('pledgeRecorded', (event) => {
-        
-      });
-
-      ipcRenderer.on('reminderRecorded', (event) => { 
-        showModal('thanks');
-      });
-
       //////////////////////// EVENT EMITTERS ////////////////////////
- 
 
-      function didNotWork(header, status, err) {
+      function pledgeDone(data) {
+        console.log(data);
+        console.log(data.status);
         animateTheVote();
-        console.log(err);
       }
 
-      function didWork() {
-        animateTheVote();
-        console.log('DID WORK');
+      function reminderDone(data) {
+        console.log(data);
+        console.log(data.status);
+        showModal('thanks');
       }
 
 
       function pledge(category) {
-        $.post({
-            url: 'https://yhwyy8uzf7.execute-api.us-east-1.amazonaws.com/production/pledge',
-            headers: { 'x-api-key': secret },
-            data: {
-              category: category.charAt(0).toUpperCase() + category.slice(1),
-              screen: 'Left',
-            },
-            success: didWork,
-            error: didNotWork,
+        body = JSON.stringify({
+          category: category.charAt(0).toUpperCase() + category.slice(1),
+          computerLocation: "Left"
         });
+        $.post({
+            url: 'https://cfdowvif6a.execute-api.us-east-1.amazonaws.com/dev/pledge',
+            headers: { 'x-api-key': secret },
+            data: body,
+        })
+        .always(pledgeDone);
         // 200 it worked
         // anything else it didn't
         // 500 server error out
@@ -60,15 +45,21 @@
       }
 
       function reminder(subcategory, email) {
+        console.log(subcategory);
 
         //URL: https://yhwyy8uzf7.execute-api.us-east-1.amazonaws.com/production/reminder
         // All the data you need is the email and the subcategory
+        body = JSON.stringify({
+          email: email,
+          subcategory: subcategory
+        });
 
-        ipcRenderer.send('reminder',
-          {
-            subcategory: subcategory,
-            email: email,
-          });
+        $.post({
+            url: 'https://cfdowvif6a.execute-api.us-east-1.amazonaws.com/dev/reminder',
+            headers: { 'x-api-key': secret },
+            data: body,
+        })
+        .always(reminderDone);
       }
 
       //////////////////////// GLOBAL VARS ////////////////////////
@@ -130,6 +121,7 @@
 
         $("#submitActionButton").bind('click', function() { 
           idleTime = 0;
+          $("#submitActionButton").addClass('hide');
           pledge(SESSION_CATEGORY); 
         });
 
@@ -147,14 +139,9 @@
           idleTime = 0;
           var categoryObject = systems[SESSION_CATEGORY];
           var action = categoryObject.actions[SESSION_ACTION].id;
-          console.log(SESSION_CATEGORY);
-          console.log(action);
-          console.log($('#write').val());
-          reminder(SESSION_CATEGORY, action, $('#write').val());
+          reminder(action, $('#write').val());
         });
       }
-
-
 
     // Code for keyboard from Vasili 
     // @ https://code.tutsplus.com/tutorials/creating-a-keyboard-with-css-and-jquery--net-5774
@@ -336,7 +323,7 @@
             $('#thanksModal').removeClass('hide');
 
             // Start timeout for thanks screen
-            THANKS_TIMEOUT = window.setTimeout(function() { endSession(); }, 5000)
+            THANKS_TIMEOUT = window.setTimeout(function() { endSession(); }, 3000)
 
             break;
 
