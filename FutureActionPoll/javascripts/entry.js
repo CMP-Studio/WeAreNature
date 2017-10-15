@@ -30,7 +30,7 @@ class Entry extends React.Component {
 
     const that = this;
     var myInit = { method: 'GET', headers: myHeaders, mode: 'cors' };
-    return fetch('https://yhwyy8uzf7.execute-api.us-east-1.amazonaws.com/production/pledge', myInit)
+    return fetch('https://cfdowvif6a.execute-api.us-east-1.amazonaws.com/dev/pledge', myInit)
     .then(function(res) {
 
       if (res.ok) { return res.json(); } 
@@ -237,32 +237,6 @@ class Entry extends React.Component {
           </Pie> 
          </PieChart>
 
-         <div
-            style={{
-              position: 'absolute',
-              left: 0,
-              bottom: 0,
-            }}
-            onClick={() => { this.animateVote('Left', 'Transportation')}}
-         >
-            left
-        </div>
-
-
-        <div
-            style={{
-              position: 'absolute',
-              right: 0,
-              bottom: 0,
-            }}
-            onClick={() => { this.animateVote('right', 'Habitat') }}
-         >
-            right
-        </div>
-
-        <TransitionGroup>
-          { this.state.voteEnteringFromLeft && 
-
         <TransitionGroup>
           { this.state.voteEnteringFromLeft && 
             <Vote 
@@ -326,7 +300,7 @@ class Vote extends React.Component {
 
   componentWillLeave (callback) {
     const el = this.container;
-    if (this.props.direction === 'left') {
+    if (this.props.direction === 'Left') {
       TweenMax.fromTo(el, 2, {x: 0, opacity: 1, scale: 1 }, {x: 700, opacity: 1, scale: 0, onComplete: () => {
         this.exitAnimationComplete();
         callback();
@@ -343,7 +317,7 @@ class Vote extends React.Component {
     return (<div
       ref={c => this.container = c}
       style={
-        this.props.direction === 'left' ? {
+        this.props.direction === 'Left' ? {
             position: 'absolute',
             top: 500,
             width: 150,
