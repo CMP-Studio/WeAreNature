@@ -109,6 +109,7 @@ class Entry extends React.Component {
         style={{
           color: '#fefaeb',
           fontSize: 35,
+          padding: 10,
           fontFamily: 'BrandonBody',
           flexDirection: 'column',
           textAlign: 'center',
