@@ -298,7 +298,11 @@
 
           case 'confirmation':
             // Populate confirmation html
-            $('#confirmationAction').html(categoryObject.actions[SESSION_ACTION].name.toLowerCase());
+            var actionName = categoryObject.actions[SESSION_ACTION].name.toLowerCase();
+            if (categoryObject.actions[SESSION_ACTION].altName !== undefined) {
+              actionName = categoryObject.actions[SESSION_ACTION].altName.toLowerCase();
+            }
+            $('#confirmationAction').html(actionName);
             $('#confirmationTitle').html(confirmationSynonyms[SYNONYM_INDEX]);
             $('#emailPrompt').html("Would you like to receive an email with more information about ways to improve " + SESSION_CATEGORY.toLowerCase() + "?");
             SYNONYM_INDEX = (SYNONYM_INDEX + 1) % confirmationSynonyms.length;
