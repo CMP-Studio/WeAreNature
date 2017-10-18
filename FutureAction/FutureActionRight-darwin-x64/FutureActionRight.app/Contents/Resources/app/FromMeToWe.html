@@ -10,6 +10,8 @@
     <script src="data/confirmationSynonyms.js" charset="utf-8"></script>
     <script>
 
+      var {remote} = require('electron'); 
+
       //////////////////////// EVENT EMITTERS ////////////////////////
 
       function pledgeDone(data) {
@@ -17,6 +19,7 @@
       }
 
       function reminderDone(data) {
+        console.log(data);
       }
 
 
@@ -752,6 +755,11 @@
         border: none;
       }
 
+      #write:focus { 
+        outline: none;
+      } 
+
+
       #submitEmail {
         position: absolute;
         bottom: -40px;
@@ -1165,7 +1173,7 @@
   <div class="modal largeModal shadow hide" id="emailModal">
     <div id="container">
       <div id='emailTextbox'>
-        <textarea id="write" rows="1" resizeable="no"></textarea>
+        <textarea id="write" rows="1" resizeable="no" readonly></textarea>
       </div>
       <ul id="keyboard">
           <li class="invisibleKey" style="width: 2.5px"></li>
