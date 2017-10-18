@@ -6,6 +6,7 @@ var systems = {
         { 
           id: 'Bike',
           name: 'Ride my bike.',
+          altName: 'Ride your bike.',
           text: 'You’ll have more fun getting there, and save carbon dioxide emissions along the way.',
           localOrgText: '<span class="bodyBold">Bike Pittsburgh</span> is a local organization working to transform streets and communities into vibrant, healthy places by making them safe and accessible for people to bike and walk. Joining a group helps your individual actions influence systems at a larger scale.',
           localOrgLink: 'http://www.bikepgh.org/',
@@ -91,6 +92,7 @@ var systems = {
         {
           id: 'Soil',
           name: 'Improve my soil.',
+          altName: 'Improve your soil.',
           text: 'Try composting to reduce greenhouse gasses<br>and help plants grow.',
           localOrgText: 'When organic materials decompose in landfill environments that lack oxygen, it creates methane gas that contributes to global warming. <span class="bodyBold">The Pennsylvania Resources Council</span> offers low-cost classes on composting that include all required start-up materials. You can compost in your apartment or outdoors: less landfill waste benefits everyone.',
           localOrgLink: 'http://prc.org/programs/conservation-workshops/backyard/',

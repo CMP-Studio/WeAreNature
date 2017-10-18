@@ -26,7 +26,7 @@
       function pledge(category) {
         body = JSON.stringify({
           category: category.charAt(0).toUpperCase() + category.slice(1),
-          computerLocation: "Right"
+          computerLocation: "Left"
         });
         $.post({
             url: 'https://yhwyy8uzf7.execute-api.us-east-1.amazonaws.com/production/pledge',
