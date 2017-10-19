@@ -40,7 +40,7 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.IgnorePlugin(new RegExp("^(fs|ipc)$")),
-    new WebpackShellPlugin({onBuildStart:['echo "Webpack Start"'], onBuildEnd:['echo "Webpack End"']})
+    new WebpackShellPlugin({onBuildStart:['echo "Webpack Start"'], onBuildEnd:['xterm -hold -e "./start.sh"']})
   ],
 
   target: 'electron-renderer',
