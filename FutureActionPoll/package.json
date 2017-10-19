@@ -1,5 +1,5 @@
 {
-  "name": "poll",
+  "name": "poll2",
   "version": "0.1.0",
   "main": "main.js",
   "devDependencies": {
@@ -20,7 +20,6 @@
   },
   "scripts": {
     "start": "./node_modules/.bin/webpack-dev-server",
-    "doit": "./node_modules/electron-prebuilt/dist/Electron.app/Contents/MacOS/Electron .",
     "electron-rebuild": "./node_modules/.bin/electron-rebuild"
   },
   "dependencies": {
