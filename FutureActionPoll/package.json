@@ -19,8 +19,8 @@
     "webpack-dev-server": "^1.14.1"
   },
   "scripts": {
-    "start": "./node_modules/.bin/webpack-dev-server & ./node_modules/electron-prebuilt/dist/Electron.app/Contents/MacOS/Electron .",
-    "watch": "./node_modules/.bin/webpack-dev-server",
+    "start": "./node_modules/.bin/webpack-dev-server",
+    "doit": "echo 'end'",
     "electron-rebuild": "./node_modules/.bin/electron-rebuild"
   },
   "dependencies": {
@@ -32,6 +32,7 @@
     "react-style": "^0.5.5",
     "react-transition-group": "^2.2.0",
     "recharts": "^1.0.0-alpha.4",
-    "url-loader": "^0.5.9"
+    "url-loader": "^0.5.9",
+    "webpack-shell-plugin": "^0.5.0"
   }
 }
