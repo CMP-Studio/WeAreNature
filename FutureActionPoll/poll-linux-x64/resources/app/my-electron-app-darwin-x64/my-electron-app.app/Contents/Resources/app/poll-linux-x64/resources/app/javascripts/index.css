@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'BrandonBody';
+  src: url('fonts/BrandonGrotesque-Regular.eot');
+  src: url('fonts/BrandonGrotesque-Regular.woff2') format('woff2'),
+       url('fonts/BrandonGrotesque-Regular.woff') format('woff'),
+       url('fonts/BrandonGrotesque-Regular.ttf') format('truetype'),
+       url('fonts/BrandonGrotesque-Regular.svg#BrandonGrotesque-Regular') format('svg'),
+       url('fonts/BrandonGrotesque-Regular.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'BrandonTitle';
+  src: url('fonts/BrandonGrotesque-Medium.eot');
+  src: url('fonts/BrandonGrotesque-Medium.woff2') format('woff2'),
+       url('fonts/BrandonGrotesque-Medium.woff') format('woff'),
+       url('fonts/BrandonGrotesque-Medium.ttf') format('truetype'),
+       url('fonts/BrandonGrotesque-Medium.svg#BrandonGrotesque-Medium') format('svg'),
+       url('fonts/BrandonGrotesque-Medium.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
