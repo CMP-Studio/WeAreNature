@@ -43,6 +43,6 @@
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
 	<key>LSUIPresentationMode</key>
-	<integer>4</integer>
+	<integer>3</integer>
 </dict>
 </plist>
