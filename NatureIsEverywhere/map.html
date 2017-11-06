@@ -52,7 +52,7 @@
         bottom: 0px;
         right: 0px;
         max-width:100%;
-        opacity: 0.96;
+        opacity: 1;
       }
 
       .birdFact {
@@ -205,6 +205,7 @@
         transition: opacity 0.5s;
         will-change: opacity;
         animation-timing-function: ease-in-out;
+        filter: grayscale(75%) contrast(80%);
       }
 
       @keyframes sparkle {
@@ -214,6 +215,7 @@
       }
 
       .sparkling {
+        filter: grayscale(0%); 
         animation-name: sparkle;
         animation-timing-function: linear;
         animation-iteration-count: infinite;
@@ -222,8 +224,6 @@
 
       .selected {
         opacity: 0.0 !important;
-        -webkit-filter: blur(0px); 
-        filter: blur(0px); 
       }
 
       @keyframes timeoutBar {
@@ -427,28 +427,28 @@
       }
       
 
-	function touchHandler(event) {
+  function touchHandler(event) {
 
-		event.preventDefault();	
-		event.stopPropagation();	
-		return false;
-	}
+    event.preventDefault(); 
+    event.stopPropagation();  
+    return false;
+  }
 
 
   // SETUP 
 
   $(document).ready(function() {
 
-	     window.addEventListener('keydown', function(e) {
-		    if (e.keyCode === 68) remote.getCurrentWindow().toggleDevTools(); // D
-		    else if (e.keyCode === 82) location.reload(); // R	
-	       });
+       window.addEventListener('keydown', function(e) {
+        if (e.keyCode === 68) remote.getCurrentWindow().toggleDevTools(); // D
+        else if (e.keyCode === 82) location.reload(); // R  
+         });
 
-      	window.addEventListener('ontouchstart', touchHandler, false);
-      	window.addEventListener('ontouchend', touchHandler, false);
-      	window.addEventListener('touchcancel', touchHandler, false);
-      	window.addEventListener('touchmove', touchHandler, false);
-      	window.addEventListener('wheel', touchHandler, false);
+        window.addEventListener('ontouchstart', touchHandler, false);
+        window.addEventListener('ontouchend', touchHandler, false);
+        window.addEventListener('touchcancel', touchHandler, false);
+        window.addEventListener('touchmove', touchHandler, false);
+        window.addEventListener('wheel', touchHandler, false);
 
         // Listener to tell when someone has walked away from the app
         // Check every 5 seconds

@@ -52,7 +52,7 @@
         bottom: 0px;
         right: 0px;
         max-width:100%;
-        opacity: 0.96;
+        opacity: 1;
       }
 
       .birdFact {
@@ -205,6 +205,7 @@
         transition: opacity 0.5s;
         will-change: opacity;
         animation-timing-function: ease-in-out;
+        filter: grayscale(75%) contrast(80%);
       }
 
       @keyframes sparkle {
@@ -214,6 +215,7 @@
       }
 
       .sparkling {
+        filter: grayscale(0%); 
         animation-name: sparkle;
         animation-timing-function: linear;
         animation-iteration-count: infinite;
@@ -222,8 +224,6 @@
 
       .selected {
         opacity: 0.0 !important;
-        -webkit-filter: blur(0px); 
-        filter: blur(0px); 
       }
 
       @keyframes timeoutBar {
