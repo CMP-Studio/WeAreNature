@@ -31,8 +31,8 @@ To communicate with the database, you will need to provide the API secret in a f
 * Launch application
 
 ## Building
-* Open [FromMeToWe.html]() and set ```computerLocation: "Left"```
-* Open [package.json]() and set ```"name": "future-action-left"```
+* Open [FromMeToWe.html](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/FromMeToWe.html) and set ```computerLocation: "Left"```
+* Open [package.json](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/package.json) and set ```"name": "future-action-left"```
 * Open Terminal
 * Install [electron packager](https://github.com/electron-userland/electron-packager) globally ```npm install electron-packager -g```
 * Navigate to ```WeAreNature/NatureIsEverywhere```
