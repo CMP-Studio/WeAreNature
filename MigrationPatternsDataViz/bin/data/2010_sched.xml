@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VIDEOS>
+    <GROUP>
+        <NAME sound="4"> Junco Flock Behavior</NAME>
+        <FIRST_FRAME>1</FIRST_FRAME>
+        <LAST_FRAME>100</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_1.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_4.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_6.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_7.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="4"> Light Snowfall Deposits Snow On Juncos </NAME>
+        <FIRST_FRAME>101</FIRST_FRAME>
+        <LAST_FRAME>200</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_1.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_2.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_3.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_4.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_5.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_6.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_7.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="4"> Junco Flock Behavior </NAME>
+        <FIRST_FRAME>201</FIRST_FRAME>
+        <LAST_FRAME>300</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_1.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_2.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_3.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_4.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_5.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_6.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_7.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="4"> Junco Flock Behavior </NAME>
+        <FIRST_FRAME>301</FIRST_FRAME>
+        <LAST_FRAME>400</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_1.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_2.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_3.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_4.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_5.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_6.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_7.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="4"> Junco Flock Behavior </NAME>
+        <FIRST_FRAME>401</FIRST_FRAME>
+        <LAST_FRAME>500</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_1.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_2.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_3.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_4.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_5.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_6.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_7.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="4"> Junco Flock Behavior/Light Snow In Background </NAME>
+        <FIRST_FRAME>501</FIRST_FRAME>
+        <LAST_FRAME>600</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_1.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_2.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_3.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_4.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_5.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_6.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_LightSnow_7.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="5" soundFlag="JUNCO"> Junco Flock Departs / Snow Melts </NAME>
+        <FIRST_FRAME>601</FIRST_FRAME>
+        <LAST_FRAME>740</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay = "3000">SnowingOnEmptyScene.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="5"> Empty Scene </NAME>
+        <FIRST_FRAME>741</FIRST_FRAME>
+        <LAST_FRAME>800</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="10000">SnowingOnEmptyScene.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="5"> Empty Scene </NAME>
+        <FIRST_FRAME>801</FIRST_FRAME>
+        <LAST_FRAME>900</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="10000">SnowingOnEmptyScene.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="0"> Raining </NAME>
+        <FIRST_FRAME>901</FIRST_FRAME>
+        <LAST_FRAME>1000</LAST_FRAME>
+        <LOOPS>
+            <FILENAME flag="STILL">RainingLoop.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="5"> Raining Stops, Plants Flower A Little </NAME>
+        <FIRST_FRAME>1001</FIRST_FRAME>
+        <LAST_FRAME>1110</LAST_FRAME>
+        <LOOPS>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="1" soundFlag="WT"> Plants Flower As Wood Thrush Male Arrives </NAME>
+        <FIRST_FRAME>1111</FIRST_FRAME>
+        <LAST_FRAME>1200</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="3000">RainingOnMaleOnFlowers.mp4</FILENAME>
+            <FILENAME delay="2000">MaleSingsOnFlowers.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="1"> Plants Bloom As Wood Thrush Female Arrives </NAME>
+        <FIRST_FRAME>1201</FIRST_FRAME>
+        <LAST_FRAME>1250</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="3000">MaleAndFemaleCallToEachother.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="1"> Mating Flight </NAME>
+        <FIRST_FRAME>1251</FIRST_FRAME>
+        <LAST_FRAME>1380</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="5000">AdditionalMatingFlight.mp4</FILENAME>
+            <FILENAME delay="2000">MaleAndFemaleSitTogether.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="1"> Nesting </NAME>
+        <FIRST_FRAME>1381</FIRST_FRAME>
+        <LAST_FRAME>1530</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="1000">FemaleCleansNest.mp4</FILENAME>
+            <FILENAME delay="3000">BuildingNest.mp4</FILENAME>
+            <FILENAME delay="3000">FemaleChecksForEggs.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="1"> Eggs Laid </NAME>
+        <FIRST_FRAME>1531</FIRST_FRAME>
+        <LAST_FRAME>1650</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="1000">FemaleCleansNest.mp4</FILENAME>
+            <FILENAME delay="3000">FemaleChecksOnEggs.mp4</FILENAME>
+            <FILENAME delay="4000">MaleFeedsBroodingFemale.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="2"> Eggs Hatch and Are Fed </NAME>
+        <FIRST_FRAME>1651</FIRST_FRAME>
+        <LAST_FRAME>1800</LAST_FRAME>
+        <LOOPS>
+            <FILENAME flag="STILL" >FemaleWatchingNest.mp4</FILENAME>
+            <FILENAME delay="3000">MaleSingsInFlight.mp4</FILENAME>
+            <FILENAME delay="3000">MaleFeedsYoung.mp4</FILENAME>
+            <FILENAME delay="3000">FemaleFeedsYoung.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="2"> Young Fledge </NAME>
+        <FIRST_FRAME>1801</FIRST_FRAME>
+        <LAST_FRAME>1870</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="1000">FemaleDemonstratesFlapping1.mp4</FILENAME>
+            <FILENAME delay="1000">FemaleDemonstratesFlapping2.mp4</FILENAME>
+            <FILENAME delay="1000">FledglingsDemonstrateFlapping.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="2"> Flying Lessons With Female </NAME>
+        <FIRST_FRAME>1871</FIRST_FRAME>
+        <LAST_FRAME>1930</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="1000">FledglingNervousToFly.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="2"> Flying Lessons With Male </NAME>
+        <FIRST_FRAME>1931</FIRST_FRAME>
+        <LAST_FRAME>2050</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="2000">FamilyEncouragesFledglingToFly.mp4</FILENAME>
+            <FILENAME delay="2000">FledglingEncouragesFledglingToFly.mp4</FILENAME>
+            <FILENAME delay="2000">MaleEncouragesFledglingToFly.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="2"> Parents Leave Fledglings </NAME>
+        <FIRST_FRAME>2051</FIRST_FRAME>
+        <LAST_FRAME>2200</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="1000">FledglingsPracticeFlying.mp4</FILENAME>
+            <FILENAME delay="5000">FemaleFeedsFledglingOnGround.mp4</FILENAME>
+            <FILENAME delay="5000">MaleFeedsFledglingOnBranch.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="3"> Fledglings Fly Out Of Scene </NAME>
+        <FIRST_FRAME>2201</FIRST_FRAME>
+        <LAST_FRAME>2300</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="3000">FlightInDistance1.mp4</FILENAME>
+            <FILENAME delay="2000">FlightInDistance2.mp4</FILENAME>
+            <FILENAME delay="3000">FlightInDistance3.mp4</FILENAME>
+            <FILENAME delay="2000">FlightInDistance4.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="3"> Male Enters Scene Late Summer </NAME>
+        <FIRST_FRAME>2301</FIRST_FRAME>
+        <LAST_FRAME>2400</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="1000">MaleCallsLateSummer.mp4</FILENAME>
+            <FILENAME delay="3000">FlightInDistance1_MaleSits.mp4</FILENAME>
+            <FILENAME delay="2000">FlightInDistance2_MaleSits.mp4</FILENAME>
+            <FILENAME delay="3000">FlightInDistance3_MaleSits.mp4</FILENAME>
+            <FILENAME delay="2000">FlightInDistance4_MaleSits.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="3"> Male In Scene Late Summer </NAME>
+        <FIRST_FRAME>2401</FIRST_FRAME>
+        <LAST_FRAME>2550</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="1000">MaleCallsLateSummer.mp4</FILENAME>
+            <FILENAME delay="3000">FlightInDistance1_MaleSits.mp4</FILENAME>
+            <FILENAME delay="2000">FlightInDistance2_MaleSits.mp4</FILENAME>
+            <FILENAME delay="3000">FlightInDistance3_MaleSits.mp4</FILENAME>
+            <FILENAME delay="2000">FlightInDistance4_MaleSits.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="3" soundFlag="WT"> Wood Thrush Departs </NAME>
+        <FIRST_FRAME>2551</FIRST_FRAME>
+        <LAST_FRAME>2630</LAST_FRAME>
+        <LOOPS>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="3"> Empty Scene </NAME>
+        <FIRST_FRAME>2631</FIRST_FRAME>
+        <LAST_FRAME>2700</LAST_FRAME>
+        <LOOPS>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="3"> Leaves Turn Colors </NAME>
+        <FIRST_FRAME>2701</FIRST_FRAME>
+        <LAST_FRAME>2810</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="3000">LeafFalling1.mp4</FILENAME>
+            <FILENAME delay="3000">RainingOnFallLeaves.mp4</FILENAME>
+            <FILENAME delay="2000">LeafFalling2.mp4</FILENAME>
+            <FILENAME delay="2000">LeafFalling3.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="3"> Leaves Fall From Trees </NAME>
+        <FIRST_FRAME>2811</FIRST_FRAME>
+        <LAST_FRAME>2910</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="5000">RainingOnEmptyScene.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="3"> Empty Scene </NAME>
+        <FIRST_FRAME>2911</FIRST_FRAME>
+        <LAST_FRAME>3000</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="5000">RainingOnEmptyScene.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="3"> Empty Scene </NAME>
+        <FIRST_FRAME>3001</FIRST_FRAME>
+        <LAST_FRAME>3060</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay="5000">RainingOnEmptyScene.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="4" soundFlag="JUNCO"> Junco Flock Arrives </NAME>
+        <FIRST_FRAME>3061</FIRST_FRAME>
+        <LAST_FRAME>3200</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_1.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_4.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_6.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_7.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="4"> Junco Flock Behavior </NAME>
+        <FIRST_FRAME>3201</FIRST_FRAME>
+        <LAST_FRAME>3300</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_1.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_4.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_6.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_7.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="4"> Junco Flock Behavior </NAME>
+        <FIRST_FRAME>3301</FIRST_FRAME>
+        <LAST_FRAME>3400</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_1.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_4.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_6.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_7.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="4"> Junco Flock Behavior </NAME>
+        <FIRST_FRAME>3401</FIRST_FRAME>
+        <LAST_FRAME>3500</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_1.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_4.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_6.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_7.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+    <GROUP>
+        <NAME sound="4"> Junco Flock Behavior </NAME>
+        <FIRST_FRAME>3501</FIRST_FRAME>
+        <LAST_FRAME>3600</LAST_FRAME>
+        <LOOPS>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_1.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_4.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_6.mp4</FILENAME>
+            <FILENAME delay = "0">JuncoBehaviors_NoSnow_7.mp4</FILENAME>
+        </LOOPS>
+    </GROUP>
+</VIDEOS>

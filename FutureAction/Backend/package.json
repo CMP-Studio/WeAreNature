@@ -1,0 +1,26 @@
+{
+  "name": "we-are-nature-backend",
+  "version": "1.0.0",
+  "description": "We Are Nature Future Action Backend",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^4.1.0",
+    "serverless-webpack": "^3.0.0",
+    "ts-loader": "^2.3.1",
+    "typescript": "^2.4.2",
+    "webpack": "^3.3.0"
+  },
+  "author": "Ruben Niculcea",
+  "license": "MIT",
+  "dependencies": {
+    "@types/aws-sdk": "^2.7.0",
+    "@types/node": "^8.0.31",
+    "mailgun-js": "^0.13.1",
+    "moment-timezone": "^0.5.13",
+    "promise-cb": "^0.1.4",
+    "uuid": "^3.1.0"
+  }
+}

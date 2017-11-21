@@ -1,0 +1,177 @@
+service:
+  name: we-are-nature-backend
+
+
+plugins:
+  - serverless-webpack
+
+
+custom:
+  name: we-are-nature-future-action
+  stage: ${opt:stage, self:provider.stage}
+  awsIOTEndPoint: ${file(./serverless.env.yml):${self:custom.stage}.AWS_IOT_ENDPOINT}
+  awsIOTTopic: ${self:custom.name}-iot-topic-${self:custom.stage}
+  awsIOTSecretKey: ${file(./serverless.env.yml):${self:custom.stage}.AWS_IOT_SECRET_KEY}
+  awsIOTAccessKey: ${file(./serverless.env.yml):${self:custom.stage}.AWS_IOT_ACCESS_KEY}
+  mailgunAPIKey: ${file(./serverless.env.yml):${self:custom.stage}.MAILGUN_API_KEY}
+  mailgunDomain: ${file(./serverless.env.yml):${self:custom.stage}.MAILGUN_DOMAIN}
+  emailImagesBucketName:  ${self:custom.name}-s3-${self:custom.stage}
+  dynamoDbPledgesTableName: ${self:custom.name}-db-pledges-${self:custom.stage}
+  dynamoDbEmailsTableName: ${self:custom.name}-db-emails-${self:custom.stage}
+
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs6.10
+  memorySize: 128
+  apiKeys:
+    - ${self:custom.stage}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - 'iot:Publish'
+      Resource: "*"
+
+
+functions:
+  pledgePost:
+    handler: src/pledgePost/handler.pledgePost
+    events:
+      - http:
+          method: post
+          path: pledge
+          private: true
+          cors: true
+    environment:
+      tableName: ${self:custom.dynamoDbPledgesTableName}
+      awsIOTEndPoint: ${self:custom.awsIOTEndPoint}
+      awsIOTTopic: ${self:custom.awsIOTTopic}
+
+  pledgeGet:
+    handler: src/pledgeGet/handler.pledgeGet
+    events:
+      - http:
+          method: get
+          path: pledge
+          private: true
+          cors: true
+    environment:
+      tableName: ${self:custom.dynamoDbPledgesTableName}
+      awsIOTEndPoint: ${self:custom.awsIOTEndPoint}
+      awsIOTTopic: ${self:custom.awsIOTTopic}
+      awsIOTSecretKey: ${self:custom.awsIOTSecretKey}
+      awsIOTAccessKey: ${self:custom.awsIOTAccessKey}
+
+  reminder:
+    handler: src/reminder/handler.reminder
+    events:
+      - http:
+          method: post
+          path: reminder
+          private: true
+          cors: true
+    environment:
+      tableName: ${self:custom.dynamoDbEmailsTableName}
+      mailgunAPIKey: ${self:custom.mailgunAPIKey}
+      mailgunDomain: ${self:custom.mailgunDomain}
+
+  sendReminders:
+    handler: src/sendReminders/handler.sendReminders
+    memorySize: 256
+    events:
+      # AWS Cron is based on the GMT timezone, so this is 8am EST:
+      - schedule: cron(0 12 * * ? *)
+    environment:
+      mailgunAPIKey: ${self:custom.mailgunAPIKey}
+      mailgunDomain: ${self:custom.mailgunDomain}
+      tableName: ${self:custom.dynamoDbEmailsTableName}
+
+
+resources:  
+  Resources:
+    ImagesS3Bucket:
+     Type: AWS::S3::Bucket
+     Properties:
+       BucketName: ${self:custom.emailImagesBucketName}
+       AccessControl: 'PublicRead'
+    ImagesS3BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: ImagesS3Bucket
+        PolicyDocument:
+          Statement:
+            - Sid: PublicReadGetObject
+              Effect: Allow
+              Principal: "*"
+              Action:
+              - s3:GetObject
+              Resource:
+                Fn::Join: [
+                  "", [
+                    "arn:aws:s3:::",
+                    { "Ref": "ImagesS3Bucket" },
+                    "/*"
+                  ]
+                ]
+
+    DynamoDbPledgesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.dynamoDbPledgesTableName}
+        AttributeDefinitions:
+          - AttributeName: type
+            AttributeType: S
+        KeySchema:
+          - AttributeName: type
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2
+    DynamoDBPledgesIamPolicy:
+      Type: AWS::IAM::Policy
+      DependsOn: DynamoDbPledgesTable
+      Properties:
+        PolicyName: DynamoDbPledgesTablePolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:*
+              Resource: arn:aws:dynamodb:*:*:table/${self:custom.dynamoDbPledgesTableName}
+        Roles:
+          - Ref: IamRoleLambdaExecution
+
+    DynamoDbEmailsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.dynamoDbEmailsTableName}
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+          - AttributeName: subcategory
+            AttributeType: S
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+          - AttributeName: subcategory
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2
+    DynamoDBEmailsIamPolicy:
+      Type: AWS::IAM::Policy
+      DependsOn: DynamoDbEmailsTable
+      Properties:
+        PolicyName: DynamoDbEmailsTablePolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:*
+              Resource: arn:aws:dynamodb:*:*:table/${self:custom.dynamoDbEmailsTableName}
+        Roles:
+          - Ref: IamRoleLambdaExecution

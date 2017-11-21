@@ -1,0 +1,79 @@
+digraph G {
+  graph [rankdir=LR];
+
+	subgraph cluster0 {
+		color=lightgrey;
+    penwidth=2;
+    node [shape="box"];
+    label = "AWS";
+
+    database_pledges [
+      shape="cylinder",
+      label="Pledges\n(DynamoDB)"
+    ];
+
+    database_emails [
+      shape="cylinder",
+      label="Emails\n(DynamoDB)"
+    ];
+
+    image_storage [
+      shape="cylinder",
+      label="Images\n(S3)"
+    ];
+
+    get_pledges [
+      label="Get Pledge"
+    ];
+
+    post_pledge [
+      label="Post Pledge"
+    ];
+
+    email_reminder [
+      label="Reminder"
+    ];
+
+    send_emails [
+      label="Send Emails\n(Cron Job)"
+    ];
+
+    post_pledge -> database_pledges;
+    database_pledges -> get_pledges;
+    email_reminder -> database_emails;
+
+    database_emails -> send_emails;
+	}
+
+  pledge_clients [
+    shape="tab",
+    label="Pledge Clients"
+  ];
+
+  pledge_results_client [
+    shape="tab",
+    label="Pledge Results Client"
+  ];
+
+  email [
+    shape="tab",
+    label="Email"
+  ];
+
+  mailgun [
+    shape="ellipse",
+    label="Mailgun"
+  ];
+
+  pledge_clients -> post_pledge;
+  pledge_clients -> email_reminder;
+
+  get_pledges -> pledge_results_client;
+  post_pledge -> pledge_results_client[
+    label="AWS IOT"
+  ];
+
+  send_emails -> mailgun;
+  mailgun -> email;
+  image_storage -> email;
+}

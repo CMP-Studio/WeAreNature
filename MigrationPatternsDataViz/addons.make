@@ -1,0 +1,4 @@
+ofxBezierWarpManager
+ofxGui
+ofxTurboJpeg
+ofxXmlSettings
