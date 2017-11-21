@@ -2,7 +2,7 @@
 
 An illustrated map of Pittsburgh sparkles. The visitor is prompted to select which parts of the map contain nature. There is only one correct answer. Right or wrong, the visitor is presented with a fact about wildlife in Pittsburgh.
 
-![Nature Is Everywhere installation view](https://github.com/CMP-Studio/WeAreNature/blob/master/images/NatureIsEverywhere.gif)
+![Nature Is Everywhere installation view](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/NatureIsEverywhere.gif)
 
 This application is a simple Electron application featuring:
 * Irregular-shaped touch targets (SVG)
@@ -25,5 +25,5 @@ This application is a simple Electron application featuring:
 * Navigate to ```WeAreNature/NatureIsEverywhere```
 * ```electron-packager .```
 
-![Nature Is Everywhere installation view](https://github.com/CMP-Studio/WeAreNature/blob/master/images/NatureIsEverywhere_CloseUp.jpg)
+![Nature Is Everywhere installation view](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/NatureIsEverywhere_CloseUp.jpg)
 
