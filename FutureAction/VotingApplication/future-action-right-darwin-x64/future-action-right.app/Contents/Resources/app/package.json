@@ -1,0 +1,23 @@
+{
+  "name": "future-action-right",
+  "version": "1.0.0",
+  "description": "Created by Innovation Studio for Carnegie Museum of Natural History’s WE ARE NATURE exhibition",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "1.4.15"
+  },
+  "dependencies": {}
+}
