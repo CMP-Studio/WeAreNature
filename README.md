@@ -6,7 +6,7 @@
 
 An illustrated map of Pittsburgh sparkles. The visitor is prompted to select which parts of the map contain nature. There is only one correct answer. Right or wrong, the visitor is presented with a fact about wildlife in Pittsburgh.
 
-![Nature Is Everywhere installation view](https://github.com/CMP-Studio/WeAreNature/blob/master/images/NatureIsEverywhere.gif)
+![Nature Is Everywhere installation view](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/NatureIsEverywhere.gif)
 
 ##
 
