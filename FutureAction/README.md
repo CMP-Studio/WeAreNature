@@ -17,15 +17,7 @@ This application was developed for Mac OS X, but the frameworks used are cross-p
 Some of these instructions will require modification to work on a Windows/Linux machine.
 
 ## Secrets
-* Open Terminal
-* Navigate to ```WeAreNature/FutureAction/VotingApplication```
-* ```npm i```
-* ```npm start```
-
-&nbsp;&nbsp;&nbsp;&nbsp;OR
-
-* Navigate to ```WeAreNature/FutureAction/VotingApplication/future-action-left-darwin-x64```
-* Launch application
+To communicate with the database, you will need to provide the API secret in a file called secrets.js. See [secretsExample.js](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/secretsExample.js). If you work at the Innovation Studio, find the secret in Dropbox. 
 
 ## Running
 * Open Terminal
