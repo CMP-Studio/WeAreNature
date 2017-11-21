@@ -53,10 +53,11 @@ Ensure that the application is always open by adding this to your crontab:
 
 ```0 7 * * * "/usr/sbin/screencapture" -f $HOME/email.jpg && sleep 5 && python $HOME/mailer.py```
 
-
 ### See This Guide For More Tips
 [https://github.com/laserpilot/Installation_Up_4evr](https://github.com/laserpilot/Installation_Up_4evr)
 
+<br/>
+<br/>
 
 ![Nature Is Everywhere installation view](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/NatureIsEverywhere_CloseUp.jpg)
 
