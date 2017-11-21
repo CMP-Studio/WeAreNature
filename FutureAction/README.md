@@ -7,7 +7,7 @@ This interactive exhibit has three components:
 * **Poll**
 * **Backend**
 
-##
+<br/>
 
 # Voting Application
 
@@ -64,11 +64,11 @@ Ensure that the application is always open by adding this to your crontab:
 ### See This Guide For More Tips
 [https://github.com/laserpilot/Installation_Up_4evr](https://github.com/laserpilot/Installation_Up_4evr)
 
-##
+<br/>
 
 # Poll
 
-##
+<br/>
 
 # Backend
 
