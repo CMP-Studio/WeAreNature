@@ -16,6 +16,17 @@ Our exhibition has two computers running the voting application. The application
 This application was developed for Mac OS X, but the frameworks used are cross-platform. <br/>
 Some of these instructions will require modification to work on a Windows/Linux machine.
 
+## Secrets
+* Open Terminal
+* Navigate to ```WeAreNature/FutureAction/VotingApplication```
+* ```npm i```
+* ```npm start```
+
+&nbsp;&nbsp;&nbsp;&nbsp;OR
+
+* Navigate to ```WeAreNature/FutureAction/VotingApplication/future-action-left-darwin-x64```
+* Launch application
+
 ## Running
 * Open Terminal
 * Navigate to ```WeAreNature/FutureAction/VotingApplication```
