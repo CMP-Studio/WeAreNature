@@ -4,14 +4,10 @@
   <dict>
     <key>BuildMachineOSBuild</key>
     <string>15E65</string>
-    <key>CFBundleDisplayName</key>
-    <string>natures-is-everywhere Helper EH</string>
-    <key>CFBundleExecutable</key>
-    <string>natures-is-everywhere Helper EH</string>
     <key>CFBundleIdentifier</key>
-    <string>com.electron.natures-is-everywhere.helper.EH</string>
+    <string>com.electron.nature-is-everywhere.helper</string>
     <key>CFBundleName</key>
-    <string>natures-is-everywhere Helper EH</string>
+    <string>nature-is-everywhere</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>DTSDKBuild</key>
@@ -26,5 +22,9 @@
     <true/>
     <key>NSSupportsAutomaticGraphicsSwitching</key>
     <true/>
+    <key>CFBundleDisplayName</key>
+    <string>nature-is-everywhere Helper</string>
+    <key>CFBundleExecutable</key>
+    <string>nature-is-everywhere Helper</string>
   </dict>
 </plist>

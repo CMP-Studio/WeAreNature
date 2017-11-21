@@ -427,28 +427,28 @@
       }
       
 
-	function touchHandler(event) {
+  function touchHandler(event) {
 
-		event.preventDefault();	
-		event.stopPropagation();	
-		return false;
-	}
+    event.preventDefault(); 
+    event.stopPropagation();  
+    return false;
+  }
 
 
   // SETUP 
 
   $(document).ready(function() {
 
-	     window.addEventListener('keydown', function(e) {
-		    if (e.keyCode === 68) remote.getCurrentWindow().toggleDevTools(); // D
-		    else if (e.keyCode === 82) location.reload(); // R	
-	       });
+       window.addEventListener('keydown', function(e) {
+        if (e.keyCode === 68) remote.getCurrentWindow().toggleDevTools(); // D
+        else if (e.keyCode === 82) location.reload(); // R  
+         });
 
-      	window.addEventListener('ontouchstart', touchHandler, false);
-      	window.addEventListener('ontouchend', touchHandler, false);
-      	window.addEventListener('touchcancel', touchHandler, false);
-      	window.addEventListener('touchmove', touchHandler, false);
-      	window.addEventListener('wheel', touchHandler, false);
+        window.addEventListener('ontouchstart', touchHandler, false);
+        window.addEventListener('ontouchend', touchHandler, false);
+        window.addEventListener('touchcancel', touchHandler, false);
+        window.addEventListener('touchmove', touchHandler, false);
+        window.addEventListener('wheel', touchHandler, false);
 
         // Listener to tell when someone has walked away from the app
         // Check every 5 seconds

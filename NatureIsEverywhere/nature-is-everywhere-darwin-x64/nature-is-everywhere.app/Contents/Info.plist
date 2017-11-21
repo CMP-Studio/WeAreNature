@@ -5,17 +5,17 @@
 	<key>BuildMachineOSBuild</key>
 	<string>15E65</string>
 	<key>CFBundleDisplayName</key>
-	<string>natures-is-everywhere</string>
+	<string>nature-is-everywhere</string>
 	<key>CFBundleExecutable</key>
-	<string>natures-is-everywhere</string>
+	<string>nature-is-everywhere</string>
 	<key>CFBundleIconFile</key>
 	<string>electron.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.electron.natures-is-everywhere</string>
+	<string>com.electron.nature-is-everywhere</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>natures-is-everywhere</string>
+	<string>nature-is-everywhere</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

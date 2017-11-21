@@ -5,13 +5,13 @@
     <key>BuildMachineOSBuild</key>
     <string>15E65</string>
     <key>CFBundleDisplayName</key>
-    <string>natures-is-everywhere Helper NP</string>
+    <string>nature-is-everywhere Helper NP</string>
     <key>CFBundleExecutable</key>
-    <string>natures-is-everywhere Helper NP</string>
+    <string>nature-is-everywhere Helper NP</string>
     <key>CFBundleIdentifier</key>
-    <string>com.electron.natures-is-everywhere.helper.NP</string>
+    <string>com.electron.nature-is-everywhere.helper.NP</string>
     <key>CFBundleName</key>
-    <string>natures-is-everywhere Helper NP</string>
+    <string>nature-is-everywhere Helper NP</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>DTSDKBuild</key>
