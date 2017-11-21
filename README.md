@@ -5,11 +5,11 @@
 
 There are three interactive projects included in this repo:
 
-* [**Nature Is Everywhere**](#natureiseverywhere)
+* [**Nature Is Everywhere**](https://github.com/CMP-Studio/WeAreNature/tree/master/NatureIsEverywhere)
 
-* [**Future Action**](#futureaction)
+* [**Future Action**](https://github.com/CMP-Studio/WeAreNature/tree/master/FutureAction)
 
-* [**Migration Patterns Data Viz**](#migrationpatterns)
+* [**Migration Patterns Data Viz**](https://github.com/CMP-Studio/WeAreNature/tree/master/NatureIsEverywhere)
 
 And some helpful tools for using the projects in an exhibit/kiosk:
 
