@@ -5,7 +5,13 @@
 
 There are three interactive projects included in this repo:
 
-* [**Nature Is Everywhere**](https://github.com/CMP-Studio/WeAreNature/tree/master/NatureIsEverywhere)
+[**Nature Is Everywhere**](https://github.com/CMP-Studio/WeAreNature/tree/master/NatureIsEverywhere)
+
+An illustrated map of Pittsburgh sparkles. The visitor is prompted to select which parts of the map contain nature. There is only one correct answer. Right or wrong, the visitor is presented with a fact about wildlife in Pittsburgh.
+
+![Nature Is Everywhere installation view](https://github.com/CMP-Studio/WeAreNature/blob/master/images/NatureIsEverywhere.gif)
+
+<br/>
 
 * [**Future Action**](https://github.com/CMP-Studio/WeAreNature/tree/master/FutureAction)
 
@@ -27,9 +33,7 @@ It may take a few additional steps to run on Windows/Linux.
 
 ## <a name="natureiseverywhere"></a>Nature Is Everywhere
 
-An illustrated map of Pittsburgh sparkles. The visitor is prompted to select which parts of the map contain nature. There is only one correct answer. Right or wrong, the visitor is presented with a fact about wildlife in Pittsburgh.
 
-![Nature Is Everywhere installation view](https://github.com/CMP-Studio/WeAreNature/blob/master/images/NatureIsEverywhere.gif)
 
 This application is a simple Electron application featuring:
 * Irregular-shaped touch targets (SVG)
