@@ -3,13 +3,13 @@
 This interactive was designed to encourage individuals to get involved with Pittsburgh organizations that deal with enviromental issues. An illustrated landscape is labeled with five climate-related systems: Water, Food, Energy, Habitat and Transportation. The visitor selects a system and is shown three actions related to that system. The visitor selects an action and pledges to complete it. They can opt to recieve two emails: The first is sent immediately, it provides links to local organizations working on that action. The second email is sent in six months to remind them of the pledge they made. On a seperate screen, we display a tally of which systems visitors have pledged to protect.
 
 This interactive exhibit has three components: 
-* **Voting Application**
-* **Poll**
-* **Backend**
+* [**Voting Application**](#voting)
+* [**Poll**](#poll)
+* [**Backend**](#backend)
 
 <br/>
 
-# Voting Application
+# <a name="voting"></a>Voting Application
 
 Our exhibition has two computers running the voting application. The applications are mostly the same, but have one key difference: a value indicating whether the touchscreen in installed to the left or right of the poll monitor. This information is used by the poll as it animates the vote. In the instructions below, I will describe setting up the left computer.
 
@@ -66,9 +66,9 @@ Ensure that the application is always open by adding this to your crontab:
 
 <br/>
 
-# Poll
+# <a name="poll"></a>Poll
 
 <br/>
 
-# Backend
+# <a name="backend"></a>Backend
 
