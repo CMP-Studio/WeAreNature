@@ -17,7 +17,7 @@ This application was developed for Mac OS X, but the frameworks used are cross-p
 Some of these instructions will require modification to work on a Windows/Linux machine.
 
 ## Secrets
-To communicate with the database, you will need to provide the API secret in a file called secrets.js. See [secretsExample.js](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/secretsExample.js). If you work at the Innovation Studio, find the secret in Dropbox. 
+To communicate with the database, you will need to provide the API secret in a file called secrets.js. See [VotingApplication/secretsExample.js](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/secretsExample.js). If you work at the Innovation Studio, find the secret in Dropbox. 
 
 ## Running
 * Open Terminal
@@ -31,8 +31,8 @@ To communicate with the database, you will need to provide the API secret in a f
 * Launch application
 
 ## Building
-* Open [FromMeToWe.html](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/FromMeToWe.html) and set ```computerLocation: "Left"```
-* Open [package.json](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/package.json) and set ```"name": "future-action-left"```
+* Open [VotingApplication/FromMeToWe.html](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/FromMeToWe.html) and set ```computerLocation: "Left"```
+* Open [VotingApplication/package.json](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/package.json) and set ```"name": "future-action-left"```
 * Open Terminal
 * Install [electron packager](https://github.com/electron-userland/electron-packager) globally ```npm install electron-packager -g```
 * Navigate to ```WeAreNature/NatureIsEverywhere```
@@ -70,6 +70,50 @@ Ensure that the application is always open by adding this to your crontab:
 <br/>
 
 # <a name="poll"></a>Poll
+
+The poll is an application developed with Electron and React. The poll is displayed on a large monitor mounted on the wall between the two voting stations, it is not made to work on a touchscreen. It listens for new votes via a websocket.
+
+This application was developed for Linux, but the frameworks used are cross-platform. <br/>
+Some of these instructions will require modification to work on a Windows/Mac machine.
+
+## Secrets
+To communicate with the database, you will need to provide the API secret in a file called secrets.js. See [Poll/javascripts/secretsExample.js](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/Poll/javascripts/secretsExample.js). If you work at the Innovation Studio, find the secret in Dropbox. 
+
+## Running
+* Open Terminal
+* Navigate to ```WeAreNature/FutureAction/VotingApplication```
+* ```npm i```
+* ```npm start```
+
+&nbsp;&nbsp;&nbsp;&nbsp;OR
+
+* Navigate to ```WeAreNature/FutureAction/VotingApplication/future-action-left-darwin-x64```
+* Launch application
+
+## Building
+* Open [FromMeToWe.html](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/FromMeToWe.html) and set ```computerLocation: "Left"```
+* Open [package.json](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/package.json) and set ```"name": "future-action-left"```
+* Open Terminal
+* Install [electron packager](https://github.com/electron-userland/electron-packager) globally ```npm install electron-packager -g```
+* Navigate to ```WeAreNature/NatureIsEverywhere```
+* ```electron-packager .```
+
+## Installing As Exhibit (Linux)
+
+### <a name="keepappopen"></a>Keep App Open
+
+* Open Terminal
+* ```sudo apt-get update```
+* ```sudo apt-get install run-one```
+* Put [npmstart.sh]() and [electronstart.sh]() int
+
+
+### <a name="dailyemail"></a>Send Screenshots To Your Email
+
+* Copy [mailer.py](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/mailer.py) into your home directory and edit it with your email address, subject line, etc... 
+* Automate taking and sending a screenshot (daily at 7am) by adding this to your crontab:
+
+```0 7 * * * "/usr/sbin/screencapture" -f $HOME/email.jpg && sleep 5 && python $HOME/mailer.py```
 
 <br/>
 
