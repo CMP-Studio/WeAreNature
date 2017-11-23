@@ -81,22 +81,10 @@ To communicate with the database, you will need to provide the API secret in a f
 
 ## Running
 * Open Terminal
-* Navigate to ```WeAreNature/FutureAction/VotingApplication```
-* ```npm i```
+* Navigate to ```WeAreNature/FutureAction/Poll```
+* ```npm run-script watch```
+* Open a new Terminal, navigate to ```WeAreNature/FutureAction/Poll```
 * ```npm start```
-
-&nbsp;&nbsp;&nbsp;&nbsp;OR
-
-* Navigate to ```WeAreNature/FutureAction/VotingApplication/future-action-left-darwin-x64```
-* Launch application
-
-## Building
-* Open [FromMeToWe.html](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/FromMeToWe.html) and set ```computerLocation: "Left"```
-* Open [package.json](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/package.json) and set ```"name": "future-action-left"```
-* Open Terminal
-* Install [electron packager](https://github.com/electron-userland/electron-packager) globally ```npm install electron-packager -g```
-* Navigate to ```WeAreNature/NatureIsEverywhere```
-* ```electron-packager .```
 
 ## Installing As Exhibit (Linux)
 
@@ -105,17 +93,14 @@ To communicate with the database, you will need to provide the API secret in a f
 * Open Terminal
 * ```sudo apt-get update```
 * ```sudo apt-get install run-one```
-* Put [npmstart.sh]() and [electronstart.sh]() int
-
+* Put [npmstart.sh]() and [electronstart.sh]() into your home directory
+* Add these two lines to your crontab: <br/>
+```* * * * * DISPLAY=:0 ``` and <br/>
+```* * * * * DISPLAY=:0 ``` and <br/>
 
 ### <a name="dailyemail"></a>Send Screenshots To Your Email
 
-* Copy [mailer.py](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/mailer.py) into your home directory and edit it with your email address, subject line, etc... 
-* Automate taking and sending a screenshot (daily at 7am) by adding this to your crontab:
 
-```0 7 * * * "/usr/sbin/screencapture" -f $HOME/email.jpg && sleep 5 && python $HOME/mailer.py```
-
-<br/>
 
 # <a name="backend"></a>Backend
 
