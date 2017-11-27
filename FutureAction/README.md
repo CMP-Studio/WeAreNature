@@ -51,6 +51,10 @@ Ensure that the application is always open by adding this to your crontab:
 * Find and open Info.plist
 * Add key ```Application UI Presentation Mode``` with value ```3``` (all hidden)
 
+### Set Desktop Background
+
+Use [this image](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/OutOfOrder.png).
+
 ### Prevent Crash Dialogs
 * In Terminal, ```defaults write com.apple.CrashReporter DialogType none```
 * In Terminal, ```defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false```
@@ -97,6 +101,10 @@ To communicate with the database, you will need to provide the API secret in a f
 * Add these two lines to your crontab: <br/>
 ```* * * * * DISPLAY=:0 run-one /home/studio/npmstart.sh ``` and <br/>
 ```* * * * * DISPLAY=:0 run-one /home/studio/electronstart.sh``` and <br/>
+
+### Set Desktop Background
+
+Use [this image](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/OutOfOrder.png).
 
 ### <a name="dailyemail"></a>Send Screenshots To Your Email
 
