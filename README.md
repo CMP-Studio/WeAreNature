@@ -1,5 +1,3 @@
-*NOTE: This repo and its instructions are a work-in-progress* <br/>
-
 # We Are Nature
 
 ![Nature Is Everywhere Banner](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/NatureIsEverywhere_Banner.jpg)
