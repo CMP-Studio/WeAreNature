@@ -86,9 +86,10 @@ To communicate with the database, you will need to provide the API secret in a f
 ## Running
 * Open Terminal
 * Navigate to ```WeAreNature/FutureAction/Poll```
-* ```npm run-script watch```
-* Open a new Terminal, navigate to ```WeAreNature/FutureAction/Poll```
+* ```npm i```
 * ```npm start```
+* Open a new Terminal, navigate to ```WeAreNature/FutureAction/Poll```
+* ```./node_modules/.bin/electron .```
 
 ## Installing As Exhibit (Linux)
 
