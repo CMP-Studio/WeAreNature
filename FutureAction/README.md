@@ -128,12 +128,12 @@ The backend of this exhibit stores votes, emails, and also handles sending remin
 There are two emails sent to every visitor who opts-in. One is sent immediately as confirmation and the other is sent in six months as a reminder. All emails are written in HTML and are easy to edit, the source files are located here: [confirmation](https://github.com/CMP-Studio/WeAreNature/tree/master/FutureAction/Backend/src/reminder/emails), [reminder](https://github.com/CMP-Studio/WeAreNature/tree/master/FutureAction/Backend/src/sendReminders/emails). The images included in the emails are stored in an AWS S3 bucket. After making edits to these HTML email files, re-deploy the server. 
 
 ## Secrets
-To deploy the database, you will need to provide several secrets in a file called serverless.env.yml. See [Backend/serverless.env.sample.yml](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/Backend/serverless.env.sample.yml). If you work at the Innovation Studio, find the secrets in Dropbox. When you re-deploy the server, these secrets could change; Update all files accordingly.
+To deploy the database, you will need to provide several secrets in a file called serverless.env.yml. See [Backend/serverless.env.sample.yml](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/Backend/serverless.env.sample.yml). If you work at the Innovation Studio, find the secrets in Dropbox. 
 
 ## Deploying
 * Open Terminal and navigate to ```WeAreNature/FutureAction/Backend```
 * ```serverless deploy --stage production```
-* Serverless will print the current API secret in Terminal.
+* When you re-deploy the server, secrets could change; Update all files accordingly.
 
 <br/>
 <br/>
