@@ -119,6 +119,23 @@ Use [this image](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulT
 
 # <a name="backend"></a>Backend
 
+The backend of this exhibit stores votes, emails, and also handles sending reminder emails. It is hosted on AWS, but managed via [Serverless](https://serverless.com/). Find futher instructions for setting up Serverless on their site.
+
+## Architecture
+![Architecture diagram](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/Backend/architectureDiagram.png)
+
+## Emails
+There are two emails sent to every visitor who opts-in. One is sent immediately as confirmation and the other is sent in six months as a reminder. All emails are written in HTML and are easy to edit, the source files are located here: [confirmation](https://github.com/CMP-Studio/WeAreNature/tree/master/FutureAction/Backend/src/reminder/emails), [reminder](https://github.com/CMP-Studio/WeAreNature/tree/master/FutureAction/Backend/src/sendReminders/emails). The images included in the emails are stored in an AWS S3 bucket. After making edits to these HTML email files, re-deploy the server. 
+
+## Secrets
+To deploy the database, you will need to provide several secrets in a file called serverless.env.yml. See [Backend/serverless.env.sample.yml](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/Backend/serverless.env.sample.yml). If you work at the Innovation Studio, find the secrets in Dropbox. When you re-deploy the server, these secrets could change; Update all files accordingly.
+
+## Deploying
+* Open Terminal and navigate to ```WeAreNature/FutureAction/Backend```
+* ```serverless deploy --stage production```
+* Serverless will print the current API secret in Terminal.
+
+<br/>
 
 ![Future Action installation view](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/FutureAction_Wide.jpg)
 
