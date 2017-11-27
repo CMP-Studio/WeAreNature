@@ -107,6 +107,8 @@ To communicate with the database, you will need to provide the API secret in a f
 ```0 7 * * * DISPLAY=:0 /usr/bin/scrot /home/studio/email.jpg``` <br/>
 ```0 7 * * * sleep 5 && python /home/studio/mailer.py```
 
+<br/>
+
 # <a name="backend"></a>Backend
 
 
