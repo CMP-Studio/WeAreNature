@@ -61,6 +61,7 @@ Use [this image](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulT
 
 <br/>
 <br/>
+<br/>
 
 ![Nature Is Everywhere installation view](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/NatureIsEverywhere_Wide.jpg)
 
