@@ -136,6 +136,8 @@ To deploy the database, you will need to provide several secrets in a file calle
 * Serverless will print the current API secret in Terminal.
 
 <br/>
+<br/>
+<br/>
 
 ![Future Action installation view](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/FutureAction_Wide.jpg)
 
