@@ -100,7 +100,12 @@ To communicate with the database, you will need to provide the API secret in a f
 
 ### <a name="dailyemail"></a>Send Screenshots To Your Email
 
-
+* Open Terminal
+* ```sudo apt-get install scrot```
+* Copy [mailer.py](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/mailer.py) into your home directory and edit it with your email address, subject line, etc... 
+* Automate taking and sending a screenshot (daily at 7am) by adding these lines to your crontab: <br/>
+```0 7 * * * DISPLAY=:0 /usr/bin/scrot /home/studio/email.jpg``` <br/>
+```0 7 * * * sleep 5 && python /home/studio/mailer.py```
 
 # <a name="backend"></a>Backend
 
