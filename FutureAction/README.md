@@ -93,10 +93,10 @@ To communicate with the database, you will need to provide the API secret in a f
 * Open Terminal
 * ```sudo apt-get update```
 * ```sudo apt-get install run-one```
-* Put [npmstart.sh]() and [electronstart.sh]() into your home directory
+* Put [npmstart.sh](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/npmstart.sh) and [electronstart.sh](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/electronstart.sh) into your home directory
 * Add these two lines to your crontab: <br/>
-```* * * * * DISPLAY=:0 ``` and <br/>
-```* * * * * DISPLAY=:0 ``` and <br/>
+```* * * * * DISPLAY=:0 run-one /home/studio/npmstart.sh ``` and <br/>
+```* * * * * DISPLAY=:0 run-one /home/studio/electronstart.sh``` and <br/>
 
 ### <a name="dailyemail"></a>Send Screenshots To Your Email
 

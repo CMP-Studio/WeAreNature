@@ -1,8 +1,8 @@
+![Nature Is Everywhere banner](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/NatureIsEverywhere_Banner.jpg)
+
 # <a name="natureiseverywhere"></a>Nature Is Everywhere
 
-An illustrated map of Pittsburgh sparkles. The visitor is prompted to select which parts of the map contain nature. There is only one correct answer. Right or wrong, the visitor is presented with a fact about wildlife in Pittsburgh.
-
-![Nature Is Everywhere installation view](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/NatureIsEverywhere.gif)
+An illustrated map of Pittsburgh sparkles. The visitor is prompted to select all of the parts of the map that contain nature: Parks? Farms? Downtown?. The only correct answer is that they all contain nature. In any case, the visitor is presented with a fact about wildlife in Pittsburgh.
 
 This application is a simple Electron application featuring:
 * Irregular-shaped touch targets (SVG)
