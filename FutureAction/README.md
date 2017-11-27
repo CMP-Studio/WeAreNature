@@ -133,7 +133,7 @@ To deploy the database, you will need to provide several secrets in a file calle
 ## Deploying
 * Open Terminal and navigate to ```WeAreNature/FutureAction/Backend```
 * ```serverless deploy --stage production```
-* When you re-deploy the server, secrets could change; Update all files accordingly.
+* When you re-deploy the server, secrets could change; update files accordingly
 
 <br/>
 <br/>
