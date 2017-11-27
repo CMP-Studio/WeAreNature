@@ -13,6 +13,8 @@ This interactive exhibit has three components:
 
 Our exhibition has two computers running the voting application. The applications are mostly the same, but have one key difference: a value indicating whether the touchscreen in installed to the left or right of the poll monitor. This information is used by the poll as it animates the vote. In the instructions below, I will describe setting up the left computer.
 
+![Voting app screencaptures](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/FutureAction_Screens.png)
+
 This application was developed for Mac OS X, but the frameworks used are cross-platform. <br/>
 Some of these instructions will require modification to work on a Windows/Linux machine.
 
@@ -76,6 +78,8 @@ Use [this image](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulT
 # <a name="poll"></a>Poll
 
 The poll is an application developed with Electron and React. The poll is displayed on a large monitor mounted on the wall between the two voting stations, it is not made to work on a touchscreen. It listens for new votes via a websocket.
+
+![Poll app screencaptures](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/FutureActionPoll_Screen.png)
 
 This application was developed for Linux, but the frameworks used are cross-platform. <br/>
 Some of these instructions will require modification to work on a Windows/Mac machine.
