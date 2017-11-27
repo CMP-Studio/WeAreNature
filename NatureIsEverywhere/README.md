@@ -43,7 +43,7 @@ Ensure that the application is always open by adding this to your crontab:
 
 ### Set Desktop Background
 
-Use [this image](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/OutOfOrder.png)
+Use [this image](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/OutOfOrder.png).
 
 ### Prevent Crash Dialogs
 * In Terminal, ```defaults write com.apple.CrashReporter DialogType none```
