@@ -1,8 +1,8 @@
-![Nature Is Everywhere banner](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/NatureIsEverywhere_Banner.jpg)
-
 # <a name="natureiseverywhere"></a>Nature Is Everywhere
 
 An illustrated map of Pittsburgh sparkles. The visitor is prompted to select all of the parts of the map that contain nature: Parks? Farms? Downtown?. The only correct answer is that they all contain nature. In any case, the visitor is presented with a fact about wildlife in Pittsburgh.
+
+![Nature Is Everywhere in action](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/NatureIsEverywhere.gif)
 
 This application is a simple Electron application featuring:
 * Irregular-shaped touch targets (SVG)
@@ -10,6 +10,7 @@ This application is a simple Electron application featuring:
 
 This project was developed for Mac OS X, but the frameworks used are cross-platform. <br/>
 Some of these instructions will require modification to work on a Windows/Linux machine.
+
 
 ## Running
 * Open Terminal
