@@ -1,3 +1,3 @@
 #!/bin/sh
-cd /home/studio/Documents/WeAreNature/FutureActionPoll
+cd /home/studio/WeAreNature/FutureAction/Poll
 npm start
