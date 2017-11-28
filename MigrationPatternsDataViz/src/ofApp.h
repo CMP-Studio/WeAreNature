@@ -30,6 +30,8 @@ class ofApp : public ofBaseApp{
         int vidWidth = 1920;
         int vidHeight = 1080;
     
+        bool installMode = true;
+    
         string debugInfo;
     
         // load in the schedule
@@ -152,7 +154,7 @@ class ofApp : public ofBaseApp{
         bool isScrubSoundFadeUp;
         bool isScrubSoundFadeDown;
         int startSoundFade;
-        int fadeTime;
+        int fadeTime = 1000;
     
         int trigWT_sound_1960;
         int trigJUNCO_sound_1960;
@@ -172,13 +174,11 @@ class ofApp : public ofBaseApp{
     
         deque<int> diffList;
 
-    
         //helper
         float averageOfList(deque<int> list);
         bool checkInRange(int value, int centerOfRange);
 
         // === Debugging =============================
-    
         ofxPanel gui;
         ofxIntSlider minimumEncoderMovement;
         ofxFloatSlider spinModeThreshold;
@@ -190,7 +190,6 @@ class ofApp : public ofBaseApp{
         ofxTurboJpeg turbo;
         ofImage frameImage;
     
-        // check if the buttona are connecting successfully
-        int startButtonWaitTime;
+        // check if the buttons are connecting successfully
         bool isButtonConnect;
 };

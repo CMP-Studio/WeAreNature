@@ -6,8 +6,11 @@
 
 void ofApp::setup() {
     ofSetWindowShape(1920, 1080);
-    ofSetFullscreen(true);
-    ofHideCursor();
+    
+    if (installMode) {
+        ofSetFullscreen(true);
+        ofHideCursor();
+    }
     
     // Initialize Frames //
     scrubLevelFrame = 0;
@@ -40,8 +43,8 @@ void ofApp::setup() {
     // to do: set up one to be on for start up.
     buttonOneState = false;
     buttonTwoState = false;
-    
-    
+    isButtonConnect = false;
+
     // Setup View //
     vidBuffer.allocate(vidWidth, vidHeight);
     bezManager.setup(10); //WarpResolution
@@ -135,27 +138,17 @@ void ofApp::setup() {
 
     ofDirectory dir;
     dir.listDir("./videos/1960_scrubLevel/");
-    //  this will put it in order as long as it has the leading zeros in linux
     dir.sort();
-    ofLog()<<"numOfFiles"<< dir.size();
-
-
     for(int i =0; i < dir.size(); i++){
         images_1960.push_back(dir.getPath(i));
     }
-
     
     ofDirectory dir2;
     dir2.listDir("./videos/2010_scrubLevel/");
-    //  this will put it in order as long as it has the leading zeros in linux
-    ofLog()<<"numOfFiles2"<< dir2.size();
     dir2.sort();
     for(int i =0; i < dir2.size(); i++){
         images_2010.push_back(dir2.getPath(i));
     }
-
-
-
 
     // Load Sounds //
     // ambient noise throughout year
@@ -194,12 +187,6 @@ void ofApp::setup() {
     transSound.load("sounds/swooshes/swishSound.wav");
     
     setTo2010s();
-    
-    // this is the time in millis that the white flash happens over
-    fadeTime = 1000;
-    
-    
-    isButtonConnect = false;
 }
 
 void ofApp::setTo1960s() {
@@ -258,8 +245,9 @@ void ofApp::setupArduino(const int & version) {
 
 void ofApp::update(){
     
-    if((!isButtonConnect & (ofGetElapsedTimeMillis()> 60000)) ||
-        (ofGetWindowHeight() != 1080 || ofGetWindowWidth() != 1920)) {
+    if(installMode &&
+       ((!isButtonConnect & (ofGetElapsedTimeMillis() > 60000)) ||
+       (ofGetWindowHeight() != 1080 || ofGetWindowWidth() != 1920))) {
         ofExit();
     }
 
@@ -559,16 +547,6 @@ void ofApp::keyPressed(int key){
     if(key == 'w'){
         fakeSpinnerNumber = posMod((fakeSpinnerNumber + 5), 3600);
         spinnerChanged(fakeSpinnerNumber);
-    }
-    if(key == 'h'){
-        ard.sendDigital(4, ARD_HIGH);
-    }
-    if(key == 'j'){
-        ard.sendDigital(4, ARD_LOW);
-    }
-    if (key == 'p') {
-        bezManager.nextHandle();
-        handleIndex = (handleIndex + 1) %12;
     }
 }
 
