@@ -4,7 +4,7 @@
 
 ### [Nature Is Everywhere](https://github.com/CMP-Studio/WeAreNature/tree/master/NatureIsEverywhere)
 
-An illustrated map of Pittsburgh sparkles. The visitor is prompted to select all of the parts of the map that contain nature: Parks? Farms? Downtown?. The only correct answer is that they all contain nature. In any case, the visitor is presented with a fact about wildlife in Pittsburgh.
+An illustrated map of Pittsburgh sparkles. The visitor is prompted to select all of the parts of the map that contain nature: Parks? Farms? Downtown? The only correct answer is that they all contain nature. In any case, the visitor is presented with a fact about wildlife in Pittsburgh.
 
 
 ##
