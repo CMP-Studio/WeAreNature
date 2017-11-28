@@ -20,7 +20,7 @@ Some of these instructions will require modification to work on a Windows/Linux 
 
 &nbsp;&nbsp;&nbsp;&nbsp;OR
 
-* Navigate to ```WeAreNature/NatureIsEverywhere/natures-is-everywhere-darwin-x64```
+* Navigate to ```WeAreNature/NatureIsEverywhere/nature-is-everywhere-darwin-x64```
 * Launch application
 
 ## Building
