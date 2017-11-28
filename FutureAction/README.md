@@ -103,8 +103,8 @@ To communicate with the database, you will need to provide the API secret in a f
 * ```sudo apt-get update```
 * ```sudo apt-get install run-one```
 * Add these two lines to your crontab, adjusting the paths according to your file structure: <br/>
-```* * * * * DISPLAY=:0 run-one /home/studio/WeAreNature/_HelpfulThings/npmstart.sh ``` and <br/>
-```* * * * * DISPLAY=:0 run-one /home/studio/WeAreNature/_HelpfulThings/electronstart.sh```
+```* * * * * DISPLAY=:0 run-one /home/studio/WeAreNature/FutureAction/Poll/npmstart.sh ``` and <br/>
+```* * * * * DISPLAY=:0 run-one /home/studio/WeAreNature/FutureAction/Poll/electronstart.sh```
 
 ### Set Desktop Background
 
