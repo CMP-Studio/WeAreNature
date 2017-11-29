@@ -31,8 +31,22 @@ The final installation includes some rarer hardware, but there will be instructi
 
 ## Hardware
 
+### Components
+* Encoder
+* Gain Amplifier
+* Aruduino Uno 
+* Two Buttons
+* Relay
+
+### Preparing the Arduino Code
+* Install [Adafruit_ADS1X15](https://github.com/adafruit/Adafruit_ADS1X15) Arduino library.
+* Upload [NonStandardFirmata](https://github.com/CMP-Studio/WeAreNature/tree/master/MigrationPatternsDataViz/NonStandardFirmata) to the Arduino. This edited Firmata uses the Adafruit_ADS1X15 library to read the encoder value via the gain amplifier. It sends the value to the app with ```sendString```.
+
+### Assembly
+
 
 ## Media
+
 
 
 ## Installing As Exhibit (OS X)
