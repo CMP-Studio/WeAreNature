@@ -1,6 +1,6 @@
 # We Are Nature
 
-![Nature Is Everywhere Banner](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/NatureIsEverywhere_Banner.jpg)
+[![Nature Is Everywhere Banner](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/NatureIsEverywhere_Banner.png)](https://github.com/CMP-Studio/WeAreNature/tree/master/NatureIsEverywhere)
 
 ### [Nature Is Everywhere](https://github.com/CMP-Studio/WeAreNature/tree/master/NatureIsEverywhere)
 
@@ -9,7 +9,7 @@ An illustrated map of Pittsburgh sparkles. The visitor is prompted to select all
 
 ##
 
-![Future Action Banner](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/FutureAction_Banner.jpg)
+[![Future Action Banner](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/FutureAction_Banner.png)](https://github.com/CMP-Studio/WeAreNature/tree/master/FutureAction)
 
 ### [Future Action](https://github.com/CMP-Studio/WeAreNature/tree/master/FutureAction)
 
@@ -17,7 +17,7 @@ This interactive was designed to encourage individuals to get involved with Pitt
 
 
 ##
-![Migration Patterns Data Viz Banner](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/MigrationDataViz_Banner.jpg)
+[![Migration Patterns Data Viz Banner](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/MigrationDataViz_Banner.png)](https://github.com/CMP-Studio/WeAreNature/tree/master/MigrationPatternsDataViz)
 
 
 ### [Migration Patterns Data Visualization](https://github.com/CMP-Studio/WeAreNature/tree/master/MigrationPatternsDataViz)

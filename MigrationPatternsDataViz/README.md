@@ -5,14 +5,28 @@ Are birds migrating sooner due to global warming? According to data collected at
 The application was built with [openFrameworks](http://openframeworks.cc/) and [Arduino](https://www.arduino.cc/).
 The final installation includes some rarer hardware, but there will be instructions on simulating a turning knob below.
 
-## Running 
+## Running on Mac
 
-### <a name="keepappopen"></a>Simulating Hardware With Key Presses
-The spinning knob and buttons can be simulated with the keyboard: <br/>
-**q** to spin backwards <br/>
-**w** to spin forwards <br/>
-**q** to jump to 1960s <br/>
-**q** to jump to 2010s <br/>
+* Launch [application](https://github.com/CMP-Studio/WeAreNature/tree/master/MigrationPatternsDataViz/bin). If the application is quitting immediately, you should rebuild with ```installMode = false```.
+* The spinning knob and buttons can be simulated with the keyboard:
+  * **```q```** to spin through the year backwards 
+  * **```w```** to spin forwards
+  * **```v```** to jump to 1960s data set 
+  * **```b```** to jump to 2010s 
+* Press **```Enter```** for Debug Mode
+
+## Building
+
+* Install [openFrameworks](http://openframeworks.cc/) and its dependecies
+* You will need these ofx addons
+  * [ofxBezierWarpManager](https://github.com/sticknor/ofxBezierWarpManager)
+  * ofxGui
+  * ofxXmlSettings
+* Put WeAreNature repo into the 'apps' folder
+* Go to WeAreNature/MigrationPatternsDataViz
+* Open the .xcodeproj file
+* If hardware is not setup, set ```bool installMode``` to false in [MigrationPatternsDataViz/src/ofApp.h](https://github.com/CMP-Studio/WeAreNature/blob/master/MigrationPatternsDataViz/src/ofApp.h)
+* Pressing the Run button will rebuild the app
 
 ## Hardware
 
@@ -20,39 +34,33 @@ The spinning knob and buttons can be simulated with the keyboard: <br/>
 ## Media
 
 
-
 ## Installing As Exhibit (OS X)
 
 ### Adjust The Mesh For Short Throw Projection
 
+* Press **```Enter```** for Debug Mode
+* With your mouse, you can move the grid around and warp it
+* If the grid extends off the the screen, press **```p```** to cycle through the  corner and warp anchors and adjust their position with arrow keys
 
 ### <a name="keepappopen"></a>Keep App Open
 
-Ensure that the application is always open by adding this to your crontab:
-
-```* * * * * open -a /absolute/path/to/application```
+Add this to your crontab: ```* * * * * open -a /absolute/path/to/application```
 
 ### Hide System Menus
 * Right-click application and select 'Show Package Contents'
-* Find and open Info.plist
+* Open Info.plist
 * Add key ```Application UI Presentation Mode``` with value ```3``` (all hidden)
 
-### Set Desktop Background
-
-Use [this image](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/OutOfOrder.png).
-
 ### Prevent Crash Dialogs
-* In Terminal, ```defaults write com.apple.CrashReporter DialogType none```
-* In Terminal, ```defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false```
+* ```defaults write com.apple.CrashReporter DialogType none```
+* ```defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false```
 
 ### <a name="dailyemail"></a>Send Screenshots To Your Email
 
 * Copy [mailer.py](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/mailer.py) into your home directory and edit it with your email address, subject line, etc... 
-* Automate taking and sending a screenshot (daily at 7am and 10pm) by adding this to your crontab:
+* Automate taking and sending a screenshot (daily at 7am) by adding this to your crontab: <br/>```0 7 * * * "/usr/sbin/screencapture" -f $HOME/email.jpg && sleep 5 && python $HOME/mailer.py```
 
-```0 7,10 * * * "/usr/sbin/screencapture" -f $HOME/email.jpg && sleep 5 && python $HOME/mailer.py```
-
-### See This Guide For More Tips
+### & See This Guide
 [https://github.com/laserpilot/Installation_Up_4evr](https://github.com/laserpilot/Installation_Up_4evr)
 
 <br/>
