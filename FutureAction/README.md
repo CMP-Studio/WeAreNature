@@ -11,7 +11,7 @@ This interactive exhibit has three components:
 
 # <a name="voting"></a>Voting Application
 
-Our exhibition has two computers running the voting application. The applications are mostly the same, but have one key difference: a value indicating whether the touchscreen in installed to the left or right of the poll monitor. This information is used by the poll as it animates the vote. In the instructions below, I will describe setting up the left computer.
+Our exhibition has two computers running the voting application. The applications are mostly the same, but have one key difference: a value indicating whether the touchscreen in installed to the left or right of the poll monitor. This information is used by the poll as it animates the vote. The instructions below will set up the left computer.
 
 ![Voting app screencaptures](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/FutureAction_Screens.png)
 
@@ -19,58 +19,46 @@ This application was developed for Mac OS X, but the frameworks used are cross-p
 Some of these instructions will require modification to work on a Windows/Linux machine.
 
 ## Secrets
-To communicate with the database, you will need to provide the API secret in a file called secrets.js. See [VotingApplication/secretsExample.js](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/secretsExample.js). If you work at the Innovation Studio, find the secret in Dropbox. 
+To communicate with the database, you will need to provide the API secret in a file called secrets.js. See [VotingApplication/secretsExample.js](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/secretsExample.js). If you work at the Studio, find the secret in Dropbox. 
 
 ## Running
-* Open Terminal
-* Navigate to ```WeAreNature/FutureAction/VotingApplication```
-* ```npm i```
-* ```npm start```
+
+* Just launch [application](https://github.com/CMP-Studio/WeAreNature/tree/master/FutureAction/VotingApplication/future-action-left-darwin-x64)!
 
 &nbsp;&nbsp;&nbsp;&nbsp;OR
 
-* Navigate to ```WeAreNature/FutureAction/VotingApplication/future-action-left-darwin-x64```
-* Launch application
+* Go to ```WeAreNature/FutureAction/VotingApplication```
+* ```npm i```
+* ```npm start```
 
 ## Building
-* Open [VotingApplication/FromMeToWe.html](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/FromMeToWe.html) and set ```computerLocation: "Left"```
-* Open [VotingApplication/package.json](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/package.json) and set ```"name": "future-action-left"```
-* Open Terminal
+* In [VotingApplication/FromMeToWe.html](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/FromMeToWe.html), set ```computerLocation: "Left"```
+* In [VotingApplication/package.json](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/VotingApplication/package.json), set ```"name": "future-action-left"```
 * Install [electron packager](https://github.com/electron-userland/electron-packager) globally ```npm install electron-packager -g```
-* Navigate to ```WeAreNature/NatureIsEverywhere```
+* Go to ```WeAreNature/FutureAction/VotingApplication```
 * ```electron-packager .```
 
 ## Installing As Exhibit (OS X)
 
 ### <a name="keepappopen"></a>Keep App Open
 
-Ensure that the application is always open by adding this to your crontab:
-
-```* * * * * open -a /absolute/path/to/application```
+Add this to your crontab: ```* * * * * open -a /absolute/path/to/application```
 
 ### Hide System Menus
 * Right-click application and select 'Show Package Contents'
-* Find and open Info.plist
+* Open Info.plist
 * Add key ```Application UI Presentation Mode``` with value ```3``` (all hidden)
 
-### Set Desktop Background
-
-Use [this image](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/OutOfOrder.png).
-
 ### Prevent Crash Dialogs
-* In Terminal, ```defaults write com.apple.CrashReporter DialogType none```
-* In Terminal, ```defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false```
-
+* ```defaults write com.apple.CrashReporter DialogType none```
+* ```defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false```
 
 ### <a name="dailyemail"></a>Send Screenshots To Your Email
 
 * Copy [mailer.py](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/mailer.py) into your home directory and edit it with your email address, subject line, etc... 
-* Automate taking and sending a screenshot (daily at 7am) by adding this to your crontab:
+* Automate taking and sending a screenshot (daily at 7am) by adding this to your crontab: <br/>```0 7 * * * "/usr/sbin/screencapture" -f $HOME/email.jpg && sleep 5 && python $HOME/mailer.py```
 
-```0 7 * * * "/usr/sbin/screencapture" -f $HOME/email.jpg && sleep 5 && python $HOME/mailer.py```
-
-
-### See This Guide For More Tips
+### & See This Guide
 [https://github.com/laserpilot/Installation_Up_4evr](https://github.com/laserpilot/Installation_Up_4evr)
 
 <br/>
@@ -85,34 +73,27 @@ This application was developed for Linux, but the frameworks used are cross-plat
 Some of these instructions will require modification to work on a Windows/Mac machine.
 
 ## Secrets
-To communicate with the database, you will need to provide the API secret in a file called secrets.js. See [Poll/javascripts/secretsExample.js](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/Poll/javascripts/secretsExample.js). If you work at the Innovation Studio, find the secret in Dropbox. 
+To communicate with the database, you will need to provide the API secret in a file called secrets.js. See [Poll/javascripts/secretsExample.js](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/Poll/javascripts/secretsExample.js). If you work at the Studio, find the secret in Dropbox. 
 
 ## Running
-* Open Terminal
-* Navigate to ```WeAreNature/FutureAction/Poll```
+* Go to ```WeAreNature/FutureAction/Poll```
 * ```npm i```
 * ```npm start```
-* Open a new Terminal, navigate to ```WeAreNature/FutureAction/Poll```
+* Open a new Terminal window, go to ```WeAreNature/FutureAction/Poll```
 * ```./node_modules/.bin/electron .```
 
 ## Installing As Exhibit (Linux)
 
 ### <a name="keepappopen"></a>Keep App Open
 
-* Open Terminal
 * ```sudo apt-get update```
 * ```sudo apt-get install run-one```
-* Add these two lines to your crontab, adjusting the paths according to your file structure: <br/>
+* Add these two lines to your crontab, adjusting the absolute paths to your file structure: <br/>
 ```* * * * * DISPLAY=:0 run-one /home/studio/WeAreNature/FutureAction/Poll/npmstart.sh ``` and <br/>
 ```* * * * * DISPLAY=:0 run-one /home/studio/WeAreNature/FutureAction/Poll/electronstart.sh```
 
-### Set Desktop Background
-
-Use [this image](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/OutOfOrder.png).
-
 ### <a name="dailyemail"></a>Send Screenshots To Your Email
 
-* Open Terminal
 * ```sudo apt-get install scrot```
 * Copy [mailer.py](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/mailer.py) into your home directory and edit it with your email address, subject line, etc... 
 * Automate taking and sending a screenshot (daily at 7am) by adding these lines to your crontab: <br/>
@@ -135,9 +116,8 @@ There are two emails sent to every visitor who opts-in. One is sent immediately 
 To deploy the database, you will need to provide several secrets in a file called serverless.env.yml. See [Backend/serverless.env.sample.yml](https://github.com/CMP-Studio/WeAreNature/blob/master/FutureAction/Backend/serverless.env.sample.yml). If you work at the Innovation Studio, find the secrets in Dropbox. 
 
 ## Deploying
-* Open Terminal and navigate to ```WeAreNature/FutureAction/Backend```
+* Go to ```WeAreNature/FutureAction/Backend```
 * ```serverless deploy --stage production```
-* When you re-deploy the server, secrets could change; update files accordingly
 
 <br/>
 <br/>
