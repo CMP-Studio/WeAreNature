@@ -548,6 +548,10 @@ void ofApp::keyPressed(int key){
         fakeSpinnerNumber = posMod((fakeSpinnerNumber + 5), 3600);
         spinnerChanged(fakeSpinnerNumber);
     }
+    if (key == 'p') {
+        bezManager.nextHandle();
+        handleIndex = (handleIndex + 1) %12;
+    }
 }
 
 void ofApp::keyReleased(int key){
