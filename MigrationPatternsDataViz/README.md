@@ -2,8 +2,6 @@
 
 Are birds migrating sooner due to global warming? According to data collected at Powdermill Nature Reserve, the answer is yes. This playful visualization features over 6000 frames of animation, showing how birds migrate, mate, and raise their young. Visitors can scrub through a year at Powdermill using a spinning knob. They can also switch between data sets to compare the birds behavior 50 years ago and now.
 
-![Photograph of Migration Patterns Data Viz installated in We Are Nature](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/MigrationDataViz_Wide.jpg)
-
 The application was built with [openFrameworks](http://openframeworks.cc/) and [Arduino](https://www.arduino.cc/).
 The final installation includes some rarer hardware, but there will be instructions on simulating a turning knob below.
 
@@ -68,4 +66,6 @@ Add this to your crontab: ```* * * * * open -a /absolute/path/to/application```
 <br/>
 <br/>
 <br/>
+
+![Photograph of Migration Patterns Data Viz installated in We Are Nature](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/MigrationDataViz_Wide.jpg)
 
