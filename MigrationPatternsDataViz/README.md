@@ -40,7 +40,7 @@ The final installation includes some rarer hardware, but there will be instructi
 
 * Press **```Enter```** for Debug Mode
 * With your mouse, you can move the grid around and warp it
-* If the grid extends off the the screen, press **```p```** to jump from corner anchor to anchor and adjust position with arrow keys
+* If the grid extends off the the screen, press **```p```** to cycle through the  corner and warp anchors and adjust their position with arrow keys
 
 ### <a name="keepappopen"></a>Keep App Open
 
