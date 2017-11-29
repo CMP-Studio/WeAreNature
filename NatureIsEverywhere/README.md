@@ -4,7 +4,7 @@ An illustrated map of Pittsburgh sparkles. The visitor is prompted to select all
 
 ![Nature Is Everywhere screenshots](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/NatureIsEverywhere_Screens.png)
 
-This application is a simple Electron application. Selectable regions are included as SVG, which allows you to create touch targets of any shape. The region images are animated with CSS transitions. 
+This is a simple Electron application. Selectable regions are included as SVG, which allows you to create touch targets of any shape. The region images are animated with CSS transitions. 
 
 This project was developed for Mac OS X, but the frameworks used are cross-platform. <br/>
 Some of these instructions will require modification to work on a Windows/Linux machine.
