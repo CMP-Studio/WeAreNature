@@ -18,11 +18,11 @@ The final installation includes some rarer hardware, but there will be instructi
 ## Building
 
 * Install [openFrameworks](http://openframeworks.cc/) and its dependecies
-* You will need these ofx addons
+* Make sure these addons are on the openFrameworks 'addons' folder
   * [ofxBezierWarpManager](https://github.com/sticknor/ofxBezierWarpManager)
   * ofxGui
   * ofxXmlSettings
-* Put WeAreNature repo into the 'apps' folder
+* Put WeAreNature repo into the openFrameworks 'apps' folder
 * Go to WeAreNature/MigrationPatternsDataViz
 * Open the .xcodeproj file
 * If hardware is not setup, set ```installMode = false``` in [MigrationPatternsDataViz/src/ofApp.h](https://github.com/CMP-Studio/WeAreNature/blob/master/MigrationPatternsDataViz/src/ofApp.h)
@@ -38,7 +38,7 @@ The final installation includes some rarer hardware, but there will be instructi
 * Two Buttons
 * Relay
 
-### Preparing the Arduino Code
+### Preparing the Arduino
 * Install [Adafruit_ADS1X15](https://github.com/adafruit/Adafruit_ADS1X15) Arduino library.
 * Upload [NonStandardFirmata](https://github.com/CMP-Studio/WeAreNature/tree/master/MigrationPatternsDataViz/NonStandardFirmata) to the Arduino. This edited Firmata uses the Adafruit_ADS1X15 library to read the encoder value via the gain amplifier. It sends the value to the app with ```sendString```.
 
@@ -46,7 +46,6 @@ The final installation includes some rarer hardware, but there will be instructi
 
 
 ## Media
-
 
 
 ## Installing As Exhibit (OS X)
