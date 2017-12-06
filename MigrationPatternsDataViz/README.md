@@ -82,3 +82,5 @@ Add this to your crontab: ```* * * * * open -a /absolute/path/to/application```
 <br/>
 <br/>
 
+![Photograph of Migration Patterns Data Viz installated in We Are Nature](https://github.com/CMP-Studio/WeAreNature/blob/master/_Images/MigrationDataViz_Wide.jpg)
+
