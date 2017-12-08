@@ -46,10 +46,6 @@ The final installation includes some rarer hardware, but there will be instructi
 
 Fritzing diagram coming soon....
 
-## Media
-
-How the media is organized, coming soon...
-
 ## Installing As Exhibit (OS X)
 
 ### Adjust The Mesh For Short Throw Projection
