@@ -44,9 +44,11 @@ The final installation includes some rarer hardware, but there will be instructi
 
 ### Assembly
 
+Fritzing diagram coming soon....
 
 ## Media
 
+How the media is organized, coming soon...
 
 ## Installing As Exhibit (OS X)
 
