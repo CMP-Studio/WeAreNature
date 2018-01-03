@@ -22,6 +22,7 @@ The final installation includes some rarer hardware, but there will be instructi
   * [ofxBezierWarpManager](https://github.com/sticknor/ofxBezierWarpManager)
   * ofxGui
   * ofxXmlSettings
+  * ofxCsv
 * Put WeAreNature repo into the openFrameworks 'apps' folder
 * Go to WeAreNature/MigrationPatternsDataViz
 * Open the .xcodeproj file

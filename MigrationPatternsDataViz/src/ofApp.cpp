@@ -6,7 +6,8 @@
 
 void ofApp::setup() {
     ofSetWindowShape(1920, 1080);
-    
+    analytics.load("analytics.csv");
+  
     if (installMode) {
         ofSetFullscreen(true);
         ofHideCursor();
@@ -202,6 +203,9 @@ void ofApp::setTo1960s() {
         years = "1960s";
         isCurrently1960 = true;
     }
+    // If button changes, then someone is interacting
+    usedButtons = true;
+    interactionOn();
 }
 
 void ofApp::setTo2010s() {
@@ -218,6 +222,9 @@ void ofApp::setTo2010s() {
         years = "2010s";
         isCurrently1960 = false;
     }
+    // If button changes, then someone is interacting
+    usedButtons = true;
+    interactionOn();
 }
 
 
@@ -308,8 +315,45 @@ void ofApp::update(){
     } else {
         ofLog() << "Encoder Not Reporting";
     }
-
+  
+    updateAnalytics();
+  
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
+}
+
+void ofApp::interactionOn() {
+  if (!interaction) {
+    interaction = true;
+    millisInteractionBegin = ofGetElapsedTimeMillis();
+  }
+  millisLastInteraction = ofGetElapsedTimeMillis();
+}
+
+void ofApp::updateAnalytics() {
+  // if we have an interaction but its been 20 seconds since last change, end interaction and record to csv
+  if (interaction && ((millisLastInteraction + 20000) < ofGetElapsedTimeMillis())) {
+    int totalInteractionTime = ofGetElapsedTimeMillis() - millisInteractionBegin - 20000;
+    time_t t = time(0);   // get time now
+    struct tm * now = localtime( & t );
+    string date = ofToString((now->tm_mon + 1)) + "/" + ofToString((now->tm_mday)) + "/" + ofToString((now->tm_year + 1900));
+    string time = ofToString((now->tm_hour)) + ":" + ofToString((now->tm_min));
+    
+    if (totalInteractionTime/1000 > 0) {
+      ofxCsvRow session;
+      session.insertString(0, date);
+      session.insertString(1, time);
+      session.insertString(2, ofToString(totalInteractionTime/1000));
+      session.insertBool(3, usedSpinner);
+      session.insertBool(4, usedButtons);
+      analytics.addRow(session);
+      analytics.save();
+    }
+    
+    // reset
+    interaction = false;
+    usedButtons = false;
+    usedSpinner = false;
+  }
 }
 
 void ofApp::updateAudio() {
@@ -376,6 +420,9 @@ void ofApp::calculateFrameToShow() {
 
 void ofApp::spinnerChanged(const int newSpinnerNumber){
     if (abs(newSpinnerNumber - spinnerNumber) > minimumEncoderMovement) {
+        // If spinner changes, then someone is interacting
+        usedSpinner = true;
+        interactionOn();
         prevSpinnerNumber = spinnerNumber;
         spinnerNumber = newSpinnerNumber;
     }
@@ -599,7 +646,7 @@ void ofApp::digitalPinChanged(const int & pinNum) {
     // do something with the digital input. here we're simply going to print the pin number and
     // value to the screen each time it changes
     ofLog() << "pin num: " << pinNum << " value: "<< ofToString(ard.getDigital(pinNum));
-    isButtonConnect = true; 
+    isButtonConnect = true;
     if(pinNum == 3){
         buttonOneState = ard.getDigital(pinNum);
         if(isCurrently1960){

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		078B07CA1FFD54AB005E8657 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 078B07BD1FFD54AB005E8657 /* Makefile */; };
+		078B07CB1FFD54AB005E8657 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 078B07BF1FFD54AB005E8657 /* main.cpp */; };
+		078B07CC1FFD54AB005E8657 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 078B07C01FFD54AB005E8657 /* ofApp.cpp */; };
+		078B07CD1FFD54AB005E8657 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 078B07C41FFD54AB005E8657 /* README.md */; };
+		078B07CE1FFD54AB005E8657 /* ofxCsv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 078B07C61FFD54AB005E8657 /* ofxCsv.cpp */; };
+		078B07CF1FFD54AB005E8657 /* ofxCsvRow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 078B07C81FFD54AB005E8657 /* ofxCsvRow.cpp */; };
 		1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 907C5B5E104864A2D3A25745 /* ofxToggle.cpp */; };
 		22FD34B41F9EE8DB00BD1473 /* libturbojpeg.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 22FD34B31F9EE8DB00BD1473 /* libturbojpeg.dylib */; };
 		22FD34BA1F9EE91000BD1473 /* libturbojpeg.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 22FD34B31F9EE8DB00BD1473 /* libturbojpeg.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -62,6 +68,22 @@
 
 /* Begin PBXFileReference section */
 		01DCC0911400F9ACF5B65578 /* ofxXmlSettings.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxXmlSettings.h; path = ../../../addons/ofxXmlSettings/src/ofxXmlSettings.h; sourceTree = SOURCE_ROOT; };
+		078B07B51FFD54AB005E8657 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		078B07B61FFD54AB005E8657 /* addon_config.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = addon_config.mk; sourceTree = "<group>"; };
+		078B07B81FFD54AB005E8657 /* addons.make */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = addons.make; sourceTree = "<group>"; };
+		078B07BB1FFD54AB005E8657 /* file.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = file.csv; sourceTree = "<group>"; };
+		078B07BC1FFD54AB005E8657 /* config.make */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.make; sourceTree = "<group>"; };
+		078B07BD1FFD54AB005E8657 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		078B07BF1FFD54AB005E8657 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		078B07C01FFD54AB005E8657 /* ofApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofApp.cpp; sourceTree = "<group>"; };
+		078B07C11FFD54AB005E8657 /* ofApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofApp.h; sourceTree = "<group>"; };
+		078B07C21FFD54AB005E8657 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		078B07C31FFD54AB005E8657 /* ofxaddons_thumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ofxaddons_thumbnail.png; sourceTree = "<group>"; };
+		078B07C41FFD54AB005E8657 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		078B07C61FFD54AB005E8657 /* ofxCsv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCsv.cpp; sourceTree = "<group>"; };
+		078B07C71FFD54AB005E8657 /* ofxCsv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCsv.h; sourceTree = "<group>"; };
+		078B07C81FFD54AB005E8657 /* ofxCsvRow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCsvRow.cpp; sourceTree = "<group>"; };
+		078B07C91FFD54AB005E8657 /* ofxCsvRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCsvRow.h; sourceTree = "<group>"; };
 		0A1DAC09F322AE313A40706D /* ofxToggle.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxToggle.h; path = ../../../addons/ofxGui/src/ofxToggle.h; sourceTree = SOURCE_ROOT; };
 		15F2C6477A769C03A56D1401 /* ofxSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxSlider.cpp; path = ../../../addons/ofxGui/src/ofxSlider.cpp; sourceTree = SOURCE_ROOT; };
 		17E65988300FBD9AAA2CD0CA /* ofxGui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxGui.h; path = ../../../addons/ofxGui/src/ofxGui.h; sourceTree = SOURCE_ROOT; };
@@ -116,6 +138,70 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		078B07B41FFD54AB005E8657 /* ofxCsv */ = {
+			isa = PBXGroup;
+			children = (
+				078B07B51FFD54AB005E8657 /* .gitignore */,
+				078B07B61FFD54AB005E8657 /* addon_config.mk */,
+				078B07B71FFD54AB005E8657 /* csvExample */,
+				078B07C21FFD54AB005E8657 /* LICENSE.txt */,
+				078B07C31FFD54AB005E8657 /* ofxaddons_thumbnail.png */,
+				078B07C41FFD54AB005E8657 /* README.md */,
+				078B07C51FFD54AB005E8657 /* src */,
+			);
+			name = ofxCsv;
+			path = ../../../addons/ofxCsv;
+			sourceTree = "<group>";
+		};
+		078B07B71FFD54AB005E8657 /* csvExample */ = {
+			isa = PBXGroup;
+			children = (
+				078B07B81FFD54AB005E8657 /* addons.make */,
+				078B07B91FFD54AB005E8657 /* bin */,
+				078B07BC1FFD54AB005E8657 /* config.make */,
+				078B07BD1FFD54AB005E8657 /* Makefile */,
+				078B07BE1FFD54AB005E8657 /* src */,
+			);
+			path = csvExample;
+			sourceTree = "<group>";
+		};
+		078B07B91FFD54AB005E8657 /* bin */ = {
+			isa = PBXGroup;
+			children = (
+				078B07BA1FFD54AB005E8657 /* data */,
+			);
+			path = bin;
+			sourceTree = "<group>";
+		};
+		078B07BA1FFD54AB005E8657 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				078B07BB1FFD54AB005E8657 /* file.csv */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		078B07BE1FFD54AB005E8657 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				078B07BF1FFD54AB005E8657 /* main.cpp */,
+				078B07C01FFD54AB005E8657 /* ofApp.cpp */,
+				078B07C11FFD54AB005E8657 /* ofApp.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		078B07C51FFD54AB005E8657 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				078B07C61FFD54AB005E8657 /* ofxCsv.cpp */,
+				078B07C71FFD54AB005E8657 /* ofxCsv.h */,
+				078B07C81FFD54AB005E8657 /* ofxCsvRow.cpp */,
+				078B07C91FFD54AB005E8657 /* ofxCsvRow.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		1C2104A6058993B507C214D4 /* ofxBezierWarpManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,6 +293,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				078B07B41FFD54AB005E8657 /* ofxCsv */,
 				1C2104A6058993B507C214D4 /* ofxBezierWarpManager */,
 				480A780D8D0308AE4A368801 /* ofxGui */,
 				1F4FB5C423662B96ADFDCC0B /* ofxXmlSettings */,
@@ -365,8 +452,10 @@
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				FF539B8346B1D0B49B7F140A /* Vid.cpp in Sources */,
 				92366A3347EC405108F1ED9D /* ofxBezierWarp.cpp in Sources */,
+				078B07CA1FFD54AB005E8657 /* Makefile in Sources */,
 				B2F0659D00B38667F0B66F64 /* ofxBezierWarpManager.cpp in Sources */,
 				856AA354D08AB4B323081444 /* ofxBaseGui.cpp in Sources */,
+				078B07CC1FFD54AB005E8657 /* ofApp.cpp in Sources */,
 				5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */,
 				B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */,
 				483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */,
@@ -374,11 +463,15 @@
 				837220E80EB56CD44AD27F2A /* ofxSlider.cpp in Sources */,
 				B56FE57CC35806596D38118C /* ofxSliderGroup.cpp in Sources */,
 				1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */,
+				078B07CF1FFD54AB005E8657 /* ofxCsvRow.cpp in Sources */,
 				678DD027A9D432E1E538E09E /* ofxTurboJpeg.cpp in Sources */,
 				63B57AC5BF4EF088491E0317 /* ofxXmlSettings.cpp in Sources */,
 				933A2227713C720CEFF80FD9 /* tinyxml.cpp in Sources */,
 				9D44DC88EF9E7991B4A09951 /* tinyxmlerror.cpp in Sources */,
+				078B07CB1FFD54AB005E8657 /* main.cpp in Sources */,
+				078B07CD1FFD54AB005E8657 /* README.md in Sources */,
 				5A4349E9754D6FA14C0F2A3A /* tinyxmlparser.cpp in Sources */,
+				078B07CE1FFD54AB005E8657 /* ofxCsv.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

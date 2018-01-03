@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxGui.h"
 #include "ofxBezierWarpManager.h"
+#include "ofxCsv.h"
 #include "Vid.h"
 #include "ofxTurboJpeg.h"
 
@@ -90,12 +91,9 @@ class ofApp : public ofBaseApp{
     
         vector<Vid> vids_1960;
         vector<string> images_1960;
-        vector<ofImage> temp_images_1960;
     
         vector<Vid> vids_2010;
         vector<string> images_2010;
-
-        vector<ofImage> temp_images_2010;
 
         std::map<string, ofVideoPlayer> loops;
     
@@ -177,6 +175,19 @@ class ofApp : public ofBaseApp{
         //helper
         float averageOfList(deque<int> list);
         bool checkInRange(int value, int centerOfRange);
+  
+        // === Analytics =============================
+        time_t dateInteractionBegin;
+        int millisInteractionBegin;
+        int millisLastInteraction;
+        bool interaction = false;
+        bool usedButtons = false;
+        bool usedSpinner = false;
+  
+        void updateAnalytics();
+        void interactionOn();
+  
+        ofxCsv analytics;
 
         // === Debugging =============================
         ofxPanel gui;
