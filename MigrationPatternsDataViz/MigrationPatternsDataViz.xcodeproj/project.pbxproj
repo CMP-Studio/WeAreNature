@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07A6F2A01FFDA79F008DB5D1 /* libturbojpeg.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07A6F29F1FFDA79F008DB5D1 /* libturbojpeg.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 907C5B5E104864A2D3A25745 /* ofxToggle.cpp */; };
 		483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78D67A00EB899FAC09430597 /* ofxLabel.cpp */; };
 		5A4349E9754D6FA14C0F2A3A /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC5DA1C87211D4F6377DA719 /* tinyxmlparser.cpp */; };
@@ -54,6 +55,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				07A6F2A01FFDA79F008DB5D1 /* libturbojpeg.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +63,8 @@
 
 /* Begin PBXFileReference section */
 		01DCC0911400F9ACF5B65578 /* ofxXmlSettings.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxXmlSettings.h; path = ../../../addons/ofxXmlSettings/src/ofxXmlSettings.h; sourceTree = SOURCE_ROOT; };
-		07A6F29B1FFDA065008DB5D1 /* MigrationPatternsDataVizDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MigrationPatternsDataVizDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		07A6F29B1FFDA065008DB5D1 /* MigrationPatternsDataViz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = MigrationPatternsDataViz.app; path = /Users/ticknors/Desktop/of_v0.9.8_osx_release/apps/WeAreNature/MigrationPatternsDataViz/bin/MigrationPatternsDataViz.app; sourceTree = "<absolute>"; };
+		07A6F29F1FFDA79F008DB5D1 /* libturbojpeg.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libturbojpeg.dylib; path = bin/libturbojpeg.dylib; sourceTree = "<group>"; };
 		0A1DAC09F322AE313A40706D /* ofxToggle.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxToggle.h; path = ../../../addons/ofxGui/src/ofxToggle.h; sourceTree = SOURCE_ROOT; };
 		0E1BE77F4732248CB1EDDF29 /* ofxCsvRow.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxCsvRow.cpp; path = ../../../addons/ofxCsv/src/ofxCsvRow.cpp; sourceTree = SOURCE_ROOT; };
 		15F2C6477A769C03A56D1401 /* ofxSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxSlider.cpp; path = ../../../addons/ofxGui/src/ofxSlider.cpp; sourceTree = SOURCE_ROOT; };
@@ -255,13 +258,13 @@
 		E4B69B4A0A3A1720003C02F2 = {
 			isa = PBXGroup;
 			children = (
+				07A6F29F1FFDA79F008DB5D1 /* libturbojpeg.dylib */,
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
 				6948EE371B920CB800B5AC1A /* local_addons */,
-				07A6F29B1FFDA065008DB5D1 /* MigrationPatternsDataVizDebug.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -313,7 +316,7 @@
 			);
 			name = MigrationPatternsDataViz;
 			productName = myOFApp;
-			productReference = 07A6F29B1FFDA065008DB5D1 /* MigrationPatternsDataVizDebug.app */;
+			productReference = 07A6F29B1FFDA065008DB5D1 /* MigrationPatternsDataViz.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -538,6 +541,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
 					"$(OF_CORE_FRAMEWORKS)",
 					"$(OF_CORE_LIBS)",
@@ -580,6 +584,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
 					"$(OF_CORE_FRAMEWORKS)",
 					"$(OF_CORE_LIBS)",

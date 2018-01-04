@@ -38,5 +38,7 @@
 	<string>0821</string>
 	<key>DTXcodeBuild</key>
 	<string>8C1002</string>
+	<key>LSUIPresentationMode</key>
+	<integer>3</integer>
 </dict>
 </plist>
