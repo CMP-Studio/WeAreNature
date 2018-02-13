@@ -56,26 +56,7 @@ Fritzing diagram coming soon....
 * If the grid extends off the the screen, press **```p```** to cycle through the  corner and control points and adjust their position with arrow keys
 * Press **```s```** to save
 
-### <a name="keepappopen"></a>Keep App Open
-
-Add this to your crontab: ```* * * * * open -a /absolute/path/to/application```
-
-### Hide System Menus
-* Right-click application and select 'Show Package Contents'
-* Open Info.plist
-* Add key ```Application UI Presentation Mode``` with value ```3``` (all hidden)
-
-### Prevent Crash Dialogs
-* ```defaults write com.apple.CrashReporter DialogType none```
-* ```defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false```
-
-### <a name="dailyemail"></a>Send Screenshots To Your Email
-
-* Copy [mailer.py](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/mailer.py) into your home directory and edit it with your email address, subject line, etc... 
-* Automate taking and sending a screenshot (daily at 7am) by adding this to your crontab: <br/>```0 7 * * * "/usr/sbin/screencapture" -f $HOME/email.jpg && sleep 5 && python $HOME/mailer.py```
-
-### & See This Guide
-[https://github.com/laserpilot/Installation_Up_4evr](https://github.com/laserpilot/Installation_Up_4evr)
+### [& Follow This Guide](https://github.com/CMP-Studio/InstallationComputers)
 
 <br/>
 <br/>
