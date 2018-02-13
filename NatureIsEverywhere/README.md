@@ -25,28 +25,7 @@ Some of these instructions will require modification to work on a Windows/Linux 
 * Go to ```WeAreNature/NatureIsEverywhere```
 * ```electron-packager .```
 
-## Installing As Exhibit (OS X)
-
-### <a name="keepappopen"></a>Keep App Open
-
-Add this to your crontab: ```* * * * * open -a /absolute/path/to/application```
-
-### Hide System Menus
-* Right-click application and select 'Show Package Contents'
-* Open Info.plist
-* Add key ```Application UI Presentation Mode``` with value ```3``` (all hidden)
-
-### Prevent Crash Dialogs
-* ```defaults write com.apple.CrashReporter DialogType none```
-* ```defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false```
-
-### <a name="dailyemail"></a>Send Screenshots To Your Email
-
-* Copy [mailer.py](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/mailer.py) into your home directory and edit it with your email address, subject line, etc... 
-* Automate taking and sending a screenshot (daily at 7am) by adding this to your crontab: <br/>```0 7 * * * "/usr/sbin/screencapture" -f $HOME/email.jpg && sleep 5 && python $HOME/mailer.py```
-
-### & See This Guide
-[https://github.com/laserpilot/Installation_Up_4evr](https://github.com/laserpilot/Installation_Up_4evr)
+## [Install As Exhibit by Following This Installation Guide](https://github.com/CMP-Studio/InstallationComputers)
 
 <br/>
 <br/>
