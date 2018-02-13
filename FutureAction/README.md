@@ -38,28 +38,7 @@ To communicate with the database, you will need to provide the API secret in a f
 * Go to ```WeAreNature/FutureAction/VotingApplication```
 * ```electron-packager .```
 
-## Installing As Exhibit (OS X)
-
-### <a name="keepappopen"></a>Keep App Open
-
-Add this to your crontab: ```* * * * * open -a /absolute/path/to/application```
-
-### Hide System Menus
-* Right-click application and select 'Show Package Contents'
-* Open Info.plist
-* Add key ```Application UI Presentation Mode``` with value ```3``` (all hidden)
-
-### Prevent Crash Dialogs
-* ```defaults write com.apple.CrashReporter DialogType none```
-* ```defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false```
-
-### <a name="dailyemail"></a>Send Screenshots To Your Email
-
-* Copy [mailer.py](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/mailer.py) into your home directory and edit it with your email address, subject line, etc... 
-* Automate taking and sending a screenshot (daily at 7am) by adding this to your crontab: <br/>```0 7 * * * "/usr/sbin/screencapture" -f $HOME/email.jpg && sleep 5 && python $HOME/mailer.py```
-
-### & See This Guide
-[https://github.com/laserpilot/Installation_Up_4evr](https://github.com/laserpilot/Installation_Up_4evr)
+## [Follow This Installation Guide](https://github.com/CMP-Studio/InstallationComputers)
 
 <br/>
 
@@ -82,23 +61,11 @@ To communicate with the database, you will need to provide the API secret in a f
 * Open a new Terminal window, go to ```WeAreNature/FutureAction/Poll```
 * ```./node_modules/.bin/electron .```
 
-## Installing As Exhibit (Linux)
+## [Follow This Installation Guide](https://github.com/CMP-Studio/InstallationComputers) and
 
-### <a name="keepappopen"></a>Keep App Open
-
-* ```sudo apt-get update```
-* ```sudo apt-get install run-one```
-* Add these two lines to your crontab, adjusting the absolute paths to your file structure: <br/>
+* You will need to run two scripts to start the app. Add these two lines to your crontab, adjusting the absolute paths to your file structure: <br/>
 ```* * * * * DISPLAY=:0 run-one /home/studio/WeAreNature/FutureAction/Poll/npmstart.sh ``` and <br/>
 ```* * * * * DISPLAY=:0 run-one /home/studio/WeAreNature/FutureAction/Poll/electronstart.sh```
-
-### <a name="dailyemail"></a>Send Screenshots To Your Email
-
-* ```sudo apt-get install scrot```
-* Copy [mailer.py](https://github.com/CMP-Studio/WeAreNature/blob/master/_HelpfulThings/mailer.py) into your home directory and edit it with your email address, subject line, etc... 
-* Automate taking and sending a screenshot (daily at 7am) by adding these lines to your crontab: <br/>
-```0 7 * * * DISPLAY=:0 /usr/bin/scrot /home/studio/email.jpg``` <br/>
-```0 7 * * * sleep 5 && python /home/studio/mailer.py```
 
 <br/>
 
