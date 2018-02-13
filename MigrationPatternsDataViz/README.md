@@ -56,7 +56,7 @@ Fritzing diagram coming soon....
 * If the grid extends off the the screen, press **```p```** to cycle through the  corner and control points and adjust their position with arrow keys
 * Press **```s```** to save
 
-### [& Follow This Guide](https://github.com/CMP-Studio/InstallationComputers)
+### [& Follow This Installation Guide](https://github.com/CMP-Studio/InstallationComputers)
 
 <br/>
 <br/>
