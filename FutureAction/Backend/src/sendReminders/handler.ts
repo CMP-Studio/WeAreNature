@@ -60,7 +60,7 @@ export const sendReminders = async (event: IEventPayload, context, callback: ICa
         to: emails,
         // "recipient-variables" is required for batch sending
         "recipient-variables": uniqueEmailKeys,
-        subject: "Hooray! Here’s your pledge information.",
+        subject: "Did you follow through with your pledge?",
         html,
       };
   
