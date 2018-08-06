@@ -32,7 +32,14 @@ void ofApp::setup() {
     gui.setPosition(1500, 10);
     gui.add(minimumEncoderMovement.setup("minimumEncoderMovement", 3, 0, 40));
     gui.add(spinModeThreshold.setup("spinModeThreshold", 0.0, 0.0, 40.0));
-    
+  
+    labelGui.setup(); // most of the time you don't need a name
+    labelGui.setPosition(1200, 10);
+    labelGui.add(labelX.setup("LabelX", ofGetWidth()/2, 0, ofGetWidth()));
+    labelGui.add(labelY.setup("LabelY", 200, 0, ofGetHeight()));
+    labelGui.add(lineSpacing.setup("LineSpacing", 15, 0, 50));
+    labelGui.loadFromFile("labelSettings.xml");
+  
     // Setup Arduino //
     //for linux
     ard.connect("/dev/tty.usbmodem1421", 57600);
@@ -94,9 +101,19 @@ void ofApp::setup() {
         scheduleOfVideos.setTo("../../");
         Vid temp(name, firstFrame, endFrame, loopKeys, loopDelays, &loops, stillLoop, soundIndex, soundFlag, "1960");
         vids_1960.push_back(temp);
-        
     }
-    
+    // load 1960s labels
+    scheduleOfVideos.load("1960_labels.xml");
+    scheduleOfVideos.setTo("LABELS");
+    for (int i =0; i <scheduleOfVideos.getNumChildren(); i++ ) {
+      int firstFrame = ofToInt(scheduleOfVideos.getValue("GROUP[" + ofToString(i) +"]/FIRST_FRAME"));
+      int endFrame = ofToInt(scheduleOfVideos.getValue("GROUP[" + ofToString(i) +"]/LAST_FRAME"));
+      string label = scheduleOfVideos.getValue("GROUP[" + ofToString(i) +"]/LABEL");
+      for (int i=firstFrame; i<=endFrame; i++) {
+        labels_1960.push_back(label);
+      }
+    }
+
     // Load In 2010s Vids To Custom Vid Class //
     scheduleOfVideos.load("2010_sched.xml");
     scheduleOfVideos.setTo("VIDEOS");
@@ -136,7 +153,20 @@ void ofApp::setup() {
         Vid temp(name, firstFrame, endFrame, loopKeys, loopDelays, &loops, stillLoop, soundIndex, soundFlag, "2010");
         vids_2010.push_back(temp);
     }
-
+    // load 2010s labels
+    scheduleOfVideos.load("2010_labels.xml");
+    scheduleOfVideos.setTo("LABELS");
+    for (int i =0; i <scheduleOfVideos.getNumChildren(); i++ ) {
+      int firstFrame = ofToInt(scheduleOfVideos.getValue("GROUP[" + ofToString(i) +"]/FIRST_FRAME"));
+      int endFrame = ofToInt(scheduleOfVideos.getValue("GROUP[" + ofToString(i) +"]/LAST_FRAME"));
+      string label = scheduleOfVideos.getValue("GROUP[" + ofToString(i) +"]/LABEL");
+      for (int i=firstFrame; i<=endFrame; i++) {
+        labels_2010.push_back(label);
+      }
+    }
+  
+    label.load("fonts/Brandon_med.otf", labelFontSize);
+  
     ofDirectory dir;
     dir.listDir("./videos/1960_scrubLevel/");
     dir.sort();
@@ -470,17 +500,28 @@ void ofApp::draw(){
         frameImage.draw(-185, -69, 2362, 1329);
         frameShown = scrubLevelFrame;
     }
-    
-    
+  
     if (debugMode) {
       decorativeFrame.draw(-185, -69, 2362, 1329);
     }
 
     vidBuffer.end();
     bezManager.draw();
-
+  
+    vector<string> splitStrings;
+    if (isCurrently1960) {
+      splitStrings = ofSplitString(labels_1960[spinnerNumber], ";");
+    } else {
+      splitStrings = ofSplitString(labels_2010[spinnerNumber], ";");
+    }
+    for (int i = 0; i < splitStrings.size(); i++) {
+      int strW = label.stringWidth(splitStrings[i]);
+      label.drawString(splitStrings[i], labelX-strW/2, labelY+(labelFontSize+lineSpacing)*i);
+    }
+  
     if (debugMode) {
         gui.draw();
+        labelGui.draw(); 
         
         ofSetColor(255, 255, 255);
         ofDrawBitmapString(encoderVal, 10, 20);
@@ -567,6 +608,7 @@ void ofApp::keyPressed(int key){
     // save settings
     if (key == 's') {
         bezManager.saveSettings();
+        labelGui.saveToFile("labelSettings.xml");
     }
     // load settings
     if (key == 'l') {

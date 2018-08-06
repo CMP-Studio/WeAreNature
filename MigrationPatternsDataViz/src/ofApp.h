@@ -118,6 +118,12 @@ class ofApp : public ofBaseApp{
         ofImage decorativeFrame; // The branches graphic
     
         ofFbo vidBuffer;
+  
+        // labels
+        ofTrueTypeFont label;
+        int labelFontSize = 36;
+        vector<string> labels_1960;
+        vector<string> labels_2010;
         
         // === Arduino =============================
     
@@ -191,8 +197,13 @@ class ofApp : public ofBaseApp{
 
         // === Debugging =============================
         ofxPanel gui;
+        ofxPanel labelGui;
         ofxIntSlider minimumEncoderMovement;
         ofxFloatSlider spinModeThreshold;
+  
+        ofxIntSlider labelX;
+        ofxIntSlider labelY;
+        ofxIntSlider lineSpacing;
     
         ofFbo checkerboardTex;
         bool debugMode = false;
