@@ -56,6 +56,14 @@ Fritzing diagram coming soon....
 * If the grid extends off the the screen, press **```p```** to cycle through the  corner and control points and adjust their position with arrow keys
 * Press **```s```** to save
 
+### Adjust The Label Text
+
+* Press **```Enter```** for Debug Mode
+* Use the GUI to adjust labelX (horizontal placement), labelY (vertical placement)
+* Press **```s```** to save
+
+To change the label text, edit `bin/data/1960_labels.xml` and `bin/data/2010_labels.xml`
+
 ### [& Follow This Installation Guide](https://github.com/CMP-Studio/InstallationComputers)
 
 <br/>
