@@ -1,4 +1,5 @@
 ofxBezierWarpManager
+ofxCenteredTrueTypeFont
 ofxCsv
 ofxGui
 ofxXmlSettings

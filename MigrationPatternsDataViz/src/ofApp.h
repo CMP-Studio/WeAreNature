@@ -6,6 +6,7 @@
 #include "ofxCsv.h"
 #include "Vid.h"
 #include "ofxTurboJpeg.h"
+#include "ofxCenteredTrueTypeFont.h"
 
 
 class ofApp : public ofBaseApp{
@@ -30,8 +31,8 @@ class ofApp : public ofBaseApp{
         int camW, camH;
         int vidWidth = 1920;
         int vidHeight = 1080;
-    
-        bool installMode = true;
+  
+        bool installMode = false;
     
         string debugInfo;
     
@@ -120,8 +121,10 @@ class ofApp : public ofBaseApp{
         ofFbo vidBuffer;
   
         // labels
-        ofTrueTypeFont label;
-        int labelFontSize = 36;
+        ofxCenteredTrueTypeFont label;
+        ofxCenteredTrueTypeFont label2;
+        int labelFontSize = 38;
+        int label2FontSize = 35;
         vector<string> labels_1960;
         vector<string> labels_2010;
         

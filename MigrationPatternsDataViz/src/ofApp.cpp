@@ -37,7 +37,7 @@ void ofApp::setup() {
     labelGui.setPosition(1200, 10);
     labelGui.add(labelX.setup("LabelX", ofGetWidth()/2, 0, ofGetWidth()));
     labelGui.add(labelY.setup("LabelY", 200, 0, ofGetHeight()));
-    labelGui.add(lineSpacing.setup("LineSpacing", 15, 0, 50));
+    labelGui.add(lineSpacing.setup("LineSpacing", 15, 0, 80));
     labelGui.loadFromFile("labelSettings.xml");
   
     // Setup Arduino //
@@ -165,7 +165,8 @@ void ofApp::setup() {
       }
     }
   
-    label.load("fonts/Freight-Sans-Medium.otf", labelFontSize);
+    label.load("fonts/Freight-Sans-Bold.otf", labelFontSize);
+    label2.load("fonts/Freight-Sans-Medium.otf", label2FontSize);
   
     ofDirectory dir;
     dir.listDir("./videos/1960_scrubLevel/");
@@ -514,11 +515,25 @@ void ofApp::draw(){
     } else {
       splitStrings = ofSplitString(labels_2010[spinnerNumber], ";");
     }
-    for (int i = 0; i < splitStrings.size(); i++) {
-      int strW = label.stringWidth(splitStrings[i]);
-      label.drawString(splitStrings[i], labelX-strW/2, labelY+(labelFontSize+lineSpacing)*i);
-    }
   
+    for (int i = 0; i < splitStrings.size(); i++) {
+        if (i == 0) {
+          int strW = label.stringWidth(splitStrings[i]);
+          ofPushMatrix();
+          ofTranslate(labelX, labelY);
+          ofRotateY(180);
+          label.drawStringCentered(splitStrings[i], 0, 0);
+          ofPopMatrix();
+        } else {
+          int strW = label2.stringWidth(splitStrings[i]);
+          ofPushMatrix();
+          ofTranslate(labelX, labelY+10+(lineSpacing*i));
+          ofRotateY(180);
+          label2.drawStringCentered(splitStrings[i], 0, 0);
+          ofPopMatrix();
+        }
+    }
+ 
     if (debugMode) {
         gui.draw();
         labelGui.draw(); 
