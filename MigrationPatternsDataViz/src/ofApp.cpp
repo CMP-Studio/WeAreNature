@@ -165,7 +165,7 @@ void ofApp::setup() {
       }
     }
   
-    label.load("fonts/Brandon_med.otf", labelFontSize);
+    label.load("fonts/Freight-Sans-Medium.otf", labelFontSize);
   
     ofDirectory dir;
     dir.listDir("./videos/1960_scrubLevel/");
