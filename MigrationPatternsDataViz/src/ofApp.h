@@ -31,7 +31,7 @@ class ofApp : public ofBaseApp{
         int vidWidth = 1920;
         int vidHeight = 1080;
     
-        bool installMode = true;
+        bool installMode = false;
     
         string debugInfo;
     
@@ -121,7 +121,9 @@ class ofApp : public ofBaseApp{
   
         // labels
         ofTrueTypeFont label;
-        int labelFontSize = 36;
+    ofTrueTypeFont label2;
+        int labelFontSize = 38;
+    int label2FontSize = 35;
         vector<string> labels_1960;
         vector<string> labels_2010;
         

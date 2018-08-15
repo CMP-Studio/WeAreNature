@@ -166,6 +166,7 @@ void ofApp::setup() {
     }
   
     label.load("fonts/Freight-Sans-Medium.otf", labelFontSize);
+    label2.load("fonts/Freight-Sans-Medium.otf", label2FontSize);
   
     ofDirectory dir;
     dir.listDir("./videos/1960_scrubLevel/");
@@ -516,7 +517,11 @@ void ofApp::draw(){
     }
     for (int i = 0; i < splitStrings.size(); i++) {
       int strW = label.stringWidth(splitStrings[i]);
-      label.drawString(splitStrings[i], labelX-strW/2, labelY+(labelFontSize+lineSpacing)*i);
+        if (i == 0) {
+            label.drawString(splitStrings[i], labelX-strW/2, labelY+(labelFontSize+lineSpacing)*i);
+        } else {
+            label2.drawString(splitStrings[i], labelX-strW/2, labelY+(labelFontSize+lineSpacing)*i);
+        }
     }
   
     if (debugMode) {
