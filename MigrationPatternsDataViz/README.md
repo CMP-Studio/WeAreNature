@@ -27,7 +27,7 @@ The final installation includes some rarer hardware, but there will be instructi
 * Go to WeAreNature/MigrationPatternsDataViz
 * Open the .xcodeproj file
 * If hardware is not setup, set ```installMode = false``` in [MigrationPatternsDataViz/src/ofApp.h](https://github.com/CMP-Studio/WeAreNature/blob/master/MigrationPatternsDataViz/src/ofApp.h)
-* If hardware is set up, set ```installMode = true``` and you will probably need to adjust [this line](https://github.com/CMP-Studio/WeAreNature/blob/40b499926da073acfb5614e0a13df14d7d59d99c/MigrationPatternsDataViz/src/ofApp.cpp#L37) to the correct port
+* If hardware is set up, set ```installMode = true``` and you will probably need to adjust [this line](https://github.com/CMP-Studio/WeAreNature/blob/40b499926da073acfb5614e0a13df14d7d59d99c/MigrationPatternsDataViz/src/ofApp.cpp#L37) to the correct port. To find the correct port, run the app with Xcode and check the console. 
 * Pressing the Run button will rebuild the app
 
 ## Hardware
@@ -55,6 +55,14 @@ Fritzing diagram coming soon....
 * With your mouse, you can move the grid around and warp it
 * If the grid extends off the the screen, press **```p```** to cycle through the  corner and control points and adjust their position with arrow keys
 * Press **```s```** to save
+
+### Adjust The Label Text
+
+* Press **```Enter```** for Debug Mode
+* Use the GUI to adjust labelX (horizontal placement), labelY (vertical placement)
+* Press **```s```** to save
+
+To change the label text, edit `bin/data/1960_labels.xml` and `bin/data/2010_labels.xml`
 
 ### [& Follow This Installation Guide](https://github.com/CMP-Studio/InstallationComputers)
 
