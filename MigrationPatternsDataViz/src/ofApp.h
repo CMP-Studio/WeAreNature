@@ -32,7 +32,7 @@ class ofApp : public ofBaseApp{
         int vidWidth = 1920;
         int vidHeight = 1080;
   
-        bool installMode = false;
+        bool installMode = true;
     
         string debugInfo;
     
@@ -124,7 +124,7 @@ class ofApp : public ofBaseApp{
         ofxCenteredTrueTypeFont label;
         ofxCenteredTrueTypeFont label2;
         int labelFontSize = 38;
-        int label2FontSize = 35;
+        int label2FontSize = 26;
         vector<string> labels_1960;
         vector<string> labels_2010;
         

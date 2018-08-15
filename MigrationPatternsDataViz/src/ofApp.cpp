@@ -165,7 +165,7 @@ void ofApp::setup() {
       }
     }
   
-    label.load("fonts/Freight-Sans-Bold.otf", labelFontSize);
+    label.load("fonts/Adobe-Caslon-Pro-Regular.ttf", labelFontSize);
     label2.load("fonts/Freight-Sans-Medium.otf", label2FontSize);
   
     ofDirectory dir;
@@ -527,7 +527,7 @@ void ofApp::draw(){
         } else {
           int strW = label2.stringWidth(splitStrings[i]);
           ofPushMatrix();
-          ofTranslate(labelX, labelY+10+(lineSpacing*i));
+          ofTranslate(labelX, labelY+20+(lineSpacing*i));
           ofRotateY(180);
           label2.drawStringCentered(splitStrings[i], 0, 0);
           ofPopMatrix();
