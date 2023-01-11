@@ -18,7 +18,7 @@
   "dependencies": {
     "@types/aws-sdk": "^2.7.0",
     "@types/node": "^8.0.31",
-    "mailgun-js": "^0.13.1",
+    "mailgun-js": "^0.22.0",
     "moment-timezone": "^0.5.13",
     "promise-cb": "^0.1.4",
     "uuid": "^3.1.0"
